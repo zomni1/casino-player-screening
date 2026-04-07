@@ -57,6 +57,7 @@ header h1 span { color: var(--accent); }
 .kpi-card .value.red { color: var(--red); }
 .kpi-card .value.green { color: var(--green); }
 .kpi-card .value.blue { color: var(--blue); }
+.kpi-card .value.purple { color: var(--purple); }
 
 /* Table */
 .table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
@@ -138,6 +139,10 @@ footer .crit { background: var(--bg3); padding: 3px 10px; border-radius: 4px; bo
       <div class="value blue">&euro;3,342</div>
     </div>
     <div class="kpi-card">
+      <div class="label">Flagged Total TO</div>
+      <div class="value purple">&euro;16,076</div>
+    </div>
+    <div class="kpi-card">
       <div class="label">Avg TO / Dep</div>
       <div class="value green">1.27x</div>
     </div>
@@ -154,11 +159,12 @@ footer .crit { background: var(--bg3); padding: 3px 10px; border-radius: 4px; bo
           <th data-col="0">Username <span class="arrow">&#9650;</span></th>
           <th data-col="1" data-type="num">Deposits <span class="arrow">&#9650;</span></th>
           <th data-col="2" data-type="num"># Dep <span class="arrow">&#9650;</span></th>
-          <th data-col="3" data-type="num">Casino TO <span class="arrow">&#9650;</span></th>
-          <th data-col="4" data-type="num">Casino GGR <span class="arrow">&#9650;</span></th>
-          <th data-col="5" data-type="num">Bets <span class="arrow">&#9650;</span></th>
-          <th data-col="6" data-type="num">TO/Dep <span class="arrow">&#9650;</span></th>
-          <th data-col="7" data-type="num">GGR/Dep <span class="arrow">&#9650;</span></th>
+          <th data-col="3" data-type="num">Total TO <span class="arrow">&#9650;</span></th>
+          <th data-col="4" data-type="num">Casino TO <span class="arrow">&#9650;</span></th>
+          <th data-col="5" data-type="num">Casino GGR <span class="arrow">&#9650;</span></th>
+          <th data-col="6" data-type="num">Bets <span class="arrow">&#9650;</span></th>
+          <th data-col="7" data-type="num">TO/Dep <span class="arrow">&#9650;</span></th>
+          <th data-col="8" data-type="num">GGR/Dep <span class="arrow">&#9650;</span></th>
         </tr>
       </thead>
       <tbody id="tableBody">
@@ -180,14 +186,14 @@ footer .crit { background: var(--bg3); padding: 3px 10px; border-radius: 4px; bo
 
 <script>
 const players = [
-  {id:"20779518-2",username:"yajamana3363",deposits:1012.36,depCount:6,casinoTO:1018.21,casinoGGR:107.40,bets:103,toDep:1.006,ggrDep:0.106},
-  {id:"54195087-2",username:"UnderBetaFolks60",deposits:838.11,depCount:6,casinoTO:859.71,casinoGGR:-116.33,bets:2631,toDep:1.026,ggrDep:-0.139},
-  {id:"54192095-2",username:"BarsSea79",deposits:418.69,depCount:3,casinoTO:620.25,casinoGGR:-10.23,bets:81,toDep:1.481,ggrDep:-0.024},
-  {id:"54194734-2",username:"BowlBluesWing92",deposits:418.68,depCount:3,casinoTO:446.22,casinoGGR:-57.79,bets:78,toDep:1.066,ggrDep:-0.138},
-  {id:"54180044-2",username:"FlewAbc20",deposits:204.99,depCount:7,casinoTO:492.16,casinoGGR:20.43,bets:328,toDep:2.401,ggrDep:0.100},
-  {id:"54196196-2",username:"SeasSenSaw25",deposits:186.46,depCount:2,casinoTO:226.99,casinoGGR:-9.25,bets:546,toDep:1.217,ggrDep:-0.050},
-  {id:"53438556-2",username:"anilbinance123",deposits:141.18,depCount:2,casinoTO:243.61,casinoGGR:-1.50,bets:10,toDep:1.726,ggrDep:-0.011},
-  {id:"51196718-2",username:"pratap9010",deposits:121.14,depCount:4,casinoTO:146.46,casinoGGR:-7.09,bets:88,toDep:1.209,ggrDep:-0.059}
+  {id:"20779518-2",username:"yajamana3363",deposits:1012.36,depCount:6,totalTO:12965.69,casinoTO:1018.21,casinoGGR:107.40,bets:103,toDep:1.006,ggrDep:0.106},
+  {id:"54195087-2",username:"UnderBetaFolks60",deposits:838.11,depCount:6,totalTO:859.71,casinoTO:859.71,casinoGGR:-116.33,bets:2631,toDep:1.026,ggrDep:-0.139},
+  {id:"54192095-2",username:"BarsSea79",deposits:418.69,depCount:3,totalTO:620.25,casinoTO:620.25,casinoGGR:-10.23,bets:81,toDep:1.481,ggrDep:-0.024},
+  {id:"54194734-2",username:"BowlBluesWing92",deposits:418.68,depCount:3,totalTO:446.22,casinoTO:446.22,casinoGGR:-57.79,bets:78,toDep:1.066,ggrDep:-0.138},
+  {id:"54180044-2",username:"FlewAbc20",deposits:204.99,depCount:7,totalTO:492.16,casinoTO:492.16,casinoGGR:20.43,bets:328,toDep:2.401,ggrDep:0.100},
+  {id:"54196196-2",username:"SeasSenSaw25",deposits:186.46,depCount:2,totalTO:226.99,casinoTO:226.99,casinoGGR:-9.25,bets:546,toDep:1.217,ggrDep:-0.050},
+  {id:"53438556-2",username:"anilbinance123",deposits:141.18,depCount:2,totalTO:243.61,casinoTO:243.61,casinoGGR:-1.50,bets:10,toDep:1.726,ggrDep:-0.011},
+  {id:"51196718-2",username:"pratap9010",deposits:121.14,depCount:4,totalTO:221.01,casinoTO:146.46,casinoGGR:-7.09,bets:88,toDep:1.209,ggrDep:-0.059}
 ];
 
 const games = {
@@ -221,7 +227,7 @@ function ratioClass(v, lo, hi) { return (v >= lo && v <= hi) ? 'ratio-warn' : ''
 
 function renderTable(sortCol, sortDir) {
   const sorted = [...players].sort((a,b) => {
-    const keys = ['username','deposits','depCount','casinoTO','casinoGGR','bets','toDep','ggrDep'];
+    const keys = ['username','deposits','depCount','totalTO','casinoTO','casinoGGR','bets','toDep','ggrDep'];
     const k = keys[sortCol];
     if (typeof a[k] === 'string') return sortDir * a[k].localeCompare(b[k]);
     return sortDir * (a[k] - b[k]);
@@ -237,6 +243,7 @@ function renderTable(sortCol, sortDir) {
       <td class="player">${p.username}</td>
       <td class="num">&euro;${fmt(p.deposits)}</td>
       <td class="num">${p.depCount}</td>
+      <td class="num">&euro;${fmt(p.totalTO)}</td>
       <td class="num">&euro;${fmt(p.casinoTO)}</td>
       <td class="num" style="color:${p.casinoGGR >= 0 ? 'var(--green)' : 'var(--red)'}">&euro;${fmt(p.casinoGGR)}</td>
       <td class="num">${fmtInt(p.bets)}</td>
@@ -309,7 +316,7 @@ function renderTable(sortCol, sortDir) {
     });
     histTable += '</tr></thead><tbody>' + histRows + '</tbody></table>';
 
-    expandTr.innerHTML = `<td colspan="8"><div class="expand-content">
+    expandTr.innerHTML = `<td colspan="9"><div class="expand-content">
       <div class="expand-section">
         <h4>4-Day Comparison</h4>
         ${histTable}
