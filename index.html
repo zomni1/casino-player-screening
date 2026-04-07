@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player Screening â 06 Apr 2026 â 10Cric</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--surface:#111;--card:#1a1a1a;--text:#fff;--text-s:#bbb;--text-m:#757575;--border:#2a2a2a;--accent:#1c69d4;--green:#2ecc71;--amber:rgba(243,156,18,.18);--amber-b:#f39c12}
+html.light{--bg:#f4f4f4;--surface:#fff;--card:#eaeaea;--text:#111;--text-s:#444;--text-m:#888;--border:#d4d4d4;--accent:#1c69d4;--amber:rgba(243,156,18,.12);--amber-b:#e67e22}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:'Inter',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.25}
+body{overflow-x:hidden}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;background:var(--surface);padding:1rem 2rem;border-bottom:1px solid var(--border)}
+nav .brand{font-size:.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
+nav .brand span{color:var(--accent)}
+nav .right{display:flex;align-items:center;gap:1.5rem;font-size:.7rem;color:var(--text-m)}
+.theme-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:.4rem .9rem;cursor:pointer;font-family:inherit;font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.5px}
+.theme-btn:hover{background:var(--border)}
+
+/* CONTAINER */
+.wrap{max-width:1480px;margin:0 auto;padding:2.5rem 2rem}
+
+/* HERO */
+.hero{margin-bottom:2.5rem;padding-bottom:2rem;border-bottom:2px solid var(--accent)}
+.hero h2{font-size:3.2rem;font-weight:300;letter-spacing:2px;text-transform:uppercase;line-height:1.1}
+.hero .meta{display:flex;gap:2rem;margin-top:1rem;font-size:.85rem;color:var(--text-m)}
+.hero .meta b{font-weight:400;color:var(--text-s)}
+
+/* KPI */
+.kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-bottom:2.5rem;border:1px solid var(--border)}
+.kpi-card{padding:1.5rem;border-right:1px solid var(--border);background:var(--card)}
+.kpi-card:last-child{border-right:none}
+.kpi-card .label{font-size:.65rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--text-m);margin-bottom:.6rem}
+.kpi-card .val{font-size:2rem;font-weight:300;line-height:1.15}
+.kpi-card .val.neg{color:#e74c3c}
+@media(max-width:900px){.kpi{grid-template-columns:repeat(3,1fr)}.kpi-card{border-bottom:1px solid var(--border)}}
+@media(max-width:580px){.kpi{grid-template-columns:1fr 1fr}}
+
+/* SECTION TITLE */
+.sec-title{font-size:1.6rem;font-weight:300;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.5rem}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;margin-bottom:3rem}
+table{width:100%;border-collapse:collapse;background:var(--surface);min-width:1200px}
+thead th{padding:.9rem .7rem;text-align:left;font-size:.6rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--text);border-bottom:2px solid var(--accent);cursor:pointer;user-select:none;white-space:nowrap;background:var(--card)}
+thead th:hover{background:var(--border)}
+thead th .arr{color:var(--accent);margin-left:3px;font-size:.55rem}
+tbody td{padding:.75rem .7rem;border-bottom:1px solid var(--border);font-size:.82rem;color:var(--text-s);white-space:nowrap}
+tbody td.wrap-cell{white-space:normal;max-width:280px;font-size:.75rem;line-height:1.35}
+.player-row{cursor:pointer;transition:background .12s}
+.player-row:hover,.player-row.open{background:var(--card)}
+.player-row td:first-child{font-weight:700;color:var(--accent)}
+.player-row td:first-child::before{content:'â¸ ';font-size:.7rem;color:var(--text-m)}
+.player-row.open td:first-child::before{content:'â¾ '}
+.casino-dominant{color:var(--green)!important;font-weight:700}
+
+/* HISTORY ROW */
+.hist-row{display:none}
+.hist-row.open{display:table-row}
+.hist-row td{padding:0;border-bottom:2px solid var(--accent)}
+.hist-panel{padding:1.2rem 1.5rem;background:var(--surface)}
+.hist-panel h4{font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--text-m);margin-bottom:1rem}
+.hist-tbl{width:100%;border-collapse:collapse;min-width:auto}
+.hist-tbl th,.hist-tbl td{padding:.5rem .8rem;font-size:.78rem;text-align:right;border-bottom:1px solid var(--border)}
+.hist-tbl th{text-align:left;font-weight:400;color:var(--text-m);font-size:.72rem}
+.hist-tbl thead th{font-weight:900;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;text-align:right;color:var(--text);border-bottom:1px solid var(--accent)}
+.hist-tbl thead th:first-child{text-align:left}
+.hist-tbl .today{border-left:3px solid var(--accent);background:rgba(28,105,212,.04);font-weight:700;color:var(--text)}
+.hist-tbl .spike{background:var(--amber);color:var(--amber-b);font-weight:700}
+.hist-tbl .zero{color:var(--text-m);opacity:.5}
+
+/* FOOTER */
+.footer{background:var(--card);padding:2rem;margin-top:2rem;border-top:1px solid var(--border)}
+.footer h3{font-size:.8rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.8rem}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr}}
+.footer p,.footer li{font-size:.8rem;color:var(--text-s);line-height:1.4;margin-bottom:.4rem}
+.footer ul{list-style:none;padding:0}
+.footer li::before{content:'â ';color:var(--accent)}
+.interp{background:var(--surface);border:1px solid var(--border);padding:1.5rem;margin-top:1.5rem}
+.interp h4{font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:.8rem}
+.interp p{font-size:.8rem;color:var(--text-s);line-height:1.4;margin-bottom:.6rem}
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">10CRIC <span>|</span> RISK OPS</div>
+  <div class="right">
+    <span>Generated 07 Apr 2026 â Automated Screening</span>
+    <button class="theme-btn" onclick="tog()">â DARK</button>
+  </div>
+</nav>
+
+<div class="wrap">
+<div class="hero">
+  <h2>Player Screening</h2>
+  <div class="meta">
+    <span>Date <b>06 April 2026</b></span>
+    <span>Source <b>Qlik â Casino (10Cric)</b></span>
+    <span>App <b>16912333-bf97-4fc7-9e5f-cd53a0a3f6ea</b></span>
+  </div>
+</div>
+
+<div class="kpi" id="kpiStrip"></div>
+
+<div class="sec-title">Flagged Players</div>
+<div class="tbl-wrap">
+<table>
+<thead><tr id="hdr"></tr></thead>
+<tbody id="tb"></tbody>
+</table>
+</div>
+
+<div class="footer">
+  <div class="footer-grid">
+    <div>
+      <h3>Filter Criteria (all must be met)</h3>
+      <ul>
+        <li>Total Deposits â¥ â¬100</li>
+        <li>Number of Deposits â¥ 2 (yesterday)</li>
+        <li>Casino Turnover / Deposit ratio between 0.9Ã and 2.5Ã (uses Casino_EUR_Turnover)</li>
+        <li>Casino GGR / Deposit ratio between â0.15 and +0.15 (uses Casino_EUR_GGR)</li>
+        <li>Casino Turnover > 0 (must have played casino)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Data Limitations</h3>
+      <ul>
+        <li>No Payment Service Provider (PSP) data available in this Qlik app</li>
+        <li>No IP address or city/geolocation fields available</li>
+        <li>Ratios use casino-specific fields, not total KPI fields</li>
+        <li>Turnover column shows total (incl. sportsbook) for context only</li>
+      </ul>
+    </div>
+  </div>
+  <div class="interp">
+    <h4>What This Screening Catches</h4>
+    <p><strong>Bonus Abuse:</strong> Deposits closely matching turnover with near-zero GGR suggests wagering requirements being cleared with minimal risk play â classic bonus cycling.</p>
+    <p><strong>Matched Betting / Layering:</strong> Casino TO/Dep near 1.0Ã with GGR hovering around zero indicates systematic low-risk play to convert bonus funds or meet rollover.</p>
+    <p><strong>Chip Dumping:</strong> Multiple deposits followed by concentrated play on specific games may indicate fund transfers between accounts via intentional losses.</p>
+    <p><strong>Structuring:</strong> Multiple small deposits instead of a single large one can indicate attempts to stay below payment monitoring thresholds.</p>
+  </div>
+</div>
+</div>
+
+<script>
+const P=[
+{u:"yajamana3363",id:"92af0bdd",co:"India",rd:43566,dep:1012.36,dc:6,to:12965.69,cto:1018.21,cggr:107.40,tb:103,tr:1.0058,gr:0.1061,
+ gm:[{g:"Aviator",b:53,t:971.61,p:"Spribe"},{g:"Tiger's Glory",b:50,t:46.60,p:"Quickspin"}],
+ h:[{d:"03 Apr",dep:596.53,dc:4,to:7355.75,cto:1775.76,cggr:175.98,bt:79},
+    {d:"04 Apr",dep:191.39,dc:2,to:9461.85,cto:66.24,cggr:21.96,bt:54},
+    {d:"05 Apr",dep:560.48,dc:3,to:12855.14,cto:1186.64,cggr:94.00,bt:60}]},
+{u:"UnderBetaFolks60",id:"1d49d66a",co:"India",rd:46086,dep:838.11,dc:6,to:859.71,cto:859.71,cggr:-116.33,tb:2631,tr:1.0258,gr:-0.1388,
+ gm:[{g:"Ganesha Gold",b:398,t:153.05,p:"PGSoft"},{g:"Majestic Treasures",b:274,t:95.07,p:"PGSoft"},{g:"Double Fortune",b:254,t:86.72,p:"PGSoft"},{g:"Jungle King",b:254,t:94.53,p:"Jili Gaming"},{g:"Queen Of Bounty",b:235,t:84.37,p:"PGSoft"},{g:"Jungle Delight",b:232,t:57.65,p:"PGSoft"},{g:"Forgotten Island Megaways",b:226,t:53.06,p:"Microgaming"},{g:"Alibaba's Cave of Fortune",b:161,t:33.88,p:"PGSoft"},{g:"Hotpot",b:117,t:32.68,p:"PGSoft"},{g:"Wings of Iguazu",b:101,t:26.02,p:"PGSoft"},{g:"Thunderstruck Wild Lightning",b:87,t:30.36,p:"Microgaming"},{g:"Dragon Hatch",b:74,t:32.30,p:"PGSoft"},{g:"Path of Destiny",b:54,t:17.69,p:"Red Tiger"},{g:"64 Gold Coins Hold and Win",b:44,t:18.43,p:"Booming Games"},{g:"Wild Bounty Showdown",b:43,t:13.02,p:"PGSoft"},{g:"64 Gold Coins HW 20000",b:42,t:17.58,p:"Booming Games"},{g:"Ganesha Fortune",b:35,t:13.29,p:"PGSoft"}],
+ h:[{d:"03 Apr",dep:233.93,dc:3,to:348.21,cto:348.21,cggr:12.13,bt:1266},
+    {d:"04 Apr",dep:1680.48,dc:12,to:2083.52,cto:2083.52,cggr:217.56,bt:2962},
+    {d:"05 Apr",dep:1260.36,dc:9,to:1352.15,cto:1352.15,cggr:75.50,bt:2890}]},
+{u:"BarsSea79",id:"d2281832",co:"India",rd:46072,dep:418.70,dc:3,to:620.25,cto:620.25,cggr:-10.23,tb:81,tr:1.4814,gr:-0.0244,
+ gm:[{g:"PlinkoX",b:16,t:313.98,p:"Smartsoft"},{g:"Ganesha Fortune",b:65,t:306.27,p:"PGSoft"}],
+ h:[{d:"03 Apr",dep:1028.78,dc:7,to:1940.70,cto:1940.70,cggr:68.90,bt:402},
+    {d:"04 Apr",dep:1633.80,dc:12,to:3722.08,cto:3708.07,cggr:-36.10,bt:1465},
+    {d:"05 Apr",dep:280.08,dc:2,to:897.23,cto:897.23,cggr:284.12,bt:112}]},
+{u:"BowlBluesWing92",id:"cc17585f",co:"India",rd:46084,dep:418.68,dc:3,to:446.22,cto:446.22,cggr:-57.79,tb:78,tr:1.0658,gr:-0.1380,
+ gm:[{g:"Ganesha Fortune",b:74,t:445.84,p:"PGSoft"},{g:"Aviator",b:4,t:0.37,p:"Spribe"}],
+ h:[{d:"03 Apr",dep:187.00,dc:2,to:213.34,cto:213.34,cggr:46.75,bt:411},
+    {d:"04 Apr",dep:1120.32,dc:8,to:1175.16,cto:1175.16,cggr:-135.74,bt:185},
+    {d:"05 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0}]},
+{u:"FlewAbc20",id:"b7971731",co:"India",rd:45978,dep:204.99,dc:7,to:492.16,cto:492.16,cggr:20.43,tb:328,tr:2.4009,gr:0.0997,
+ gm:[{g:"Crazy Time",b:81,t:474.13,p:"Evolution"},{g:"Fishin' Bear",b:246,t:17.10,p:"3Oaks"},{g:"Andar Bahar Ezugi",b:1,t:0.93,p:"Ezugi"}],
+ h:[{d:"03 Apr",dep:327.55,dc:7,to:1311.15,cto:1311.15,cggr:280.76,bt:120},
+    {d:"04 Apr",dep:140.14,dc:5,to:619.06,cto:619.06,cggr:187.85,bt:101},
+    {d:"05 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0}]},
+{u:"SeasSenSaw25",id:"2ed2af05",co:"India",rd:46090,dep:186.46,dc:2,to:226.99,cto:226.99,cggr:-9.25,tb:546,tr:1.2173,gr:-0.0496,
+ gm:[{g:"Monkey Party",b:285,t:124.43,p:"Jili Gaming"},{g:"Jungle King",b:261,t:102.55,p:"Jili Gaming"}],
+ h:[{d:"03 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0},
+    {d:"04 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0},
+    {d:"05 Apr",dep:121.37,dc:2,to:212.11,cto:212.11,cggr:41.84,bt:444}]},
+{u:"anilbinance123",id:"9856144a",co:"India",rd:45721,dep:141.18,dc:2,to:243.61,cto:243.61,cggr:-1.50,tb:10,tr:1.7256,gr:-0.0106,
+ gm:[{g:"Spin a Win",b:10,t:243.61,p:"Playtech Live"}],
+ h:[{d:"03 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0},
+    {d:"04 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0},
+    {d:"05 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0}]},
+{u:"pratap9010",id:"6adc4719",co:"India",rd:44764,dep:121.14,dc:4,to:221.01,cto:146.46,cggr:-7.09,tb:88,tr:1.2090,gr:-0.0586,
+ gm:[{g:"Aviator",b:71,t:131.17,p:"Spribe"},{g:"War of Gods",b:17,t:15.29,p:"Red Tiger"}],
+ h:[{d:"03 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0},
+    {d:"04 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0},
+    {d:"05 Apr",dep:0,dc:0,to:0,cto:0,cggr:0,bt:0}]}
+];
+
+const cols=[
+  {k:"u",l:"Username",sort:1},
+  {k:"co",l:"Country",sort:1},
+  {k:"rd",l:"Reg Date",sort:1},
+  {k:"dep",l:"Deposits â¬",sort:1},
+  {k:"dc",l:"# Deps",sort:1},
+  {k:"to",l:"Turnover â¬",sort:1},
+  {k:"cto",l:"Casino TO â¬",sort:1},
+  {k:"cggr",l:"Casino GGR â¬",sort:1},
+  {k:"tr",l:"Casino TO/Dep",sort:1},
+  {k:"gr",l:"Casino GGR/Dep",sort:1},
+  {k:"tb",l:"Total Bets",sort:1},
+  {k:"_gm",l:"Games Yesterday (Bets)",sort:0},
+  {k:"_prov",l:"Providers",sort:0}
+];
+
+let sortCol=null,sortAsc=true;
+
+function fmtD(s){if(!s)return'â';const d=new Date((s-25569)*864e5);const dd=String(d.getUTCDate()).padStart(2,'0');const mm=d.toLocaleString('en',{month:'short',timeZone:'UTC'});const yy=d.getUTCFullYear();return dd+' '+mm+' '+yy}
+function fmtC(v){return v==null?'â':'â¬'+Number(v).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fmtN(v,d){return v==null?'â':Number(v).toFixed(d||0)}
+function fmtR(v){return v==null?'â':Number(v).toFixed(4)}
+
+// KPI
+function renderKPI(){
+  const el=document.getElementById('kpiStrip');
+  const totalDep=P.reduce((s,p)=>s+p.dep,0);
+  const avgTR=(P.reduce((s,p)=>s+p.tr,0)/P.length);
+  const avgGR=(P.reduce((s,p)=>s+p.gr,0)/P.length);
+  const totalCasino=2467; // approximate from Qlik total rows with casino turnover
+  const cards=[
+    {l:'Players Flagged',v:P.length},
+    {l:'Flagged Deposits',v:fmtC(totalDep)},
+    {l:'Avg Casino TO / Dep',v:avgTR.toFixed(2)+'Ã'},
+    {l:'Avg Casino GGR / Dep',v:(avgGR>=0?'':'')+avgGR.toFixed(3)+'Ã',neg:avgGR<0},
+    {l:'Casino Players Yesterday',v:totalCasino.toLocaleString()}
+  ];
+  el.innerHTML=cards.map(c=>`<div class="kpi-card"><div class="label">${c.l}</div><div class="val${c.neg?' neg':''}">${c.v}</div></div>`).join('');
+}
+
+// Header
+function renderHdr(){
+  const tr=document.getElementById('hdr');
+  tr.innerHTML=cols.map(c=>{
+    const click=c.sort?` onclick="doSort('${c.k}')"`:'';
+    const arr=sortCol===c.k?`<span class="arr">${sortAsc?'â²':'â¼'}</span>`:'';
+    return `<th${click}>${c.l}${arr}</th>`;
+  }).join('');
+}
+
+// Table
+function renderTbl(){
+  const tb=document.getElementById('tb');
+  tb.innerHTML='';
+  P.forEach((p,i)=>{
+    // main row
+    const tr=document.createElement('tr');
+    tr.className='player-row';
+    tr.dataset.idx=i;
+    tr.onclick=()=>togHist(i);
+
+    const gmTxt=p.gm.map(g=>g.g+' ('+g.b+')').join(', ');
+    const provs=[...new Set(p.gm.map(g=>g.p))].join(', ');
+    const dom=p.cto/p.to>=.8;
+
+    const cells=[
+      p.u,
+      p.co,
+      fmtD(p.rd),
+      fmtN(p.dep,2),
+      p.dc,
+      fmtN(p.to,2),
+      fmtN(p.cto,2),
+      fmtN(p.cggr,2),
+      fmtR(p.tr),
+      fmtR(p.gr),
+      p.tb.toLocaleString(),
+      gmTxt,
+      provs
+    ];
+
+    cells.forEach((v,ci)=>{
+      const td=document.createElement('td');
+      td.textContent=v;
+      if(ci===6&&dom)td.className='casino-dominant';
+      if(ci===11||ci===12)td.className='wrap-cell';
+      tr.appendChild(td);
+    });
+    tb.appendChild(tr);
+
+    // history row
+    const hr=document.createElement('tr');
+    hr.className='hist-row';
+    hr.id='hr-'+i;
+    const hc=document.createElement('td');
+    hc.colSpan=cols.length;
+    hc.innerHTML=buildHist(p);
+    hr.appendChild(hc);
+    tb.appendChild(hr);
+  });
+}
+
+function buildHist(p){
+  const days=[...p.h,{d:'06 Apr â',dep:p.dep,dc:p.dc,to:p.to,cto:p.cto,cggr:p.cggr,bt:p.tb}];
+  const metrics=[
+    {l:'Deposits',k:'dep',cur:1},
+    {l:'# Deposits',k:'dc',cur:0},
+    {l:'Turnover',k:'to',cur:1},
+    {l:'Casino TO',k:'cto',cur:1},
+    {l:'Casino GGR',k:'cggr',cur:1,noSpike:1},
+    {l:'Bets',k:'bt',cur:0},
+    {l:'Casino TO/Dep',k:'_tr',cur:0},
+    {l:'Casino GGR/Dep',k:'_gr',cur:0}
+  ];
+
+  // compute ratios
+  days.forEach(d=>{d._tr=d.dep>0?d.cto/d.dep:0;d._gr=d.dep>0?d.cggr/d.dep:0});
+
+  let html='<div class="hist-panel"><h4>4-Day Comparison</h4><table class="hist-tbl"><thead><tr><th></th>';
+  days.forEach((d,i)=>{html+=`<th class="${i===3?'today':''}">${d.d}</th>`});
+  html+='</tr></thead><tbody>';
+
+  metrics.forEach(m=>{
+    html+='<tr><th>'+m.l+'</th>';
+    days.forEach((d,i)=>{
+      const v=d[m.k];
+      let cls=i===3?'today':'';
+      if(v===0&&m.k!=='cggr'&&m.k!=='_gr')cls+=' zero';
+      // spike: yesterday > 2Ã avg of prior active days (exclude GGR)
+      if(i===3&&!m.noSpike&&m.k!=='_tr'&&m.k!=='_gr'){
+        const prior=days.slice(0,3).map(x=>x[m.k]).filter(x=>x>0);
+        if(prior.length>0){const avg=prior.reduce((a,b)=>a+b,0)/prior.length;if(v>2*avg)cls+=' spike'}
+      }
+      let txt;
+      if(m.k==='_tr'||m.k==='_gr')txt=v!==0?v.toFixed(4):'â';
+      else if(m.cur)txt=v!==0?fmtN(v,2):'0.00';
+      else txt=v.toLocaleString();
+      html+=`<td class="${cls}">${txt}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  return html;
+}
+
+function togHist(i){
+  const hr=document.getElementById('hr-'+i);
+  const pr=document.querySelector(`.player-row[data-idx="${i}"]`);
+  const open=hr.classList.contains('open');
+  hr.classList.toggle('open');
+  pr.classList.toggle('open');
+}
+
+function doSort(k){
+  if(sortCol===k)sortAsc=!sortAsc;else{sortCol=k;sortAsc=k==='u'||k==='co'?true:false}
+  P.sort((a,b)=>{
+    let av=a[k],bv=b[k];
+    if(typeof av==='string'){av=av.toLowerCase();bv=bv.toLowerCase()}
+    if(av<bv)return sortAsc?-1:1;if(av>bv)return sortAsc?1:-1;return 0;
+  });
+  renderHdr();renderTbl();
+}
+
+function tog(){
+  document.documentElement.classList.toggle('light');
+  const btn=document.querySelector('.theme-btn');
+  btn.textContent=document.documentElement.classList.contains('light')?'â LIGHT':'â DARK';
+}
+
+renderKPI();renderHdr();renderTbl();
+</script>
+</body>
+</html>
