@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Player Screening â 06 Apr 2026 â 10Cric</title>
+<title>Player Screening - 06 Apr 2026 - 10Cric</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0a0a;--surface:#111;--card:#1a1a1a;--text:#fff;--text-s:#bbb;--text-m:#757575;--border:#2a2a2a;--accent:#1c69d4;--green:#2ecc71;--amber:rgba(243,156,18,.18);--amber-b:#f39c12}
@@ -53,8 +53,8 @@ tbody td.wrap-cell{white-space:normal;max-width:280px;font-size:.75rem;line-heig
 .player-row{cursor:pointer;transition:background .12s}
 .player-row:hover,.player-row.open{background:var(--card)}
 .player-row td:first-child{font-weight:700;color:var(--accent)}
-.player-row td:first-child::before{content:'â¸ ';font-size:.7rem;color:var(--text-m)}
-.player-row.open td:first-child::before{content:'â¾ '}
+.player-row td:first-child::before{content:'> ';font-size:.7rem;color:var(--text-m)}
+.player-row.open td:first-child::before{content:'v '}
 .casino-dominant{color:var(--green)!important;font-weight:700}
 
 /* HISTORY ROW */
@@ -79,7 +79,7 @@ tbody td.wrap-cell{white-space:normal;max-width:280px;font-size:.75rem;line-heig
 @media(max-width:700px){.footer-grid{grid-template-columns:1fr}}
 .footer p,.footer li{font-size:.8rem;color:var(--text-s);line-height:1.4;margin-bottom:.4rem}
 .footer ul{list-style:none;padding:0}
-.footer li::before{content:'â ';color:var(--accent)}
+.footer li::before{content:'- ';color:var(--accent)}
 .interp{background:var(--surface);border:1px solid var(--border);padding:1.5rem;margin-top:1.5rem}
 .interp h4{font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:.8rem}
 .interp p{font-size:.8rem;color:var(--text-s);line-height:1.4;margin-bottom:.6rem}
@@ -89,8 +89,8 @@ tbody td.wrap-cell{white-space:normal;max-width:280px;font-size:.75rem;line-heig
 <nav>
   <div class="brand">10CRIC <span>|</span> RISK OPS</div>
   <div class="right">
-    <span>Generated 07 Apr 2026 â Automated Screening</span>
-    <button class="theme-btn" onclick="tog()">â DARK</button>
+    <span>Generated 07 Apr 2026 - Automated Screening</span>
+    <button class="theme-btn" onclick="tog()">DARK</button>
   </div>
 </nav>
 
@@ -99,7 +99,7 @@ tbody td.wrap-cell{white-space:normal;max-width:280px;font-size:.75rem;line-heig
   <h2>Player Screening</h2>
   <div class="meta">
     <span>Date <b>06 April 2026</b></span>
-    <span>Source <b>Qlik â Casino (10Cric)</b></span>
+    <span>Source <b>Qlik - Casino (10Cric)</b></span>
     <span>App <b>16912333-bf97-4fc7-9e5f-cd53a0a3f6ea</b></span>
   </div>
 </div>
@@ -119,10 +119,10 @@ tbody td.wrap-cell{white-space:normal;max-width:280px;font-size:.75rem;line-heig
     <div>
       <h3>Filter Criteria (all must be met)</h3>
       <ul>
-        <li>Total Deposits â¥ â¬100</li>
-        <li>Number of Deposits â¥ 2 (yesterday)</li>
-        <li>Casino Turnover / Deposit ratio between 0.9Ã and 2.5Ã (uses Casino_EUR_Turnover)</li>
-        <li>Casino GGR / Deposit ratio between â0.15 and +0.15 (uses Casino_EUR_GGR)</li>
+        <li>Total Deposits >= 100</li>
+        <li>Number of Deposits >= 2 (yesterday)</li>
+        <li>Casino Turnover / Deposit ratio between 0.9x and 2.5x (uses Casino_EUR_Turnover)</li>
+        <li>Casino GGR / Deposit ratio between -0.15 and +0.15 (uses Casino_EUR_GGR)</li>
         <li>Casino Turnover > 0 (must have played casino)</li>
       </ul>
     </div>
@@ -138,8 +138,8 @@ tbody td.wrap-cell{white-space:normal;max-width:280px;font-size:.75rem;line-heig
   </div>
   <div class="interp">
     <h4>What This Screening Catches</h4>
-    <p><strong>Bonus Abuse:</strong> Deposits closely matching turnover with near-zero GGR suggests wagering requirements being cleared with minimal risk play â classic bonus cycling.</p>
-    <p><strong>Matched Betting / Layering:</strong> Casino TO/Dep near 1.0Ã with GGR hovering around zero indicates systematic low-risk play to convert bonus funds or meet rollover.</p>
+    <p><strong>Bonus Abuse:</strong> Deposits closely matching turnover with near-zero GGR suggests wagering requirements being cleared with minimal risk play - classic bonus cycling.</p>
+    <p><strong>Matched Betting / Layering:</strong> Casino TO/Dep near 1.0x with GGR hovering around zero indicates systematic low-risk play to convert bonus funds or meet rollover.</p>
     <p><strong>Chip Dumping:</strong> Multiple deposits followed by concentrated play on specific games may indicate fund transfers between accounts via intentional losses.</p>
     <p><strong>Structuring:</strong> Multiple small deposits instead of a single large one can indicate attempts to stay below payment monitoring thresholds.</p>
   </div>
@@ -194,11 +194,11 @@ const cols=[
   {k:"u",l:"Username",sort:1},
   {k:"co",l:"Country",sort:1},
   {k:"rd",l:"Reg Date",sort:1},
-  {k:"dep",l:"Deposits â¬",sort:1},
+  {k:"dep",l:"Deposits",sort:1},
   {k:"dc",l:"# Deps",sort:1},
-  {k:"to",l:"Turnover â¬",sort:1},
-  {k:"cto",l:"Casino TO â¬",sort:1},
-  {k:"cggr",l:"Casino GGR â¬",sort:1},
+  {k:"to",l:"Turnover",sort:1},
+  {k:"cto",l:"Casino TO",sort:1},
+  {k:"cggr",l:"Casino GGR",sort:1},
   {k:"tr",l:"Casino TO/Dep",sort:1},
   {k:"gr",l:"Casino GGR/Dep",sort:1},
   {k:"tb",l:"Total Bets",sort:1},
@@ -208,10 +208,10 @@ const cols=[
 
 let sortCol=null,sortAsc=true;
 
-function fmtD(s){if(!s)return'â';const d=new Date((s-25569)*864e5);const dd=String(d.getUTCDate()).padStart(2,'0');const mm=d.toLocaleString('en',{month:'short',timeZone:'UTC'});const yy=d.getUTCFullYear();return dd+' '+mm+' '+yy}
-function fmtC(v){return v==null?'â':'â¬'+Number(v).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function fmtN(v,d){return v==null?'â':Number(v).toFixed(d||0)}
-function fmtR(v){return v==null?'â':Number(v).toFixed(4)}
+function fmtD(s){if(!s)return'-';const d=new Date((s-25569)*864e5);const dd=String(d.getUTCDate()).padStart(2,'0');const mm=d.toLocaleString('en',{month:'short',timeZone:'UTC'});const yy=d.getUTCFullYear();return dd+' '+mm+' '+yy}
+function fmtC(v){return v==null?'-':Number(v).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fmtN(v,d){return v==null?'-':Number(v).toFixed(d||0)}
+function fmtR(v){return v==null?'-':Number(v).toFixed(4)}
 
 // KPI
 function renderKPI(){
@@ -223,8 +223,8 @@ function renderKPI(){
   const cards=[
     {l:'Players Flagged',v:P.length},
     {l:'Flagged Deposits',v:fmtC(totalDep)},
-    {l:'Avg Casino TO / Dep',v:avgTR.toFixed(2)+'Ã'},
-    {l:'Avg Casino GGR / Dep',v:(avgGR>=0?'':'')+avgGR.toFixed(3)+'Ã',neg:avgGR<0},
+    {l:'Avg Casino TO / Dep',v:avgTR.toFixed(2)+'x'},
+    {l:'Avg Casino GGR / Dep',v:(avgGR>=0?'':'')+avgGR.toFixed(3)+'x',neg:avgGR<0},
     {l:'Casino Players Yesterday',v:totalCasino.toLocaleString()}
   ];
   el.innerHTML=cards.map(c=>`<div class="kpi-card"><div class="label">${c.l}</div><div class="val${c.neg?' neg':''}">${c.v}</div></div>`).join('');
@@ -235,7 +235,7 @@ function renderHdr(){
   const tr=document.getElementById('hdr');
   tr.innerHTML=cols.map(c=>{
     const click=c.sort?` onclick="doSort('${c.k}')"`:'';
-    const arr=sortCol===c.k?`<span class="arr">${sortAsc?'â²':'â¼'}</span>`:'';
+    const arr=sortCol===c.k?`<span class="arr">${sortAsc?'^':'v'}</span>`:'';
     return `<th${click}>${c.l}${arr}</th>`;
   }).join('');
 }
@@ -293,7 +293,7 @@ function renderTbl(){
 }
 
 function buildHist(p){
-  const days=[...p.h,{d:'06 Apr â',dep:p.dep,dc:p.dc,to:p.to,cto:p.cto,cggr:p.cggr,bt:p.tb}];
+  const days=[...p.h,{d:'06 Apr *',dep:p.dep,dc:p.dc,to:p.to,cto:p.cto,cggr:p.cggr,bt:p.tb}];
   const metrics=[
     {l:'Deposits',k:'dep',cur:1},
     {l:'# Deposits',k:'dc',cur:0},
@@ -318,13 +318,13 @@ function buildHist(p){
       const v=d[m.k];
       let cls=i===3?'today':'';
       if(v===0&&m.k!=='cggr'&&m.k!=='_gr')cls+=' zero';
-      // spike: yesterday > 2Ã avg of prior active days (exclude GGR)
+      // spike: yesterday > 2x avg of prior active days (exclude GGR)
       if(i===3&&!m.noSpike&&m.k!=='_tr'&&m.k!=='_gr'){
         const prior=days.slice(0,3).map(x=>x[m.k]).filter(x=>x>0);
         if(prior.length>0){const avg=prior.reduce((a,b)=>a+b,0)/prior.length;if(v>2*avg)cls+=' spike'}
       }
       let txt;
-      if(m.k==='_tr'||m.k==='_gr')txt=v!==0?v.toFixed(4):'â';
+      if(m.k==='_tr'||m.k==='_gr')txt=v!==0?v.toFixed(4):'-';
       else if(m.cur)txt=v!==0?fmtN(v,2):'0.00';
       else txt=v.toLocaleString();
       html+=`<td class="${cls}">${txt}</td>`;
@@ -356,7 +356,7 @@ function doSort(k){
 function tog(){
   document.documentElement.classList.toggle('light');
   const btn=document.querySelector('.theme-btn');
-  btn.textContent=document.documentElement.classList.contains('light')?'â LIGHT':'â DARK';
+  btn.textContent=document.documentElement.classList.contains('light')?'LIGHT':'DARK';
 }
 
 renderKPI();renderHdr();renderTbl();
