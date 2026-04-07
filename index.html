@@ -3,408 +3,355 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casino Player Screening — 06 APR</title>
+<title>Casino Player Screening — 06 APR 2026</title>
 <style>
 :root {
   --bg1: #0d1117;
   --bg2: #161b22;
-  --bg3: #1c2128;
+  --bg3: #1c2333;
+  --bg4: #242d3d;
+  --text1: #e6edf3;
+  --text2: #8b949e;
+  --text3: #6e7681;
   --border: #30363d;
-  --text: #e6edf3;
-  --muted: #8b949e;
   --accent: #f0883e;
-  --accent-bg: rgba(240,136,62,0.15);
+  --accent2: #d29922;
   --green: #3fb950;
   --red: #f85149;
   --blue: #58a6ff;
+  --purple: #bc8cff;
 }
 [data-theme="light"] {
   --bg1: #f6f8fa;
   --bg2: #ffffff;
   --bg3: #f0f2f5;
+  --bg4: #e8ebef;
+  --text1: #1f2328;
+  --text2: #57606a;
+  --text3: #8b949e;
   --border: #d0d7de;
-  --text: #1f2328;
-  --muted: #656d76;
-  --accent: #d15700;
-  --accent-bg: rgba(209,87,0,0.1);
+  --accent: #d4700a;
+  --accent2: #9a6700;
   --green: #1a7f37;
   --red: #cf222e;
   --blue: #0969da;
+  --purple: #8250df;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-body { 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  background: var(--bg1); color: var(--text); line-height: 1.5;
-  padding: 20px; max-width: 1400px; margin: 0 auto;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; background: var(--bg1); color: var(--text1); line-height: 1.5; }
+.container { max-width: 1280px; margin: 0 auto; padding: 24px 20px; }
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+header h1 { font-size: 22px; font-weight: 600; color: var(--text1); }
+header h1 span { color: var(--accent); }
+.header-right { display: flex; align-items: center; gap: 14px; }
+.badge { background: var(--bg3); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-size: 12px; color: var(--text2); }
+.toggle-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text2); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--accent); color: var(--text1); }
+
+/* KPI Cards */
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 28px; }
+.kpi-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+.kpi-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text3); margin-bottom: 6px; }
+.kpi-card .value { font-size: 26px; font-weight: 700; color: var(--text1); }
+.kpi-card .value.accent { color: var(--accent); }
+.kpi-card .value.red { color: var(--red); }
+.kpi-card .value.green { color: var(--green); }
+.kpi-card .value.blue { color: var(--blue); }
+
+/* Table */
+.table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { background: var(--bg3); padding: 12px 14px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text2); cursor: pointer; user-select: none; border-bottom: 1px solid var(--border); white-space: nowrap; }
+thead th:hover { color: var(--accent); }
+thead th .arrow { margin-left: 4px; opacity: 0.4; }
+thead th.sorted .arrow { opacity: 1; color: var(--accent); }
+tbody tr { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
+tbody tr:hover { background: var(--bg3); }
+tbody tr:last-child { border-bottom: none; }
+td { padding: 11px 14px; white-space: nowrap; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.player { color: var(--blue); font-weight: 500; }
+.ratio-warn { color: var(--accent2); }
+.ratio-ok { color: var(--green); }
+
+/* Expanded row */
+.expand-row { display: none; }
+.expand-row.open { display: table-row; }
+.expand-row td { padding: 0; background: var(--bg1); }
+.expand-content { padding: 16px 20px; display: flex; gap: 28px; flex-wrap: wrap; }
+.expand-section { flex: 1; min-width: 260px; }
+.expand-section h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text3); margin-bottom: 10px; font-weight: 600; }
+
+/* 4-Day comparison horizontal table */
+.history-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.history-table th, .history-table td { padding: 6px 10px; border: 1px solid var(--border); background: var(--bg3); }
+.history-table th { text-align: left; color: var(--text3); font-weight: 500; font-size: 11px; }
+.history-table th.today { background: var(--accent); color: #000; font-weight: 700; }
+.history-table td.today { font-weight: 700; color: var(--text1); }
+.history-table td { text-align: right; color: var(--text2); }
+.history-table td.label-cell { text-align: left; color: var(--text2); font-weight: 500; background: var(--bg4); }
+.history-table td.no-data { color: var(--text3); font-style: italic; text-align: center; }
+
+/* Game chips */
+.game-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.game-chip { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 11px; display: flex; align-items: center; gap: 6px; }
+.game-chip .gname { color: var(--text2); }
+.game-chip .gcount { color: var(--accent); font-weight: 600; }
+.game-chip .gggr { font-weight: 500; }
+.game-chip .gggr.pos { color: var(--green); }
+.game-chip .gggr.neg { color: var(--red); }
+
+/* Footer */
+footer { margin-top: 32px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text3); }
+footer .criteria { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+footer .crit { background: var(--bg3); padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); }
+
+@media (max-width: 768px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .expand-content { flex-direction: column; }
+  td, th { padding: 8px 8px; font-size: 12px; }
 }
-.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-.header h1 { font-size:1.5rem; font-weight:600; }
-.header h1 span { color: var(--accent); }
-.header-right { display:flex; align-items:center; gap:12px; }
-.date-badge { background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:4px 12px; font-size:0.85rem; color:var(--muted); }
-.toggle-btn { background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:4px 10px; cursor:pointer; color:var(--muted); font-size:0.8rem; }
-.toggle-btn:hover { border-color:var(--accent); color:var(--accent); }
-.kpis { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:24px; }
-.kpi { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:16px; }
-.kpi-label { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); margin-bottom:4px; }
-.kpi-value { font-size:1.6rem; font-weight:700; }
-.kpi-value.accent { color:var(--accent); }
-table { width:100%; border-collapse:collapse; }
-.main-table { background:var(--bg2); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
-.main-table th { background:var(--bg3); padding:10px 12px; text-align:left; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); border-bottom:1px solid var(--border); }
-.main-table td { padding:10px 12px; border-bottom:1px solid var(--border); font-size:0.875rem; }
-.main-table .num { text-align:right; font-variant-numeric:tabular-nums; }
-.player-row { cursor:pointer; transition:background 0.15s; }
-.player-row:hover { background:var(--bg3); }
-.expand-icon { text-align:center; color:var(--muted); font-size:0.7rem; transition:transform 0.2s; }
-.player-row.expanded .expand-icon { transform:rotate(90deg); color:var(--accent); }
-.detail-row { display:none; }
-.detail-row.show { display:table-row; }
-.detail-row td { background:var(--bg1); padding:0; }
-.detail-content { padding:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-@media (max-width:900px) { .detail-content { grid-template-columns:1fr; } }
-.detail-section { background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:12px; overflow-x:auto; }
-.section-label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:8px; font-weight:600; }
-.history-table { font-size:0.8rem; }
-.history-table th { padding:6px 10px; text-align:right; font-size:0.7rem; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--border); }
-.history-table td { padding:5px 10px; text-align:right; border-bottom:1px solid var(--border); }
-.history-table .metric-label { text-align:left; font-weight:500; color:var(--muted); white-space:nowrap; }
-.highlight-col { background:var(--accent-bg) !important; }
-.history-table th.highlight-col { color:var(--accent); font-weight:700; }
-.game-table { font-size:0.8rem; }
-.game-table th { padding:6px 8px; text-align:left; font-size:0.7rem; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--border); }
-.game-table td { padding:4px 8px; border-bottom:1px solid var(--border); }
-.game-table .num { text-align:right; }
-.footer { margin-top:24px; padding:16px; background:var(--bg2); border:1px solid var(--border); border-radius:8px; font-size:0.75rem; color:var(--muted); }
-.footer strong { color:var(--text); }
-.sort-btn { cursor:pointer; user-select:none; }
-.sort-btn:hover { color:var(--accent); }
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>Casino Player <span>Screening</span></h1>
-  <div class="header-right">
-    <div class="date-badge">Report: 06 APR 2026</div>
-    <button class="toggle-btn" onclick="toggleTheme()">☀ / ☾</button>
-  </div>
-</div>
+<div class="container">
+  <header>
+    <h1>Casino Player Screening <span>06 APR 2026</span></h1>
+    <div class="header-right">
+      <span class="badge">10CRIC</span>
+      <span class="badge">Auto-generated</span>
+      <button class="toggle-btn" onclick="toggleTheme()" id="themeBtn">Light Mode</button>
+    </div>
+  </header>
 
-<div class="kpis">
-  <div class="kpi">
-    <div class="kpi-label">Total Screened</div>
-    <div class="kpi-value">9,039</div>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="label">Total Screened</div>
+      <div class="value">1,577</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Flagged</div>
+      <div class="value accent">8</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Flagged Deposits Sum</div>
+      <div class="value blue">&euro;3,342</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Avg TO / Dep</div>
+      <div class="value green">1.27x</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Avg GGR / Dep</div>
+      <div class="value red">-0.01x</div>
+    </div>
   </div>
-  <div class="kpi">
-    <div class="kpi-label">Flagged</div>
-    <div class="kpi-value accent">8</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Flagged Deposits</div>
-    <div class="kpi-value">€3,341.61</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Avg TO/Dep</div>
-    <div class="kpi-value">1.391x</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-label">Avg GGR/Dep</div>
-    <div class="kpi-value">-0.027x</div>
-  </div>
-</div>
 
-<table class="main-table">
-  <thead>
-    <tr>
-      <th class="sort-btn" onclick="sortTable(0)">Player ⇅</th>
-      <th class="sort-btn" onclick="sortTable(1)">Deposits ⇅</th>
-      <th class="sort-btn" onclick="sortTable(2)"># Dep ⇅</th>
-      <th class="sort-btn" onclick="sortTable(3)">Casino TO ⇅</th>
-      <th class="sort-btn" onclick="sortTable(4)">Casino GGR ⇅</th>
-      <th class="sort-btn" onclick="sortTable(5)">Bets ⇅</th>
-      <th class="sort-btn" onclick="sortTable(6)">TO/Dep ⇅</th>
-      <th class="sort-btn" onclick="sortTable(7)">GGR/Dep ⇅</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    
-    <tr class="player-row" onclick="toggleExpand('detail-0')">
-      <td>yajamana3363</td>
-      <td class="num">€1,012.36</td>
-      <td class="num">6</td>
-      <td class="num">€1,018.21</td>
-      <td class="num" style="color:var(--green)">€107.40</td>
-      <td class="num">103</td>
-      <td class="num">1.006x</td>
-      <td class="num" style="color:var(--green)">0.106x</td>
-      <td class="expand-icon">▶</td>
-    </tr>
-    <tr class="detail-row" id="detail-0">
-      <td colspan="9">
-        <div class="detail-content">
-          <div class="detail-section">
-            <div class="section-label">4-DAY COMPARISON</div>
-            <table class="history-table"><tr><th class="metric-label"></th><th>03 APR</th><th>04 APR</th><th>05 APR</th><th class="highlight-col">06 APR *</th></tr><tr><td class="metric-label">Deposits</td><td>596.53</td><td>191.39</td><td>560.48</td><td class="highlight-col" style="font-weight:700;">1,012.36</td></tr><tr><td class="metric-label"># Deposits</td><td>4</td><td>2</td><td>3</td><td class="highlight-col" style="font-weight:700;">6</td></tr><tr><td class="metric-label">Turnover</td><td>7,355.75</td><td>9,461.85</td><td>12,855.14</td><td class="highlight-col" style="font-weight:700;">12,965.69</td></tr><tr><td class="metric-label">Casino TO</td><td>1,775.76</td><td>66.24</td><td>1,186.64</td><td class="highlight-col" style="font-weight:700;">1,018.21</td></tr><tr><td class="metric-label">Casino GGR</td><td><span style="color:var(--green)">175.98</span></td><td><span style="color:var(--green)">21.96</span></td><td><span style="color:var(--green)">94.00</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--green)">107.40</span></td></tr><tr><td class="metric-label">Bets</td><td>79</td><td>54</td><td>60</td><td class="highlight-col" style="font-weight:700;">103</td></tr><tr><td class="metric-label">Casino TO/Dep</td><td>2.977x</td><td>0.346x</td><td>2.117x</td><td class="highlight-col" style="font-weight:700;">1.006x</td></tr><tr><td class="metric-label">Casino GGR/Dep</td><td><span style="color:var(--green)">0.295x</span></td><td><span style="color:var(--green)">0.115x</span></td><td><span style="color:var(--green)">0.168x</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--green)">0.106x</span></td></tr></table>
-          </div>
-          <div class="detail-section">
-            <div class="section-label">GAME BREAKDOWN</div>
-            <table class="game-table">
-              <tr><th>Game</th><th>Bets</th><th>Turnover</th><th>GGR</th></tr>
-              <tr><td>Aviator</td><td class="num">53</td><td class="num">971.61</td><td class="num" style="color:var(--green)">91.70</td></tr><tr><td>Tiger's Glory</td><td class="num">50</td><td class="num">46.60</td><td class="num" style="color:var(--green)">15.70</td></tr>
-            </table>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr class="player-row" onclick="toggleExpand('detail-1')">
-      <td>UnderBetaFolks60</td>
-      <td class="num">€838.11</td>
-      <td class="num">6</td>
-      <td class="num">€859.71</td>
-      <td class="num" style="color:var(--red)">€-116.33</td>
-      <td class="num">2631</td>
-      <td class="num">1.026x</td>
-      <td class="num" style="color:var(--red)">-0.139x</td>
-      <td class="expand-icon">▶</td>
-    </tr>
-    <tr class="detail-row" id="detail-1">
-      <td colspan="9">
-        <div class="detail-content">
-          <div class="detail-section">
-            <div class="section-label">4-DAY COMPARISON</div>
-            <table class="history-table"><tr><th class="metric-label"></th><th>03 APR</th><th>04 APR</th><th>05 APR</th><th class="highlight-col">06 APR *</th></tr><tr><td class="metric-label">Deposits</td><td>233.93</td><td>1,680.48</td><td>1,260.36</td><td class="highlight-col" style="font-weight:700;">838.11</td></tr><tr><td class="metric-label"># Deposits</td><td>3</td><td>12</td><td>9</td><td class="highlight-col" style="font-weight:700;">6</td></tr><tr><td class="metric-label">Turnover</td><td>348.21</td><td>2,083.52</td><td>1,352.15</td><td class="highlight-col" style="font-weight:700;">859.71</td></tr><tr><td class="metric-label">Casino TO</td><td>348.21</td><td>2,083.52</td><td>1,352.15</td><td class="highlight-col" style="font-weight:700;">859.71</td></tr><tr><td class="metric-label">Casino GGR</td><td><span style="color:var(--green)">12.13</span></td><td><span style="color:var(--green)">217.56</span></td><td><span style="color:var(--green)">75.50</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-116.33</span></td></tr><tr><td class="metric-label">Bets</td><td>1266</td><td>2962</td><td>2890</td><td class="highlight-col" style="font-weight:700;">2631</td></tr><tr><td class="metric-label">Casino TO/Dep</td><td>1.489x</td><td>1.240x</td><td>1.073x</td><td class="highlight-col" style="font-weight:700;">1.026x</td></tr><tr><td class="metric-label">Casino GGR/Dep</td><td><span style="color:var(--green)">0.052x</span></td><td><span style="color:var(--green)">0.129x</span></td><td><span style="color:var(--green)">0.060x</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-0.139x</span></td></tr></table>
-          </div>
-          <div class="detail-section">
-            <div class="section-label">GAME BREAKDOWN</div>
-            <table class="game-table">
-              <tr><th>Game</th><th>Bets</th><th>Turnover</th><th>GGR</th></tr>
-              <tr><td>Ganesha Gold</td><td class="num">398</td><td class="num">153.05</td><td class="num" style="color:var(--red)">-177.11</td></tr><tr><td>Majestic Treasures</td><td class="num">274</td><td class="num">95.07</td><td class="num" style="color:var(--green)">23.54</td></tr><tr><td>Double Fortune</td><td class="num">254</td><td class="num">86.72</td><td class="num" style="color:var(--green)">38.13</td></tr><tr><td>Jungle King</td><td class="num">254</td><td class="num">94.53</td><td class="num" style="color:var(--green)">1.94</td></tr><tr><td>Queen Of Bounty</td><td class="num">235</td><td class="num">84.37</td><td class="num" style="color:var(--red)">-20.08</td></tr><tr><td>Jungle Delight</td><td class="num">232</td><td class="num">57.65</td><td class="num" style="color:var(--green)">18.71</td></tr><tr><td>Forgotten Island Megaways</td><td class="num">226</td><td class="num">53.06</td><td class="num" style="color:var(--green)">18.05</td></tr><tr><td>Alibaba's Cave of Fortune</td><td class="num">161</td><td class="num">33.88</td><td class="num" style="color:var(--red)">-20.56</td></tr><tr><td>Hotpot</td><td class="num">117</td><td class="num">32.68</td><td class="num" style="color:var(--green)">10.77</td></tr><tr><td>Wings of Iguazu</td><td class="num">101</td><td class="num">26.02</td><td class="num" style="color:var(--green)">13.81</td></tr><tr><td>Thunderstruck Wild Lightning</td><td class="num">87</td><td class="num">30.36</td><td class="num" style="color:var(--red)">-53.12</td></tr><tr><td>Dragon Hatch</td><td class="num">74</td><td class="num">32.30</td><td class="num" style="color:var(--red)">-0.21</td></tr><tr><td>Path of Destiny</td><td class="num">54</td><td class="num">17.69</td><td class="num" style="color:var(--green)">15.23</td></tr><tr><td>64 Gold Coins Hold and Win</td><td class="num">44</td><td class="num">18.43</td><td class="num" style="color:var(--red)">-10.33</td></tr><tr><td>Wild Bounty Showdown</td><td class="num">43</td><td class="num">13.02</td><td class="num" style="color:var(--green)">9.54</td></tr><tr><td>64 Gold Coins Hold and Win 20000</td><td class="num">42</td><td class="num">17.58</td><td class="num" style="color:var(--green)">15.35</td></tr><tr><td>Ganesha Fortune</td><td class="num">35</td><td class="num">13.29</td><td class="num" style="color:var(--green)">0.02</td></tr>
-            </table>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr class="player-row" onclick="toggleExpand('detail-2')">
-      <td>BarsSea79</td>
-      <td class="num">€418.69</td>
-      <td class="num">3</td>
-      <td class="num">€620.25</td>
-      <td class="num" style="color:var(--red)">€-10.23</td>
-      <td class="num">81</td>
-      <td class="num">1.481x</td>
-      <td class="num" style="color:var(--red)">-0.024x</td>
-      <td class="expand-icon">▶</td>
-    </tr>
-    <tr class="detail-row" id="detail-2">
-      <td colspan="9">
-        <div class="detail-content">
-          <div class="detail-section">
-            <div class="section-label">4-DAY COMPARISON</div>
-            <table class="history-table"><tr><th class="metric-label"></th><th>03 APR</th><th>04 APR</th><th>05 APR</th><th class="highlight-col">06 APR *</th></tr><tr><td class="metric-label">Deposits</td><td>1,028.78</td><td>1,633.80</td><td>280.08</td><td class="highlight-col" style="font-weight:700;">418.69</td></tr><tr><td class="metric-label"># Deposits</td><td>7</td><td>12</td><td>2</td><td class="highlight-col" style="font-weight:700;">3</td></tr><tr><td class="metric-label">Turnover</td><td>1,940.70</td><td>3,722.08</td><td>897.23</td><td class="highlight-col" style="font-weight:700;">620.25</td></tr><tr><td class="metric-label">Casino TO</td><td>1,940.70</td><td>3,708.07</td><td>897.23</td><td class="highlight-col" style="font-weight:700;">620.25</td></tr><tr><td class="metric-label">Casino GGR</td><td><span style="color:var(--green)">68.90</span></td><td><span style="color:var(--red)">-36.10</span></td><td><span style="color:var(--green)">284.12</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-10.23</span></td></tr><tr><td class="metric-label">Bets</td><td>402</td><td>1465</td><td>112</td><td class="highlight-col" style="font-weight:700;">81</td></tr><tr><td class="metric-label">Casino TO/Dep</td><td>1.886x</td><td>2.270x</td><td>3.203x</td><td class="highlight-col" style="font-weight:700;">1.481x</td></tr><tr><td class="metric-label">Casino GGR/Dep</td><td><span style="color:var(--green)">0.067x</span></td><td><span style="color:var(--red)">-0.022x</span></td><td><span style="color:var(--green)">1.014x</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-0.024x</span></td></tr></table>
-          </div>
-          <div class="detail-section">
-            <div class="section-label">GAME BREAKDOWN</div>
-            <table class="game-table">
-              <tr><th>Game</th><th>Bets</th><th>Turnover</th><th>GGR</th></tr>
-              <tr><td>Ganesha Fortune</td><td class="num">65</td><td class="num">306.27</td><td class="num" style="color:var(--red)">-11.11</td></tr><tr><td>PlinkoX</td><td class="num">16</td><td class="num">314.00</td><td class="num" style="color:var(--green)">0.88</td></tr>
-            </table>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr class="player-row" onclick="toggleExpand('detail-3')">
-      <td>BowlBluesWing92</td>
-      <td class="num">€418.68</td>
-      <td class="num">3</td>
-      <td class="num">€446.22</td>
-      <td class="num" style="color:var(--red)">€-57.79</td>
-      <td class="num">78</td>
-      <td class="num">1.066x</td>
-      <td class="num" style="color:var(--red)">-0.138x</td>
-      <td class="expand-icon">▶</td>
-    </tr>
-    <tr class="detail-row" id="detail-3">
-      <td colspan="9">
-        <div class="detail-content">
-          <div class="detail-section">
-            <div class="section-label">4-DAY COMPARISON</div>
-            <table class="history-table"><tr><th class="metric-label"></th><th>03 APR</th><th>04 APR</th><th>05 APR</th><th class="highlight-col">06 APR *</th></tr><tr><td class="metric-label">Deposits</td><td>187.00</td><td>1,120.32</td><td>0</td><td class="highlight-col" style="font-weight:700;">418.68</td></tr><tr><td class="metric-label"># Deposits</td><td>2</td><td>8</td><td>0</td><td class="highlight-col" style="font-weight:700;">3</td></tr><tr><td class="metric-label">Turnover</td><td>213.34</td><td>1,175.16</td><td>0</td><td class="highlight-col" style="font-weight:700;">446.22</td></tr><tr><td class="metric-label">Casino TO</td><td>213.34</td><td>1,175.16</td><td>0</td><td class="highlight-col" style="font-weight:700;">446.22</td></tr><tr><td class="metric-label">Casino GGR</td><td><span style="color:var(--green)">46.75</span></td><td><span style="color:var(--red)">-135.74</span></td><td><span style="color:var(--green)">0</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-57.79</span></td></tr><tr><td class="metric-label">Bets</td><td>411</td><td>185</td><td>0</td><td class="highlight-col" style="font-weight:700;">78</td></tr><tr><td class="metric-label">Casino TO/Dep</td><td>1.141x</td><td>1.049x</td><td>-</td><td class="highlight-col" style="font-weight:700;">1.066x</td></tr><tr><td class="metric-label">Casino GGR/Dep</td><td><span style="color:var(--green)">0.250x</span></td><td><span style="color:var(--red)">-0.121x</span></td><td>-</td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-0.138x</span></td></tr></table>
-          </div>
-          <div class="detail-section">
-            <div class="section-label">GAME BREAKDOWN</div>
-            <table class="game-table">
-              <tr><th>Game</th><th>Bets</th><th>Turnover</th><th>GGR</th></tr>
-              <tr><td>Ganesha Fortune</td><td class="num">74</td><td class="num">445.84</td><td class="num" style="color:var(--red)">-58.17</td></tr><tr><td>Aviator</td><td class="num">4</td><td class="num">0.37</td><td class="num" style="color:var(--green)">0.37</td></tr>
-            </table>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr class="player-row" onclick="toggleExpand('detail-4')">
-      <td>FlewAbc20</td>
-      <td class="num">€204.99</td>
-      <td class="num">7</td>
-      <td class="num">€492.16</td>
-      <td class="num" style="color:var(--green)">€20.43</td>
-      <td class="num">328</td>
-      <td class="num">2.401x</td>
-      <td class="num" style="color:var(--green)">0.100x</td>
-      <td class="expand-icon">▶</td>
-    </tr>
-    <tr class="detail-row" id="detail-4">
-      <td colspan="9">
-        <div class="detail-content">
-          <div class="detail-section">
-            <div class="section-label">4-DAY COMPARISON</div>
-            <table class="history-table"><tr><th class="metric-label"></th><th>03 APR</th><th>04 APR</th><th>05 APR</th><th class="highlight-col">06 APR *</th></tr><tr><td class="metric-label">Deposits</td><td>327.55</td><td>140.14</td><td>0</td><td class="highlight-col" style="font-weight:700;">204.99</td></tr><tr><td class="metric-label"># Deposits</td><td>7</td><td>5</td><td>0</td><td class="highlight-col" style="font-weight:700;">7</td></tr><tr><td class="metric-label">Turnover</td><td>1,311.15</td><td>619.06</td><td>0</td><td class="highlight-col" style="font-weight:700;">492.16</td></tr><tr><td class="metric-label">Casino TO</td><td>1,311.15</td><td>619.06</td><td>0</td><td class="highlight-col" style="font-weight:700;">492.16</td></tr><tr><td class="metric-label">Casino GGR</td><td><span style="color:var(--green)">280.76</span></td><td><span style="color:var(--green)">187.85</span></td><td><span style="color:var(--green)">0</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--green)">20.43</span></td></tr><tr><td class="metric-label">Bets</td><td>120</td><td>101</td><td>0</td><td class="highlight-col" style="font-weight:700;">328</td></tr><tr><td class="metric-label">Casino TO/Dep</td><td>4.003x</td><td>4.417x</td><td>-</td><td class="highlight-col" style="font-weight:700;">2.401x</td></tr><tr><td class="metric-label">Casino GGR/Dep</td><td><span style="color:var(--green)">0.857x</span></td><td><span style="color:var(--green)">1.340x</span></td><td>-</td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--green)">0.100x</span></td></tr></table>
-          </div>
-          <div class="detail-section">
-            <div class="section-label">GAME BREAKDOWN</div>
-            <table class="game-table">
-              <tr><th>Game</th><th>Bets</th><th>Turnover</th><th>GGR</th></tr>
-              <tr><td>Fishin' Bear</td><td class="num">246</td><td class="num">17.10</td><td class="num" style="color:var(--red)">-4.50</td></tr><tr><td>Crazy Time</td><td class="num">81</td><td class="num">474.13</td><td class="num" style="color:var(--green)">25.77</td></tr><tr><td>Andar Bahar Ezugi</td><td class="num">1</td><td class="num">0.93</td><td class="num" style="color:var(--red)">-0.84</td></tr>
-            </table>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr class="player-row" onclick="toggleExpand('detail-5')">
-      <td>SeasSenSaw25</td>
-      <td class="num">€186.46</td>
-      <td class="num">2</td>
-      <td class="num">€226.99</td>
-      <td class="num" style="color:var(--red)">€-9.25</td>
-      <td class="num">546</td>
-      <td class="num">1.217x</td>
-      <td class="num" style="color:var(--red)">-0.050x</td>
-      <td class="expand-icon">▶</td>
-    </tr>
-    <tr class="detail-row" id="detail-5">
-      <td colspan="9">
-        <div class="detail-content">
-          <div class="detail-section">
-            <div class="section-label">4-DAY COMPARISON</div>
-            <table class="history-table"><tr><th class="metric-label"></th><th>03 APR</th><th>04 APR</th><th>05 APR</th><th class="highlight-col">06 APR *</th></tr><tr><td class="metric-label">Deposits</td><td>0</td><td>0</td><td>121.37</td><td class="highlight-col" style="font-weight:700;">186.46</td></tr><tr><td class="metric-label"># Deposits</td><td>0</td><td>0</td><td>2</td><td class="highlight-col" style="font-weight:700;">2</td></tr><tr><td class="metric-label">Turnover</td><td>0</td><td>0</td><td>212.11</td><td class="highlight-col" style="font-weight:700;">226.99</td></tr><tr><td class="metric-label">Casino TO</td><td>0</td><td>0</td><td>212.11</td><td class="highlight-col" style="font-weight:700;">226.99</td></tr><tr><td class="metric-label">Casino GGR</td><td><span style="color:var(--green)">0</span></td><td><span style="color:var(--green)">0</span></td><td><span style="color:var(--green)">41.84</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-9.25</span></td></tr><tr><td class="metric-label">Bets</td><td>0</td><td>0</td><td>444</td><td class="highlight-col" style="font-weight:700;">546</td></tr><tr><td class="metric-label">Casino TO/Dep</td><td>-</td><td>-</td><td>1.748x</td><td class="highlight-col" style="font-weight:700;">1.217x</td></tr><tr><td class="metric-label">Casino GGR/Dep</td><td>-</td><td>-</td><td><span style="color:var(--green)">0.345x</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-0.050x</span></td></tr></table>
-          </div>
-          <div class="detail-section">
-            <div class="section-label">GAME BREAKDOWN</div>
-            <table class="game-table">
-              <tr><th>Game</th><th>Bets</th><th>Turnover</th><th>GGR</th></tr>
-              <tr><td>Monkey Party</td><td class="num">285</td><td class="num">124.43</td><td class="num" style="color:var(--red)">-18.74</td></tr><tr><td>Jungle King</td><td class="num">261</td><td class="num">102.55</td><td class="num" style="color:var(--green)">9.48</td></tr>
-            </table>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr class="player-row" onclick="toggleExpand('detail-6')">
-      <td>anilbinance123</td>
-      <td class="num">€141.18</td>
-      <td class="num">2</td>
-      <td class="num">€243.61</td>
-      <td class="num" style="color:var(--red)">€-1.50</td>
-      <td class="num">10</td>
-      <td class="num">1.726x</td>
-      <td class="num" style="color:var(--red)">-0.011x</td>
-      <td class="expand-icon">▶</td>
-    </tr>
-    <tr class="detail-row" id="detail-6">
-      <td colspan="9">
-        <div class="detail-content">
-          <div class="detail-section">
-            <div class="section-label">4-DAY COMPARISON</div>
-            <table class="history-table"><tr><th class="metric-label"></th><th>03 APR</th><th>04 APR</th><th>05 APR</th><th class="highlight-col">06 APR *</th></tr><tr><td class="metric-label">Deposits</td><td>0</td><td>0</td><td>0</td><td class="highlight-col" style="font-weight:700;">141.18</td></tr><tr><td class="metric-label"># Deposits</td><td>0</td><td>0</td><td>0</td><td class="highlight-col" style="font-weight:700;">2</td></tr><tr><td class="metric-label">Turnover</td><td>0</td><td>0</td><td>0</td><td class="highlight-col" style="font-weight:700;">243.61</td></tr><tr><td class="metric-label">Casino TO</td><td>0</td><td>0</td><td>0</td><td class="highlight-col" style="font-weight:700;">243.61</td></tr><tr><td class="metric-label">Casino GGR</td><td><span style="color:var(--green)">0</span></td><td><span style="color:var(--green)">0</span></td><td><span style="color:var(--green)">0</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-1.50</span></td></tr><tr><td class="metric-label">Bets</td><td>0</td><td>0</td><td>0</td><td class="highlight-col" style="font-weight:700;">10</td></tr><tr><td class="metric-label">Casino TO/Dep</td><td>-</td><td>-</td><td>-</td><td class="highlight-col" style="font-weight:700;">1.726x</td></tr><tr><td class="metric-label">Casino GGR/Dep</td><td>-</td><td>-</td><td>-</td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-0.011x</span></td></tr></table>
-          </div>
-          <div class="detail-section">
-            <div class="section-label">GAME BREAKDOWN</div>
-            <table class="game-table">
-              <tr><th>Game</th><th>Bets</th><th>Turnover</th><th>GGR</th></tr>
-              <tr><td>Spin a Win</td><td class="num">10</td><td class="num">243.61</td><td class="num" style="color:var(--red)">-1.50</td></tr>
-            </table>
-          </div>
-        </div>
-      </td>
-    </tr>
-    <tr class="player-row" onclick="toggleExpand('detail-7')">
-      <td>pratap9010</td>
-      <td class="num">€121.14</td>
-      <td class="num">4</td>
-      <td class="num">€146.46</td>
-      <td class="num" style="color:var(--red)">€-7.09</td>
-      <td class="num">88</td>
-      <td class="num">1.209x</td>
-      <td class="num" style="color:var(--red)">-0.059x</td>
-      <td class="expand-icon">▶</td>
-    </tr>
-    <tr class="detail-row" id="detail-7">
-      <td colspan="9">
-        <div class="detail-content">
-          <div class="detail-section">
-            <div class="section-label">4-DAY COMPARISON</div>
-            <table class="history-table"><tr><th class="metric-label"></th><th>03 APR</th><th>04 APR</th><th>05 APR</th><th class="highlight-col">06 APR *</th></tr><tr><td class="metric-label">Deposits</td><td>28.09</td><td>0</td><td>186.72</td><td class="highlight-col" style="font-weight:700;">121.14</td></tr><tr><td class="metric-label"># Deposits</td><td>1</td><td>0</td><td>2</td><td class="highlight-col" style="font-weight:700;">4</td></tr><tr><td class="metric-label">Turnover</td><td>581.72</td><td>5.13</td><td>373.83</td><td class="highlight-col" style="font-weight:700;">221.01</td></tr><tr><td class="metric-label">Casino TO</td><td>0</td><td>0</td><td>0</td><td class="highlight-col" style="font-weight:700;">146.46</td></tr><tr><td class="metric-label">Casino GGR</td><td><span style="color:var(--green)">0</span></td><td><span style="color:var(--green)">0</span></td><td><span style="color:var(--green)">0</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-7.09</span></td></tr><tr><td class="metric-label">Bets</td><td>0</td><td>0</td><td>0</td><td class="highlight-col" style="font-weight:700;">88</td></tr><tr><td class="metric-label">Casino TO/Dep</td><td>0.000x</td><td>-</td><td>0.000x</td><td class="highlight-col" style="font-weight:700;">1.209x</td></tr><tr><td class="metric-label">Casino GGR/Dep</td><td><span style="color:var(--green)">0.000x</span></td><td>-</td><td><span style="color:var(--green)">0.000x</span></td><td class="highlight-col" style="font-weight:700;"><span style="color:var(--red)">-0.059x</span></td></tr></table>
-          </div>
-          <div class="detail-section">
-            <div class="section-label">GAME BREAKDOWN</div>
-            <table class="game-table">
-              <tr><th>Game</th><th>Bets</th><th>Turnover</th><th>GGR</th></tr>
-              <tr><td>Aviator</td><td class="num">71</td><td class="num">131.17</td><td class="num" style="color:var(--red)">-18.48</td></tr><tr><td>War of Gods</td><td class="num">17</td><td class="num">15.29</td><td class="num" style="color:var(--green)">11.39</td></tr>
-            </table>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <div class="table-wrap">
+    <table id="mainTable">
+      <thead>
+        <tr>
+          <th data-col="0">Username <span class="arrow">&#9650;</span></th>
+          <th data-col="1" data-type="num">Deposits <span class="arrow">&#9650;</span></th>
+          <th data-col="2" data-type="num"># Dep <span class="arrow">&#9650;</span></th>
+          <th data-col="3" data-type="num">Casino TO <span class="arrow">&#9650;</span></th>
+          <th data-col="4" data-type="num">Casino GGR <span class="arrow">&#9650;</span></th>
+          <th data-col="5" data-type="num">Bets <span class="arrow">&#9650;</span></th>
+          <th data-col="6" data-type="num">TO/Dep <span class="arrow">&#9650;</span></th>
+          <th data-col="7" data-type="num">GGR/Dep <span class="arrow">&#9650;</span></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+  </div>
 
-<div class="footer">
-  <strong>Filter Criteria:</strong> Deposits ≥ €100 → 2+ deposits → Casino TO &gt; 0 → Casino TO/Dep 0.9x–2.5x → Casino GGR/Dep -0.15x–+0.15x<br>
-  <strong>Data Source:</strong> Qlik App 16912333 · Date: 06 APR 2026 (serial 46118) · Generated: 2026-04-07 14:17 UTC
+  <footer>
+    <div>Report generated: <span id="genTime"></span> &middot; Data date: 06 APR 2026</div>
+    <div class="criteria">
+      <span class="crit">Deposits &ge; &euro;100</span>
+      <span class="crit">2+ Deposits</span>
+      <span class="crit">Casino TO &gt; 0</span>
+      <span class="crit">TO/Dep 0.9x&ndash;2.5x</span>
+      <span class="crit">GGR/Dep &minus;0.15x to +0.15x</span>
+    </div>
+  </footer>
 </div>
 
 <script>
-function toggleExpand(id) {
-  const row = document.getElementById(id);
-  const playerRow = row.previousElementSibling;
-  row.classList.toggle('show');
-  playerRow.classList.toggle('expanded');
+const players = [
+  {id:"20779518-2",username:"yajamana3363",deposits:1012.36,depCount:6,casinoTO:1018.21,casinoGGR:107.40,bets:103,toDep:1.006,ggrDep:0.106},
+  {id:"54195087-2",username:"UnderBetaFolks60",deposits:838.11,depCount:6,casinoTO:859.71,casinoGGR:-116.33,bets:2631,toDep:1.026,ggrDep:-0.139},
+  {id:"54192095-2",username:"BarsSea79",deposits:418.69,depCount:3,casinoTO:620.25,casinoGGR:-10.23,bets:81,toDep:1.481,ggrDep:-0.024},
+  {id:"54194734-2",username:"BowlBluesWing92",deposits:418.68,depCount:3,casinoTO:446.22,casinoGGR:-57.79,bets:78,toDep:1.066,ggrDep:-0.138},
+  {id:"54180044-2",username:"FlewAbc20",deposits:204.99,depCount:7,casinoTO:492.16,casinoGGR:20.43,bets:328,toDep:2.401,ggrDep:0.100},
+  {id:"54196196-2",username:"SeasSenSaw25",deposits:186.46,depCount:2,casinoTO:226.99,casinoGGR:-9.25,bets:546,toDep:1.217,ggrDep:-0.050},
+  {id:"53438556-2",username:"anilbinance123",deposits:141.18,depCount:2,casinoTO:243.61,casinoGGR:-1.50,bets:10,toDep:1.726,ggrDep:-0.011},
+  {id:"51196718-2",username:"pratap9010",deposits:121.14,depCount:4,casinoTO:146.46,casinoGGR:-7.09,bets:88,toDep:1.209,ggrDep:-0.059}
+];
+
+const games = {
+  "20779518-2":[{name:"Aviator",bets:53,ggr:91.70},{name:"Tiger's Glory",bets:50,ggr:15.70}],
+  "54195087-2":[{name:"Ganesha Gold",bets:398,ggr:-177.11},{name:"Majestic Treasures",bets:274,ggr:23.54},{name:"Double Fortune",bets:254,ggr:38.13},{name:"Jungle King",bets:254,ggr:1.94},{name:"Queen Of Bounty",bets:235,ggr:-20.08},{name:"Jungle Delight",bets:232,ggr:18.71},{name:"Forgotten Island Megaways",bets:226,ggr:18.05},{name:"Alibaba's Cave of Fortune",bets:161,ggr:-20.56},{name:"Hotpot",bets:117,ggr:10.77},{name:"Wings of Iguazu",bets:101,ggr:13.81},{name:"Thunderstruck Wild Lightning",bets:87,ggr:-53.12},{name:"Dragon Hatch",bets:74,ggr:-0.21},{name:"Path of Destiny",bets:54,ggr:15.23},{name:"64 Gold Coins Hold and Win",bets:44,ggr:-10.33},{name:"Wild Bounty Showdown",bets:43,ggr:9.54},{name:"64 Gold Coins HW 20000",bets:42,ggr:15.35},{name:"Ganesha Fortune",bets:35,ggr:0.02}],
+  "54192095-2":[{name:"Ganesha Fortune",bets:65,ggr:-11.11},{name:"PlinkoX",bets:16,ggr:0.88}],
+  "54194734-2":[{name:"Ganesha Fortune",bets:74,ggr:-58.17},{name:"Aviator",bets:4,ggr:0.37}],
+  "54180044-2":[{name:"Fishin' Bear",bets:246,ggr:-4.50},{name:"Crazy Time",bets:81,ggr:25.77},{name:"Andar Bahar Ezugi",bets:1,ggr:-0.84}],
+  "54196196-2":[{name:"Monkey Party",bets:285,ggr:-18.74},{name:"Jungle King",bets:261,ggr:9.48}],
+  "53438556-2":[{name:"Spin a Win",bets:10,ggr:-1.50}],
+  "51196718-2":[{name:"Aviator",bets:71,ggr:-18.48},{name:"War of Gods",bets:17,ggr:11.39}]
+};
+
+const history = {
+  "20779518-2":{"03/04/2026":{dep:596.53,depCnt:4,to:7355.75,cto:1775.76,cggr:175.98,bets:79},"04/04/2026":{dep:191.39,depCnt:2,to:9461.85,cto:66.24,cggr:21.96,bets:54},"05/04/2026":{dep:560.48,depCnt:3,to:12855.14,cto:1186.64,cggr:94.00,bets:60},"06/04/2026":{dep:1012.36,depCnt:6,to:12965.69,cto:1018.21,cggr:107.40,bets:103}},
+  "54195087-2":{"03/04/2026":{dep:233.93,depCnt:3,to:348.21,cto:348.21,cggr:12.13,bets:1266},"04/04/2026":{dep:1680.48,depCnt:12,to:2083.52,cto:2083.52,cggr:217.56,bets:2962},"05/04/2026":{dep:1260.36,depCnt:9,to:1352.15,cto:1352.15,cggr:75.50,bets:2890},"06/04/2026":{dep:838.11,depCnt:6,to:859.71,cto:859.71,cggr:-116.33,bets:2631}},
+  "54192095-2":{"03/04/2026":{dep:1028.78,depCnt:7,to:1940.70,cto:1940.70,cggr:68.90,bets:402},"04/04/2026":{dep:1633.80,depCnt:12,to:3722.08,cto:3708.07,cggr:-36.10,bets:1465},"05/04/2026":{dep:280.08,depCnt:2,to:897.23,cto:897.23,cggr:284.12,bets:112},"06/04/2026":{dep:418.70,depCnt:3,to:620.25,cto:620.25,cggr:-10.23,bets:81}},
+  "54194734-2":{"03/04/2026":{dep:187.00,depCnt:2,to:213.34,cto:213.34,cggr:46.75,bets:411},"04/04/2026":{dep:1120.32,depCnt:8,to:1175.16,cto:1175.16,cggr:-135.74,bets:185},"06/04/2026":{dep:418.68,depCnt:3,to:446.22,cto:446.22,cggr:-57.79,bets:78}},
+  "54180044-2":{"03/04/2026":{dep:327.55,depCnt:7,to:1311.15,cto:1311.15,cggr:280.76,bets:120},"04/04/2026":{dep:140.14,depCnt:5,to:619.06,cto:619.06,cggr:187.85,bets:101},"06/04/2026":{dep:204.99,depCnt:7,to:492.16,cto:492.16,cggr:20.43,bets:328}},
+  "54196196-2":{"05/04/2026":{dep:121.37,depCnt:2,to:212.11,cto:212.11,cggr:41.84,bets:444},"06/04/2026":{dep:186.46,depCnt:2,to:226.99,cto:226.99,cggr:-9.25,bets:546}},
+  "53438556-2":{"06/04/2026":{dep:141.18,depCnt:2,to:243.61,cto:243.61,cggr:-1.50,bets:10}},
+  "51196718-2":{"06/04/2026":{dep:121.14,depCnt:4,to:221.01,cto:146.46,cggr:-7.09,bets:88}}
+};
+
+const dateCols = ["03/04/2026","04/04/2026","05/04/2026","06/04/2026"];
+const dateLabels = ["03 APR","04 APR","05 APR","06 APR *"];
+
+function fmt(n, d=2) { return n !== null && n !== undefined ? n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}) : '—'; }
+function fmtInt(n) { return n !== null && n !== undefined ? n.toLocaleString('en-US') : '—'; }
+function ratioClass(v, lo, hi) { return (v >= lo && v <= hi) ? 'ratio-warn' : ''; }
+
+function renderTable(sortCol, sortDir) {
+  const sorted = [...players].sort((a,b) => {
+    const keys = ['username','deposits','depCount','casinoTO','casinoGGR','bets','toDep','ggrDep'];
+    const k = keys[sortCol];
+    if (typeof a[k] === 'string') return sortDir * a[k].localeCompare(b[k]);
+    return sortDir * (a[k] - b[k]);
+  });
+
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+
+  sorted.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.setAttribute('data-id', p.id);
+    tr.innerHTML = `
+      <td class="player">${p.username}</td>
+      <td class="num">&euro;${fmt(p.deposits)}</td>
+      <td class="num">${p.depCount}</td>
+      <td class="num">&euro;${fmt(p.casinoTO)}</td>
+      <td class="num" style="color:${p.casinoGGR >= 0 ? 'var(--green)' : 'var(--red)'}">&euro;${fmt(p.casinoGGR)}</td>
+      <td class="num">${fmtInt(p.bets)}</td>
+      <td class="num ratio-warn">${fmt(p.toDep,3)}x</td>
+      <td class="num" style="color:${Math.abs(p.ggrDep) <= 0.05 ? 'var(--accent2)' : p.ggrDep >= 0 ? 'var(--green)' : 'var(--red)'}">${fmt(p.ggrDep,3)}x</td>
+    `;
+    tr.onclick = () => {
+      const er = document.getElementById('expand-' + p.id);
+      if (er) er.classList.toggle('open');
+    };
+    tbody.appendChild(tr);
+
+    // Expand row
+    const expandTr = document.createElement('tr');
+    expandTr.className = 'expand-row';
+    expandTr.id = 'expand-' + p.id;
+
+    // Build game chips
+    const pg = games[p.id] || [];
+    let gameHtml = pg.map(g => `<div class="game-chip"><span class="gname">${g.name}</span><span class="gcount">${g.bets}</span><span class="gggr ${g.ggr >= 0 ? 'pos' : 'neg'}">${g.ggr >= 0 ? '+' : ''}${fmt(g.ggr)}</span></div>`).join('');
+
+    // Build 4-day history horizontal table
+    const ph = history[p.id] || {};
+    const metrics = [
+      {label: 'Deposits', key: 'dep', isCur: true},
+      {label: '# Deposits', key: 'depCnt', isInt: true},
+      {label: 'Turnover', key: 'to', isCur: true},
+      {label: 'Casino TO', key: 'cto', isCur: true},
+      {label: 'Casino GGR', key: 'cggr', isCur: true, colored: true},
+      {label: 'Bets', key: 'bets', isInt: true},
+      {label: 'Casino TO/Dep', key: 'ctodep', isRatio: true},
+      {label: 'Casino GGR/Dep', key: 'ggrdep', isRatio: true, colored: true}
+    ];
+
+    let histRows = '';
+    metrics.forEach(m => {
+      histRows += '<tr>';
+      histRows += `<td class="label-cell">${m.label}</td>`;
+      dateCols.forEach((dc, i) => {
+        const d = ph[dc];
+        const isToday = i === 3;
+        const cls = isToday ? ' today' : '';
+        if (!d) {
+          histRows += `<td class="${cls} no-data">—</td>`;
+        } else {
+          let val;
+          if (m.key === 'ctodep') val = d.dep > 0 ? (d.cto / d.dep) : 0;
+          else if (m.key === 'ggrdep') val = d.dep > 0 ? (d.cggr / d.dep) : 0;
+          else val = d[m.key];
+
+          let display;
+          if (m.isRatio) display = fmt(val, 3) + 'x';
+          else if (m.isInt) display = fmtInt(val);
+          else if (m.isCur) display = '&euro;' + fmt(val);
+          else display = fmt(val);
+
+          let style = '';
+          if (m.colored && typeof val === 'number') {
+            style = ` style="color:${val >= 0 ? 'var(--green)' : 'var(--red)'}"`;
+          }
+          histRows += `<td class="${cls}"${style}>${display}</td>`;
+        }
+      });
+      histRows += '</tr>';
+    });
+
+    let histTable = `<table class="history-table"><thead><tr><th></th>`;
+    dateLabels.forEach((dl, i) => {
+      histTable += `<th${i === 3 ? ' class="today"' : ''}>${dl}</th>`;
+    });
+    histTable += '</tr></thead><tbody>' + histRows + '</tbody></table>';
+
+    expandTr.innerHTML = `<td colspan="8"><div class="expand-content">
+      <div class="expand-section">
+        <h4>4-Day Comparison</h4>
+        ${histTable}
+      </div>
+      <div class="expand-section">
+        <h4>Games Played Yesterday</h4>
+        <div class="game-chips">${gameHtml || '<span style="color:var(--text3)">No game data</span>'}</div>
+      </div>
+    </div></td>`;
+    tbody.appendChild(expandTr);
+  });
 }
+
+let currentSort = 1;
+let currentDir = -1;
+
+document.querySelectorAll('#mainTable thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = parseInt(th.dataset.col);
+    if (col === currentSort) currentDir *= -1;
+    else { currentSort = col; currentDir = -1; }
+    document.querySelectorAll('#mainTable thead th').forEach(t => t.classList.remove('sorted'));
+    th.classList.add('sorted');
+    th.querySelector('.arrow').textContent = currentDir === 1 ? '\u25B2' : '\u25BC';
+    renderTable(currentSort, currentDir);
+  });
+});
 
 function toggleTheme() {
   const body = document.body;
+  const btn = document.getElementById('themeBtn');
   if (body.getAttribute('data-theme') === 'light') {
     body.removeAttribute('data-theme');
+    btn.textContent = 'Light Mode';
   } else {
     body.setAttribute('data-theme', 'light');
+    btn.textContent = 'Dark Mode';
   }
 }
 
-let sortDir = {};
-function sortTable(col) {
-  const tbody = document.querySelector('.main-table tbody');
-  const pairs = [];
-  const rows = Array.from(tbody.querySelectorAll('tr'));
-  for (let i = 0; i < rows.length; i += 2) {
-    pairs.push([rows[i], rows[i+1]]);
-  }
-  
-  sortDir[col] = !(sortDir[col] || false);
-  const dir = sortDir[col] ? 1 : -1;
-  
-  pairs.sort((a, b) => {
-    const cellA = a[0].children[col].textContent.replace(/[€,x▶]/g, '').trim();
-    const cellB = b[0].children[col].textContent.replace(/[€,x▶]/g, '').trim();
-    const numA = parseFloat(cellA);
-    const numB = parseFloat(cellB);
-    if (!isNaN(numA) && !isNaN(numB)) return (numA - numB) * dir;
-    return cellA.localeCompare(cellB) * dir;
-  });
-  
-  tbody.innerHTML = '';
-  pairs.forEach(([pr, dr]) => {
-    tbody.appendChild(pr);
-    tbody.appendChild(dr);
-  });
-}
+document.getElementById('genTime').textContent = new Date().toLocaleString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+renderTable(currentSort, currentDir);
 </script>
 </body>
 </html>
