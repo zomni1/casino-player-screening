@@ -1,991 +1,972 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Casino Player Screening Report</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --dark-hero: #000000;
-      --dark-body: #111111;
-      --dark-card: #1a1a1a;
-      --dark-text-primary: #ffffff;
-      --dark-text-secondary: #757575;
-      --dark-text-tertiary: #bbbbbb;
-      --dark-border: #333333;
-
-      --light-body: #ffffff;
-      --light-card: #f5f5f5;
-      --light-text-primary: #262626;
-      --light-text-secondary: #757575;
-      --light-border: #e0e0e0;
-
-      --bmw-blue: #1c69d4;
-      --bmw-focus: #0653b6;
-      --status-green: #3fb950;
-      --status-red: #f85149;
-
-      --spacing: 8px;
-    }
-
-    html {
-      font-family: Helvetica, Arial, sans-serif;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: var(--dark-body);
-      color: var(--dark-text-primary);
-      line-height: 1.15;
-      font-size: 14px;
-      font-weight: 400;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    body.light-mode {
-      background-color: var(--light-body);
-      color: var(--light-text-primary);
-    }
-
-    /* Hero Header */
-    .hero-header {
-      background-color: var(--dark-hero);
-      padding: calc(var(--spacing) * 8) calc(var(--spacing) * 4);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 1px solid var(--dark-border);
-      transition: border-color 0.3s;
-    }
-
-    body.light-mode .hero-header {
-      background-color: var(--light-body);
-      border-bottom-color: var(--light-border);
-    }
-
-    .hero-content h1 {
-      font-size: 48px;
-      font-weight: 300;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      line-height: 1.30;
-      margin-bottom: var(--spacing);
-    }
-
-    .hero-subtitle {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--dark-text-secondary);
-      font-weight: 400;
-    }
-
-    body.light-mode .hero-subtitle {
-      color: var(--light-text-secondary);
-    }
-
-    .theme-toggle {
-      width: 40px;
-      height: 40px;
-      background-color: var(--dark-card);
-      border: 1px solid var(--dark-border);
-      color: var(--dark-text-primary);
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.2s, color 0.2s;
-    }
-
-    .theme-toggle:hover {
-      background-color: var(--dark-text-secondary);
-      color: var(--dark-hero);
-    }
-
-    body.light-mode .theme-toggle {
-      background-color: var(--light-card);
-      border-color: var(--light-border);
-      color: var(--light-text-primary);
-    }
-
-    body.light-mode .theme-toggle:hover {
-      background-color: var(--light-text-secondary);
-      color: var(--light-body);
-    }
-
-    /* KPI Cards Container */
-    .kpi-section {
-      padding: calc(var(--spacing) * 4);
-      border-bottom: 1px solid var(--dark-border);
-      transition: border-color 0.3s;
-    }
-
-    body.light-mode .kpi-section {
-      border-bottom-color: var(--light-border);
-    }
-
-    .kpi-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: calc(var(--spacing) * 2);
-    }
-
-    .kpi-card {
-      background-color: var(--dark-card);
-      padding: calc(var(--spacing) * 2.5);
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--dark-border);
-      transition: background-color 0.3s, border-color 0.3s;
-    }
-
-    body.light-mode .kpi-card {
-      background-color: var(--light-card);
-      border-color: var(--light-border);
-    }
-
-    .kpi-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--dark-text-secondary);
-      margin-bottom: var(--spacing);
-      font-weight: 400;
-      line-height: 1.30;
-    }
-
-    body.light-mode .kpi-label {
-      color: var(--light-text-secondary);
-    }
-
-    .kpi-value {
-      font-size: 24px;
-      font-weight: 400;
-      color: var(--dark-text-primary);
-      line-height: 1.30;
-    }
-
-    body.light-mode .kpi-value {
-      color: var(--light-text-primary);
-    }
-
-    /* Main Table Section */
-    .table-section {
-      padding: calc(var(--spacing) * 4);
-    }
-
-    .section-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--dark-text-secondary);
-      font-weight: 400;
-      margin-bottom: calc(var(--spacing) * 2);
-    }
-
-    body.light-mode .section-title {
-      color: var(--light-text-secondary);
-    }
-
-    .table-wrapper {
-      overflow-x: auto;
-      border: 1px solid var(--dark-border);
-      transition: border-color 0.3s;
-    }
-
-    body.light-mode .table-wrapper {
-      border-color: var(--light-border);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: var(--dark-card);
-      transition: background-color 0.3s;
-    }
-
-    body.light-mode table {
-      background-color: var(--light-card);
-    }
-
-    thead tr {
-      background-color: var(--dark-card);
-    }
-
-    body.light-mode thead tr {
-      background-color: var(--light-card);
-    }
-
-    th {
-      padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
-      text-align: left;
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--dark-text-secondary);
-      border-bottom: 1px solid var(--dark-border);
-      transition: border-color 0.3s, background-color 0.3s;
-      cursor: pointer;
-      user-select: none;
-      line-height: 1.15;
-    }
-
-    body.light-mode th {
-      color: var(--light-text-secondary);
-      border-bottom-color: var(--light-border);
-    }
-
-    th:hover {
-      background-color: var(--dark-hero);
-    }
-
-    body.light-mode th:hover {
-      background-color: #f0f0f0;
-    }
-
-    th.sortable::after {
-      content: ' ▼';
-      font-size: 8px;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    th.sort-asc::after {
-      content: ' ▲';
-      opacity: 1;
-    }
-
-    th.sort-desc::after {
-      content: ' ▼';
-      opacity: 1;
-    }
-
-    td {
-      padding: calc(var(--spacing) * 2);
-      border-bottom: 1px solid var(--dark-border);
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.15;
-      transition: border-color 0.3s;
-    }
-
-    body.light-mode td {
-      border-bottom-color: var(--light-border);
-    }
-
-    tbody tr {
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    tbody tr:hover {
-      background-color: var(--dark-hero);
-    }
-
-    body.light-mode tbody tr:hover {
-      background-color: #f8f8f8;
-    }
-
-    tbody tr.expanded {
-      background-color: var(--dark-hero);
-    }
-
-    body.light-mode tbody tr.expanded {
-      background-color: #f8f8f8;
-    }
-
-    .expand-icon {
-      display: inline-block;
-      margin-right: calc(var(--spacing) * 0.5);
-      font-size: 10px;
-      transition: transform 0.3s;
-    }
-
-    tbody tr.expanded .expand-icon {
-      transform: rotate(90deg);
-    }
-
-    /* Expanded Row Content */
-    .expanded-content {
-      display: none;
-      background-color: var(--dark-hero);
-      transition: background-color 0.3s;
-    }
-
-    body.light-mode .expanded-content {
-      background-color: #f8f8f8;
-    }
-
-    tbody tr.expanded + tr.expanded-content {
-      display: table-row;
-    }
-
-    .expanded-content td {
-      padding: calc(var(--spacing) * 3);
-      border-bottom: none;
-    }
-
-    .expanded-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: calc(var(--spacing) * 4);
-    }
-
-    @media (max-width: 1024px) {
-      .expanded-wrapper {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .subsection-title {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--dark-text-secondary);
-      font-weight: 400;
-      margin-bottom: calc(var(--spacing) * 1.5);
-      display: block;
-    }
-
-    body.light-mode .subsection-title {
-      color: var(--light-text-secondary);
-    }
-
-    .mini-table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: var(--dark-card);
-      transition: background-color 0.3s;
-    }
-
-    body.light-mode .mini-table {
-      background-color: var(--light-card);
-    }
-
-    .mini-table th {
-      background-color: transparent;
-      border-bottom: 1px solid var(--dark-border);
-      padding: calc(var(--spacing) * 1) calc(var(--spacing) * 1.5);
-      text-align: left;
-      font-size: 10px;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--dark-text-secondary);
-    }
-
-    body.light-mode .mini-table th {
-      border-bottom-color: var(--light-border);
-      color: var(--light-text-secondary);
-    }
-
-    .mini-table td {
-      padding: calc(var(--spacing) * 1) calc(var(--spacing) * 1.5);
-      font-size: 13px;
-      border-bottom: 1px solid var(--dark-border);
-      line-height: 1.15;
-    }
-
-    body.light-mode .mini-table td {
-      border-bottom-color: var(--light-border);
-    }
-
-    .status-positive {
-      color: var(--status-green);
-    }
-
-    .status-negative {
-      color: var(--status-red);
-    }
-
-    /* 4-Day History Table */
-    .history-table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: var(--dark-card);
-      transition: background-color 0.3s;
-      font-size: 12px;
-    }
-
-    body.light-mode .history-table {
-      background-color: var(--light-card);
-    }
-
-    .history-table th {
-      padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 1);
-      text-align: right;
-      font-size: 10px;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--dark-text-secondary);
-      border-bottom: 1px solid var(--dark-border);
-      border-right: 1px solid var(--dark-border);
-      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    }
-
-    body.light-mode .history-table th {
-      color: var(--light-text-secondary);
-      border-bottom-color: var(--light-border);
-      border-right-color: var(--light-border);
-    }
-
-    .history-table th.label-col {
-      text-align: left;
-      border-right: 1px solid var(--dark-border);
-    }
-
-    body.light-mode .history-table th.label-col {
-      border-right-color: var(--light-border);
-    }
-
-    .history-table th.yesterday {
-      background-color: var(--bmw-blue);
-      color: #ffffff;
-      border-bottom-color: var(--bmw-blue);
-      border-right-color: var(--bmw-blue);
-    }
-
-    .history-table td {
-      padding: calc(var(--spacing) * 1) calc(var(--spacing) * 1);
-      text-align: right;
-      border-bottom: 1px solid var(--dark-border);
-      border-right: 1px solid var(--dark-border);
-      line-height: 1.15;
-      transition: border-color 0.3s;
-    }
-
-    body.light-mode .history-table td {
-      border-bottom-color: var(--light-border);
-      border-right-color: var(--light-border);
-    }
-
-    .history-table td.label-col {
-      text-align: left;
-      color: var(--dark-text-secondary);
-      font-weight: 400;
-      border-right: 1px solid var(--dark-border);
-    }
-
-    body.light-mode .history-table td.label-col {
-      color: var(--light-text-secondary);
-      border-right-color: var(--light-border);
-    }
-
-    .history-table td.yesterday {
-      background-color: rgba(28, 105, 212, 0.08);
-      font-weight: 700;
-      transition: background-color 0.3s;
-    }
-
-    body.light-mode .history-table td.yesterday {
-      background-color: rgba(28, 105, 212, 0.04);
-    }
-
-    .history-table td.empty {
-      color: var(--dark-text-tertiary);
-    }
-
-    body.light-mode .history-table td.empty {
-      color: #999999;
-    }
-
-    /* Footer */
-    .footer {
-      padding: calc(var(--spacing) * 4);
-      border-top: 1px solid var(--dark-border);
-      text-align: center;
-      transition: border-color 0.3s;
-    }
-
-    body.light-mode .footer {
-      border-top-color: var(--light-border);
-    }
-
-    .footer-text {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--dark-text-secondary);
-      line-height: 1.30;
-    }
-
-    body.light-mode .footer-text {
-      color: var(--light-text-secondary);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero-header {
-        flex-direction: column;
-        gap: calc(var(--spacing) * 2);
-      }
-
-      .hero-content h1 {
-        font-size: 32px;
-      }
-
-      .kpi-container {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      }
-
-      table {
-        font-size: 13px;
-      }
-
-      td, th {
-        padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 1);
-      }
-
-      .expanded-wrapper {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Player Screening Report</title>
+    <style>
+        :root {
+            --dark-bg-hero: #000000;
+            --dark-bg-body: #111111;
+            --dark-bg-card: #1a1a1a;
+            --dark-text-primary: #ffffff;
+            --dark-text-secondary: #757575;
+            --dark-text-tertiary: #bbbbbb;
+
+            --light-bg-body: #ffffff;
+            --light-bg-card: #f5f5f5;
+            --light-text-primary: #262626;
+            --light-text-secondary: #757575;
+
+            --accent-blue: #1c69d4;
+
+            --spacing-base: 8px;
+            --border-color-dark: #262626;
+            --border-color-light: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            line-height: 1.15;
+            background-color: var(--dark-bg-body);
+            color: var(--dark-text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            background-color: var(--light-bg-body);
+            color: var(--light-text-primary);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--dark-bg-hero);
+            padding: calc(var(--spacing-base) * 3) calc(var(--spacing-base) * 4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color-dark);
+        }
+
+        body.light-mode header {
+            background-color: var(--light-bg-body);
+            border-bottom-color: var(--border-color-light);
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--dark-text-primary);
+        }
+
+        body.light-mode .header-title {
+            color: var(--light-text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-base) * 2);
+        }
+
+        .header-date {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: var(--dark-text-secondary);
+            text-transform: uppercase;
+        }
+
+        body.light-mode .header-date {
+            color: var(--light-text-secondary);
+        }
+
+        .toggle-btn {
+            background-color: var(--dark-bg-card);
+            border: 1px solid var(--border-color-dark);
+            color: var(--dark-text-primary);
+            padding: calc(var(--spacing-base) * 1) calc(var(--spacing-base) * 2);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode .toggle-btn {
+            background-color: var(--light-bg-card);
+            border-color: var(--border-color-light);
+            color: var(--light-text-primary);
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+        }
+
+        /* Main container */
+        main {
+            max-width: 1400px;
+            margin: calc(var(--spacing-base) * 3) auto;
+            padding: 0 calc(var(--spacing-base) * 2);
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: calc(var(--spacing-base) * 2);
+            margin-bottom: calc(var(--spacing-base) * 4);
+        }
+
+        .kpi-card {
+            background-color: var(--dark-bg-card);
+            padding: calc(var(--spacing-base) * 3);
+            border: 1px solid var(--border-color-dark);
+        }
+
+        body.light-mode .kpi-card {
+            background-color: var(--light-bg-card);
+            border-color: var(--border-color-light);
+        }
+
+        .kpi-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--dark-text-secondary);
+            margin-bottom: calc(var(--spacing-base) * 1.5);
+        }
+
+        body.light-mode .kpi-label {
+            color: var(--light-text-secondary);
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-text-primary);
+            line-height: 1.15;
+        }
+
+        body.light-mode .kpi-value {
+            color: var(--light-text-primary);
+        }
+
+        /* Table */
+        .table-container {
+            background-color: var(--dark-bg-card);
+            border: 1px solid var(--border-color-dark);
+            overflow-x: auto;
+            margin-bottom: calc(var(--spacing-base) * 3);
+        }
+
+        body.light-mode .table-container {
+            background-color: var(--light-bg-card);
+            border-color: var(--border-color-light);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: var(--dark-bg-card);
+            border-bottom: 1px solid var(--border-color-dark);
+        }
+
+        body.light-mode thead {
+            background-color: var(--light-bg-card);
+            border-bottom-color: var(--border-color-light);
+        }
+
+        th {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--dark-text-secondary);
+            padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 1.5);
+            text-align: left;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        body.light-mode th {
+            color: var(--light-text-secondary);
+        }
+
+        th:hover {
+            color: var(--accent-blue);
+        }
+
+        th.sortable::after {
+            content: '';
+            margin-left: calc(var(--spacing-base) * 0.5);
+            font-size: 10px;
+        }
+
+        th.sort-asc::after {
+            content: '▲';
+        }
+
+        th.sort-desc::after {
+            content: '▼';
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border-color-dark);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        body.light-mode tbody tr {
+            border-bottom-color: var(--border-color-light);
+        }
+
+        tbody tr:hover {
+            background-color: rgba(28, 105, 212, 0.1);
+        }
+
+        td {
+            padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 1.5);
+            font-size: 13px;
+            line-height: 1.15;
+            color: var(--dark-text-primary);
+        }
+
+        body.light-mode td {
+            color: var(--light-text-primary);
+        }
+
+        td:nth-child(1) {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        td:not(:nth-child(1)) {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .positive {
+            color: #4ade80;
+        }
+
+        .negative {
+            color: #ef4444;
+        }
+
+        /* Expandable row */
+        .details-row {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        body.light-mode .details-row {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .details-row.expanded {
+            display: table-row;
+        }
+
+        .details-cell {
+            padding: calc(var(--spacing-base) * 3);
+            border-top: 1px solid var(--border-color-dark);
+        }
+
+        body.light-mode .details-cell {
+            border-top-color: var(--border-color-light);
+        }
+
+        .detail-section {
+            margin-bottom: calc(var(--spacing-base) * 3);
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-title {
+            font-size: 12px;
+            font-weight: 700;
+            font-variant: small-caps;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--dark-text-secondary);
+            margin-bottom: calc(var(--spacing-base) * 1.5);
+        }
+
+        body.light-mode .detail-title {
+            color: var(--light-text-secondary);
+        }
+
+        /* Game breakdown table */
+        .game-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--dark-bg-body);
+        }
+
+        body.light-mode .game-table {
+            background-color: var(--light-bg-body);
+        }
+
+        .game-table th {
+            background-color: transparent;
+            border-bottom: 1px solid var(--border-color-dark);
+            font-size: 10px;
+            padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 1);
+        }
+
+        body.light-mode .game-table th {
+            border-bottom-color: var(--border-color-light);
+        }
+
+        .game-table td {
+            padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 1);
+            font-size: 12px;
+            border-bottom: 1px solid var(--border-color-dark);
+        }
+
+        body.light-mode .game-table td {
+            border-bottom-color: var(--border-color-light);
+        }
+
+        .game-table td:nth-child(1) {
+            text-align: left;
+        }
+
+        .game-table td:not(:nth-child(1)) {
+            text-align: right;
+        }
+
+        /* 4-Day comparison table */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--dark-bg-body);
+        }
+
+        body.light-mode .history-table {
+            background-color: var(--light-bg-body);
+        }
+
+        .history-table th {
+            background-color: transparent;
+            border-bottom: 1px solid var(--border-color-dark);
+            font-size: 10px;
+            padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 1);
+            text-align: center;
+        }
+
+        body.light-mode .history-table th {
+            border-bottom-color: var(--border-color-light);
+        }
+
+        .history-table th.yesterday {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+        }
+
+        .history-table td {
+            padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 1);
+            font-size: 12px;
+            border-bottom: 1px solid var(--border-color-dark);
+            text-align: center;
+        }
+
+        body.light-mode .history-table td {
+            border-bottom-color: var(--border-color-light);
+        }
+
+        .history-table td:nth-child(1) {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--dark-text-secondary);
+        }
+
+        body.light-mode .history-table td:nth-child(1) {
+            color: var(--light-text-secondary);
+        }
+
+        .history-table td.yesterday {
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg-body);
+            padding: calc(var(--spacing-base) * 3) calc(var(--spacing-base) * 2);
+            border-top: 1px solid var(--border-color-dark);
+            margin-top: calc(var(--spacing-base) * 4);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--dark-text-secondary);
+            line-height: 1.3;
+        }
+
+        body.light-mode footer {
+            border-top-color: var(--border-color-light);
+            color: var(--light-text-secondary);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-line {
+            margin-bottom: calc(var(--spacing-base) * 1);
+        }
+
+        .footer-line:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            main {
+                padding: 0 calc(var(--spacing-base) * 1);
+            }
+
+            header {
+                padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 2);
+                flex-direction: column;
+                gap: calc(var(--spacing-base) * 2);
+                align-items: flex-start;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <div class="header-title">Casino Player Screening</div>
+        <div class="header-right">
+            <div class="header-date">07 APR 2026</div>
+            <button class="toggle-btn" id="themeToggle">Dark Mode</button>
+        </div>
+    </header>
 
-  <!-- Hero Header -->
-  <header class="hero-header">
-    <div class="hero-content">
-      <h1>Casino Player Screening</h1>
-      <div class="hero-subtitle">07 April 2026</div>
-    </div>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">◐</button>
-  </header>
-
-  <!-- KPI Cards -->
-  <section class="kpi-section">
-    <div class="kpi-container">
-      <div class="kpi-card">
-        <span class="kpi-label">Total Screened</span>
-        <span class="kpi-value">10,044</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Flagged</span>
-        <span class="kpi-value">8</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Flagged Deposits</span>
-        <span class="kpi-value">€5,589.76</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Flagged Casino TO</span>
-        <span class="kpi-value">€5,250.13</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Avg TO/Dep</span>
-        <span class="kpi-value">1.121x</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Avg GGR/Dep</span>
-        <span class="kpi-value">0.044x</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Main Table -->
-  <section class="table-section">
-    <span class="section-title">Flagged Players</span>
-    <div class="table-wrapper">
-      <table id="mainTable">
-        <thead>
-          <tr>
-            <th class="sortable" data-sort="username">Username</th>
-            <th class="sortable" data-sort="deposits">Deposits (€)</th>
-            <th class="sortable" data-sort="depositCount"># Deps</th>
-            <th class="sortable" data-sort="totalTO">Total TO (€)</th>
-            <th class="sortable" data-sort="casinoTO">Casino TO (€)</th>
-            <th class="sortable" data-sort="casinoGGR">Casino GGR (€)</th>
-            <th class="sortable" data-sort="bets">Bets</th>
-            <th class="sortable" data-sort="toDep">TO/Dep</th>
-            <th class="sortable" data-sort="ggrDep">GGR/Dep</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-text">
-      Filter: Deposits ≥ €100 | 2+ deposits | Casino TO > 0 | TO/Dep 0.9x–2.5x | GGR/Dep -0.15x–+0.15x
-    </div>
-  </footer>
-
-  <script>
-    // Data
-    const flaggedPlayers = [
-      {"PlayerID":"51467016-2","Username":"ravishankarpeddeti","Deposits":1723.16,"DepositCount":4,"CasinoTO":1888.54,"CasinoGGR":74.42,"Bets":46,"TotalTO":1888.54,"TO_Dep":1.096,"GGR_Dep":0.043},
-      {"PlayerID":"51230200-2","Username":"rq2683","Deposits":960.43,"DepositCount":2,"CasinoTO":959.70,"CasinoGGR":-13.94,"Bets":2,"TotalTO":959.70,"TO_Dep":0.999,"GGR_Dep":-0.015},
-      {"PlayerID":"51232351-2","Username":"jagannath000","Deposits":960.42,"DepositCount":2,"CasinoTO":959.70,"CasinoGGR":27.00,"Bets":2,"TotalTO":959.70,"TO_Dep":0.999,"GGR_Dep":0.028},
-      {"PlayerID":"51376322-2","Username":"ekasbhatia2011","Deposits":744.19,"DepositCount":2,"CasinoTO":870.67,"CasinoGGR":8.94,"Bets":360,"TotalTO":2440.54,"TO_Dep":1.170,"GGR_Dep":0.012},
-      {"PlayerID":"51715349-2","Username":"gulshanshakya567","Deposits":418.59,"DepositCount":5,"CasinoTO":405.64,"CasinoGGR":45.57,"Bets":13,"TotalTO":791.67,"TO_Dep":0.969,"GGR_Dep":0.109},
-      {"PlayerID":"54195087-2","Username":"UnderBetaFolks60","Deposits":373.43,"DepositCount":3,"CasinoTO":484.48,"CasinoGGR":50.42,"Bets":1241,"TotalTO":484.48,"TO_Dep":1.297,"GGR_Dep":0.135},
-      {"PlayerID":"27173450-2","Username":"ravinash","Deposits":279.16,"DepositCount":2,"CasinoTO":307.06,"CasinoGGR":0.07,"Bets":7,"TotalTO":307.06,"TO_Dep":1.100,"GGR_Dep":0.000},
-      {"PlayerID":"21620948-2","Username":"irfanzaheer","Deposits":130.38,"DepositCount":4,"CasinoTO":174.04,"CasinoGGR":17.93,"Bets":16,"TotalTO":288.82,"TO_Dep":1.335,"GGR_Dep":0.138}
-    ];
-
-    const gameData = [
-      ["21620948-2","Dragon Tiger",15,161.46,10.73],
-      ["21620948-2","Ganesha Fortune",1,12.58,7.20],
-      ["27173450-2","Speed Auto Roulette",7,307.06,0.07],
-      ["51230200-2","Auto-Roulette",2,959.70,-13.94],
-      ["51232351-2","Auto-Roulette",2,959.70,27.00],
-      ["51376322-2","Aviator",4,23.26,-20.37],
-      ["51376322-2","Cross the Road",3,2.79,-0.32],
-      ["51376322-2","Ganesha Fortune",9,48.74,-45.78],
-      ["51376322-2","Million Plinko",208,529.29,33.58],
-      ["51376322-2","Mines",3,14.51,-34.30],
-      ["51376322-2","Plinko",131,244.64,72.09],
-      ["51376322-2","TowerX",2,7.44,4.06],
-      ["51467016-2","Lightning Roulette",46,1888.54,74.42],
-      ["51715349-2","Lightning Roulette",7,322.08,49.19],
-      ["51715349-2","Mines",6,83.56,-3.62],
-      ["54195087-2","Asgardian Rising",489,217.60,18.09],
-      ["54195087-2","Betty, Boris and Boo",32,2.98,1.88],
-      ["54195087-2","Fire Forge",41,6.60,3.77],
-      ["54195087-2","Fishin' Bear",14,1.12,1.02],
-      ["54195087-2","Golden Octopus",19,5.33,4.23],
-      ["54195087-2","Indian Adventure",40,11.22,4.93],
-      ["54195087-2","Indian Fortune",44,12.33,9.61],
-      ["54195087-2","Monkey Party",365,176.76,13.81],
-      ["54195087-2","Path of Destiny",1,1.86,-1.90],
-      ["54195087-2","Sakura Masks",1,0.93,0.90],
-      ["54195087-2","Super Ace",195,47.77,-5.94]
-    ];
-
-    const historyData = [
-      ["21620948-2","04/04/2026",98.03,6,590.76,490.44,21.08,162],
-      ["21620948-2","05/04/2026",46.68,3,182.63,146.13,14.65,24],
-      ["21620948-2","06/04/2026",41.91,2,400.75,367.26,-32.24,97],
-      ["21620948-2","07/04/2026",130.38,4,288.82,174.04,17.93,16],
-      ["27173450-2","04/04/2026",0,0,0,0,0,0],
-      ["27173450-2","05/04/2026",0,0,0,0,0,0],
-      ["27173450-2","07/04/2026",279.16,2,307.06,307.06,0.07,7],
-      ["51230200-2","05/04/2026",0,0,40.70,40.70,12.17,4],
-      ["51230200-2","06/04/2026",2358.46,5,4946.78,4946.78,429.19,65],
-      ["51230200-2","07/04/2026",960.43,2,959.70,959.70,-13.94,2],
-      ["51232351-2","05/04/2026",0,0,0,0,0,0],
-      ["51232351-2","06/04/2026",2414.75,5,3457.64,3457.64,-839.62,39],
-      ["51232351-2","07/04/2026",960.42,2,959.70,959.70,27.00,2],
-      ["51376322-2","04/04/2026",793.56,3,3721.94,0,0,0],
-      ["51376322-2","05/04/2026",373.44,2,5677.03,0,0,0],
-      ["51376322-2","07/04/2026",744.19,2,2440.54,870.67,8.94,360],
-      ["51467016-2","04/04/2026",1120.32,8,1511.40,1511.40,929.19,62],
-      ["51467016-2","05/04/2026",84.02,1,1744.90,1744.90,504.14,83],
-      ["51467016-2","06/04/2026",1749.65,4,4925.93,4925.93,1752.83,75],
-      ["51467016-2","07/04/2026",1723.16,4,1888.54,1888.54,74.42,46],
-      ["51715349-2","04/04/2026",46.68,1,81.60,0,0,0],
-      ["51715349-2","05/04/2026",93.36,1,142.84,0,0,0],
-      ["51715349-2","07/04/2026",418.59,5,791.67,405.64,45.57,13],
-      ["54195087-2","04/04/2026",1680.48,12,2083.52,2083.52,217.56,2962],
-      ["54195087-2","05/04/2026",1260.36,9,1352.15,1352.15,75.50,2890],
-      ["54195087-2","06/04/2026",838.11,6,859.71,859.71,-116.33,2631],
-      ["54195087-2","07/04/2026",373.43,3,484.48,484.48,50.42,1241]
-    ];
-
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    let isDarkMode = true;
-
-    themeToggle.addEventListener('click', () => {
-      isDarkMode = !isDarkMode;
-      document.body.classList.toggle('light-mode');
-    });
-
-    // Utility functions
-    function formatCurrency(value) {
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }).format(value);
-    }
-
-    function formatNumber(value) {
-      return new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 3
-      }).format(value);
-    }
-
-    function getGameDataByPlayerId(playerId) {
-      return gameData.filter(row => row[0] === playerId);
-    }
-
-    function getHistoryByPlayerId(playerId) {
-      return historyData.filter(row => row[0] === playerId);
-    }
-
-    // Render main table
-    function renderTable(data) {
-      const tbody = document.getElementById('tableBody');
-      tbody.innerHTML = '';
-
-      data.forEach((player, index) => {
-        // Main row
-        const tr = document.createElement('tr');
-        tr.dataset.playerId = player.PlayerID;
-        tr.dataset.index = index;
-
-        tr.innerHTML = `
-          <td><span class="expand-icon">▶</span>${player.Username}</td>
-          <td>${formatCurrency(player.Deposits)}</td>
-          <td>${player.DepositCount}</td>
-          <td>${formatCurrency(player.TotalTO)}</td>
-          <td>${formatCurrency(player.CasinoTO)}</td>
-          <td class="${player.CasinoGGR >= 0 ? 'status-positive' : 'status-negative'}">
-            ${formatCurrency(player.CasinoGGR)}
-          </td>
-          <td>${player.Bets}</td>
-          <td>${formatNumber(player.TO_Dep)}x</td>
-          <td class="${player.GGR_Dep >= 0 ? 'status-positive' : 'status-negative'}">
-            ${formatNumber(player.GGR_Dep)}x
-          </td>
-        `;
-
-        tr.addEventListener('click', () => toggleExpand(tr, player));
-        tbody.appendChild(tr);
-
-        // Expanded content row (hidden by default)
-        const expandedRow = document.createElement('tr');
-        expandedRow.className = 'expanded-content';
-        expandedRow.innerHTML = `
-          <td colspan="9">
-            <div class="expanded-wrapper">
-              ${renderGameBreakdown(player.PlayerID)}
-              ${renderHistoryComparison(player.PlayerID)}
+    <main>
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Screened</div>
+                <div class="kpi-value">10,044</div>
             </div>
-          </td>
-        `;
-        tbody.appendChild(expandedRow);
-      });
-    }
-
-    function toggleExpand(row, player) {
-      const isExpanded = row.classList.contains('expanded');
-
-      // Collapse all other rows
-      document.querySelectorAll('tbody tr.expanded').forEach(r => {
-        r.classList.remove('expanded');
-      });
-
-      // Toggle current row
-      if (!isExpanded) {
-        row.classList.add('expanded');
-      }
-    }
-
-    function renderGameBreakdown(playerId) {
-      const games = getGameDataByPlayerId(playerId);
-
-      let html = `
-        <div>
-          <span class="subsection-title">Game Breakdown</span>
-          <table class="mini-table">
-            <thead>
-              <tr>
-                <th>Game</th>
-                <th>Bets</th>
-                <th>Turnover (€)</th>
-                <th>GGR (€)</th>
-              </tr>
-            </thead>
-            <tbody>
-      `;
-
-      games.forEach(game => {
-        const ggrClass = game[4] >= 0 ? 'status-positive' : 'status-negative';
-        html += `
-          <tr>
-            <td>${game[1]}</td>
-            <td>${game[2]}</td>
-            <td>${formatCurrency(game[3])}</td>
-            <td class="${ggrClass}">${formatCurrency(game[4])}</td>
-          </tr>
-        `;
-      });
-
-      html += `
-            </tbody>
-          </table>
+            <div class="kpi-card">
+                <div class="kpi-label">Flagged</div>
+                <div class="kpi-value">8</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Flagged Deposits</div>
+                <div class="kpi-value">€5,589</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Flagged Casino TO</div>
+                <div class="kpi-value">€5,090</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Avg TO/Dep</div>
+                <div class="kpi-value">1.11x</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Avg GGR/Dep</div>
+                <div class="kpi-value">0.04x</div>
+            </div>
         </div>
-      `;
 
-      return html;
-    }
+        <div class="table-container">
+            <table id="playersTable">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-column="username">Username</th>
+                        <th class="sortable" data-column="deposits">Deposits (€)</th>
+                        <th class="sortable" data-column="num_deposits"># Deps</th>
+                        <th class="sortable" data-column="total_turnover">Total TO (€)</th>
+                        <th class="sortable" data-column="casino_to">Casino TO (€)</th>
+                        <th class="sortable" data-column="casino_ggr">Casino GGR (€)</th>
+                        <th class="sortable" data-column="bets">Bets</th>
+                        <th class="sortable" data-column="to_dep">TO/Dep</th>
+                        <th class="sortable" data-column="ggr_dep">GGR/Dep</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </main>
 
-    function renderHistoryComparison(playerId) {
-      const history = getHistoryByPlayerId(playerId);
+    <footer>
+        <div class="footer-content">
+            <div class="footer-line">
+                Filter: Deposits ≥ €100 | 2+ deposits | Casino TO > 0 | TO/Dep 0.9x–2.5x | GGR/Dep -0.15x–+0.15x
+            </div>
+            <div class="footer-line">
+                Generated 08 Apr 2026
+            </div>
+        </div>
+    </footer>
 
-      // Build date index
-      const dateIndex = {};
-      history.forEach(row => {
-        dateIndex[row[1]] = {
-          deposits: row[2],
-          depCount: row[3],
-          turnover: row[4],
-          casinoTO: row[5],
-          casinoGGR: row[6],
-          bets: row[7]
-        };
-      });
-
-      const allDates = ['04/04/2026', '05/04/2026', '06/04/2026', '07/04/2026'];
-
-      let html = `
-        <div>
-          <span class="subsection-title">4-Day Comparison</span>
-          <table class="history-table">
-            <thead>
-              <tr>
-                <th class="label-col">Metric</th>
-      `;
-
-      allDates.forEach(date => {
-        const isYesterday = date === '07/04/2026';
-        const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-        const parts = date.split('/');
-        const dayLabel = parts[0] + ' ' + months[parseInt(parts[1])-1];
-        html += `<th class="${isYesterday ? 'yesterday' : ''}">${dayLabel}${isYesterday ? ' *' : ''}</th>`;
-      });
-
-      html += `
-              </tr>
-            </thead>
-            <tbody>
-      `;
-
-      const metrics = [
-        { label: 'Deposits', key: 'deposits', isAmount: true },
-        { label: '# Deposits', key: 'depCount', isAmount: false },
-        { label: 'Turnover', key: 'turnover', isAmount: true },
-        { label: 'Casino TO', key: 'casinoTO', isAmount: true },
-        { label: 'Casino GGR', key: 'casinoGGR', isAmount: true },
-        { label: 'Bets', key: 'bets', isAmount: false },
-        { label: 'Casino TO/Dep', key: 'toDep', isAmount: false, calculate: true },
-        { label: 'Casino GGR/Dep', key: 'ggrDep', isAmount: false, calculate: true }
-      ];
-
-      metrics.forEach(metric => {
-        html += `<tr><td class="label-col">${metric.label}</td>`;
-
-        allDates.forEach(date => {
-          const isYesterday = date === '07/04/2026';
-          const data = dateIndex[date];
-          let value = '–';
-          let cellClass = '';
-
-          if (data) {
-            if (metric.calculate) {
-              if (metric.key === 'toDep') {
-                value = data.casinoTO && data.deposits ? formatNumber(data.casinoTO / data.deposits) + 'x' : '–';
-              } else if (metric.key === 'ggrDep') {
-                value = data.casinoGGR && data.deposits ? formatNumber(data.casinoGGR / data.deposits) + 'x' : '–';
-                if (data.casinoGGR / data.deposits >= 0) {
-                  cellClass = 'status-positive';
-                } else {
-                  cellClass = 'status-negative';
-                }
-              }
-            } else {
-              const rawValue = data[metric.key];
-              if (metric.isAmount) {
-                value = rawValue === 0 ? '–' : formatCurrency(rawValue);
-              } else {
-                value = rawValue === 0 ? '–' : rawValue;
-              }
-
-              if (metric.key === 'casinoGGR' && rawValue !== 0) {
-                cellClass = rawValue >= 0 ? 'status-positive' : 'status-negative';
-              }
+    <script>
+        // Data
+        const playersData = [
+            {
+                id: 1,
+                username: 'ravishankarpeddeti',
+                uid: '51467016-2',
+                deposits: 1723.16,
+                num_deposits: 4,
+                total_turnover: 1888.54,
+                casino_to: 1888.54,
+                casino_ggr: 74.42,
+                bets: 46,
+                to_dep: 1.0960,
+                ggr_dep: 0.0432,
+                games: [
+                    { name: 'Lightning Roulette', bets: 46, turnover: 1888.54, ggr: 74.42 }
+                ],
+                history: [
+                    { date: '04/04', deposits: 1120.32, num_deposits: 8, turnover: 1511.40, casino_to: 1511.40, casino_ggr: 929.19, bets: 62 },
+                    { date: '05/04', deposits: 84.02, num_deposits: 1, turnover: 1744.90, casino_to: 1744.90, casino_ggr: 504.14, bets: 83 },
+                    { date: '06/04', deposits: 1749.65, num_deposits: 4, turnover: 4925.93, casino_to: 4925.93, casino_ggr: 1752.83, bets: 75 },
+                    { date: '07/04', deposits: 1723.16, num_deposits: 4, turnover: 1888.54, casino_to: 1888.54, casino_ggr: 74.42, bets: 46 }
+                ]
+            },
+            {
+                id: 2,
+                username: 'rq2683',
+                uid: '51230200-2',
+                deposits: 960.43,
+                num_deposits: 2,
+                total_turnover: 959.70,
+                casino_to: 959.70,
+                casino_ggr: -13.94,
+                bets: 2,
+                to_dep: 0.9992,
+                ggr_dep: -0.0145,
+                games: [
+                    { name: 'Auto-Roulette', bets: 2, turnover: 959.70, ggr: -13.94 }
+                ],
+                history: [
+                    { date: '04/04', deposits: null, num_deposits: null, turnover: null, casino_to: null, casino_ggr: null, bets: null },
+                    { date: '05/04', deposits: 0, num_deposits: 0, turnover: 40.70, casino_to: 40.70, casino_ggr: 12.17, bets: 4 },
+                    { date: '06/04', deposits: 2358.46, num_deposits: 5, turnover: 4946.78, casino_to: 4946.78, casino_ggr: 429.19, bets: 65 },
+                    { date: '07/04', deposits: 960.43, num_deposits: 2, turnover: 959.70, casino_to: 959.70, casino_ggr: -13.94, bets: 2 }
+                ]
+            },
+            {
+                id: 3,
+                username: 'jagannath000',
+                uid: '51232351-2',
+                deposits: 960.42,
+                num_deposits: 2,
+                total_turnover: 959.70,
+                casino_to: 959.70,
+                casino_ggr: 27.00,
+                bets: 2,
+                to_dep: 0.9992,
+                ggr_dep: 0.0281,
+                games: [
+                    { name: 'Auto-Roulette', bets: 2, turnover: 959.70, ggr: 27.00 }
+                ],
+                history: [
+                    { date: '04/04', deposits: null, num_deposits: null, turnover: null, casino_to: null, casino_ggr: null, bets: null },
+                    { date: '05/04', deposits: 0, num_deposits: 0, turnover: 0, casino_to: 0, casino_ggr: 0, bets: 0 },
+                    { date: '06/04', deposits: 2414.75, num_deposits: 5, turnover: 3457.64, casino_to: 3457.64, casino_ggr: -839.62, bets: 39 },
+                    { date: '07/04', deposits: 960.42, num_deposits: 2, turnover: 959.70, casino_to: 959.70, casino_ggr: 27.00, bets: 2 }
+                ]
+            },
+            {
+                id: 4,
+                username: 'ekasbhatia2011',
+                uid: '51376322-2',
+                deposits: 744.19,
+                num_deposits: 2,
+                total_turnover: 2440.54,
+                casino_to: 870.67,
+                casino_ggr: 8.94,
+                bets: 360,
+                to_dep: 1.1700,
+                ggr_dep: 0.0120,
+                games: [
+                    { name: 'Aviator', bets: 4, turnover: 23.26, ggr: -20.37 },
+                    { name: 'Cross the Road', bets: 3, turnover: 2.79, ggr: -0.32 },
+                    { name: 'Ganesha Fortune', bets: 9, turnover: 48.74, ggr: -45.78 },
+                    { name: 'Million Plinko', bets: 208, turnover: 529.29, ggr: 33.58 },
+                    { name: 'Mines', bets: 3, turnover: 14.51, ggr: -34.30 },
+                    { name: 'Plinko', bets: 131, turnover: 244.64, ggr: 72.09 },
+                    { name: 'TowerX', bets: 2, turnover: 7.44, ggr: 4.06 }
+                ],
+                history: [
+                    { date: '04/04', deposits: 793.56, num_deposits: 3, turnover: 3721.94, casino_to: 0, casino_ggr: 0, bets: 0 },
+                    { date: '05/04', deposits: 373.44, num_deposits: 2, turnover: 5677.03, casino_to: 0, casino_ggr: 0, bets: 0 },
+                    { date: '06/04', deposits: null, num_deposits: null, turnover: null, casino_to: null, casino_ggr: null, bets: null },
+                    { date: '07/04', deposits: 744.19, num_deposits: 2, turnover: 2440.54, casino_to: 870.67, casino_ggr: 8.94, bets: 360 }
+                ]
+            },
+            {
+                id: 5,
+                username: 'gulshanshakya567',
+                uid: '51715349-2',
+                deposits: 418.59,
+                num_deposits: 5,
+                total_turnover: 791.67,
+                casino_to: 405.64,
+                casino_ggr: 45.57,
+                bets: 13,
+                to_dep: 0.9691,
+                ggr_dep: 0.1089,
+                games: [
+                    { name: 'Lightning Roulette', bets: 7, turnover: 322.08, ggr: 49.19 },
+                    { name: 'Mines', bets: 6, turnover: 83.56, ggr: -3.62 }
+                ],
+                history: [
+                    { date: '04/04', deposits: 46.68, num_deposits: 1, turnover: 81.60, casino_to: 0, casino_ggr: 0, bets: 0 },
+                    { date: '05/04', deposits: 93.36, num_deposits: 1, turnover: 142.84, casino_to: 0, casino_ggr: 0, bets: 0 },
+                    { date: '06/04', deposits: null, num_deposits: null, turnover: null, casino_to: null, casino_ggr: null, bets: null },
+                    { date: '07/04', deposits: 418.59, num_deposits: 5, turnover: 791.67, casino_to: 405.64, casino_ggr: 45.57, bets: 13 }
+                ]
+            },
+            {
+                id: 6,
+                username: 'UnderBetaFolks60',
+                uid: '54195087-2',
+                deposits: 373.43,
+                num_deposits: 3,
+                total_turnover: 484.48,
+                casino_to: 484.48,
+                casino_ggr: 50.42,
+                bets: 1241,
+                to_dep: 1.2974,
+                ggr_dep: 0.1350,
+                games: [
+                    { name: 'Asgardian Rising', bets: 489, turnover: 217.60, ggr: 18.09 },
+                    { name: 'Betty Boris and Boo', bets: 32, turnover: 2.98, ggr: 1.88 },
+                    { name: 'Fire Forge', bets: 41, turnover: 6.60, ggr: 3.77 },
+                    { name: 'Fishin Bear', bets: 14, turnover: 1.12, ggr: 1.02 },
+                    { name: 'Golden Octopus', bets: 19, turnover: 5.33, ggr: 4.23 },
+                    { name: 'Indian Adventure', bets: 40, turnover: 11.22, ggr: 4.93 },
+                    { name: 'Indian Fortune', bets: 44, turnover: 12.33, ggr: 9.61 },
+                    { name: 'Monkey Party', bets: 365, turnover: 176.76, ggr: 13.81 },
+                    { name: 'Path of Destiny', bets: 1, turnover: 1.86, ggr: -1.90 },
+                    { name: 'Sakura Masks', bets: 1, turnover: 0.93, ggr: 0.90 },
+                    { name: 'Super Ace', bets: 195, turnover: 47.77, ggr: -5.94 }
+                ],
+                history: [
+                    { date: '04/04', deposits: 1680.48, num_deposits: 12, turnover: 2083.52, casino_to: 2083.52, casino_ggr: 217.56, bets: 2962 },
+                    { date: '05/04', deposits: 1260.36, num_deposits: 9, turnover: 1352.15, casino_to: 1352.15, casino_ggr: 75.50, bets: 2890 },
+                    { date: '06/04', deposits: 838.11, num_deposits: 6, turnover: 859.71, casino_to: 859.71, casino_ggr: -116.33, bets: 2631 },
+                    { date: '07/04', deposits: 373.43, num_deposits: 3, turnover: 484.48, casino_to: 484.48, casino_ggr: 50.42, bets: 1241 }
+                ]
+            },
+            {
+                id: 7,
+                username: 'ravinash',
+                uid: '27173450-2',
+                deposits: 279.16,
+                num_deposits: 2,
+                total_turnover: 307.06,
+                casino_to: 307.06,
+                casino_ggr: 0.07,
+                bets: 7,
+                to_dep: 1.0999,
+                ggr_dep: 0.0003,
+                games: [
+                    { name: 'Speed Auto Roulette', bets: 7, turnover: 307.06, ggr: 0.07 }
+                ],
+                history: [
+                    { date: '04/04', deposits: null, num_deposits: null, turnover: null, casino_to: null, casino_ggr: null, bets: null },
+                    { date: '05/04', deposits: null, num_deposits: null, turnover: null, casino_to: null, casino_ggr: null, bets: null },
+                    { date: '06/04', deposits: null, num_deposits: null, turnover: null, casino_to: null, casino_ggr: null, bets: null },
+                    { date: '07/04', deposits: 279.16, num_deposits: 2, turnover: 307.06, casino_to: 307.06, casino_ggr: 0.07, bets: 7 }
+                ]
+            },
+            {
+                id: 8,
+                username: 'irfanzaheer',
+                uid: '21620948-2',
+                deposits: 130.38,
+                num_deposits: 4,
+                total_turnover: 288.82,
+                casino_to: 174.04,
+                casino_ggr: 17.93,
+                bets: 16,
+                to_dep: 1.3349,
+                ggr_dep: 0.1375,
+                games: [
+                    { name: 'Dragon Tiger', bets: 15, turnover: 161.46, ggr: 10.73 },
+                    { name: 'Ganesha Fortune', bets: 1, turnover: 12.58, ggr: 7.20 }
+                ],
+                history: [
+                    { date: '04/04', deposits: 98.03, num_deposits: 6, turnover: 590.76, casino_to: 490.44, casino_ggr: 21.08, bets: 162 },
+                    { date: '05/04', deposits: 46.68, num_deposits: 3, turnover: 182.63, casino_to: 146.13, casino_ggr: 14.65, bets: 24 },
+                    { date: '06/04', deposits: 41.91, num_deposits: 2, turnover: 400.75, casino_to: 367.26, casino_ggr: -32.24, bets: 97 },
+                    { date: '07/04', deposits: 130.38, num_deposits: 4, turnover: 288.82, casino_to: 174.04, casino_ggr: 17.93, bets: 16 }
+                ]
             }
-          }
+        ];
 
-          const tdClass = isYesterday ? 'yesterday' : '';
-          html += `<td class="${tdClass} ${value === '–' ? 'empty' : ''} ${cellClass}">${value}</td>`;
+        // State
+        let isDarkMode = true;
+        let currentSort = { column: 'username', direction: 'asc' };
+
+        // Format currency
+        function formatCurrency(value) {
+            if (value === null || value === undefined) return '–';
+            return '€' + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        // Format number with commas
+        function formatNumber(value) {
+            if (value === null || value === undefined) return '–';
+            if (Number.isInteger(value)) return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        // Format ratio
+        function formatRatio(value) {
+            if (value === null || value === undefined) return '–';
+            return (value).toFixed(4);
+        }
+
+        // Sort players
+        function sortPlayers(column, direction) {
+            playersData.sort((a, b) => {
+                let aVal = a[column];
+                let bVal = b[column];
+
+                if (typeof aVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+
+                if (direction === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+        }
+
+        // Render table
+        function renderTable() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            playersData.forEach((player, index) => {
+                const mainRow = document.createElement('tr');
+                mainRow.innerHTML = `
+                    <td>${player.username}</td>
+                    <td>${formatCurrency(player.deposits)}</td>
+                    <td>${player.num_deposits}</td>
+                    <td>${formatCurrency(player.total_turnover)}</td>
+                    <td>${formatCurrency(player.casino_to)}</td>
+                    <td class="${player.casino_ggr >= 0 ? 'positive' : 'negative'}">${formatCurrency(player.casino_ggr)}</td>
+                    <td>${player.bets}</td>
+                    <td>${formatRatio(player.to_dep)}</td>
+                    <td class="${player.ggr_dep >= 0 ? 'positive' : 'negative'}">${formatRatio(player.ggr_dep)}</td>
+                `;
+                mainRow.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    toggleExpanded(index);
+                });
+                tableBody.appendChild(mainRow);
+
+                // Details row
+                const detailsRow = document.createElement('tr');
+                detailsRow.className = 'details-row';
+                detailsRow.id = `details-${index}`;
+                detailsRow.innerHTML = `
+                    <td colspan="9">
+                        <div class="details-cell">
+                            <div class="detail-section">
+                                <div class="detail-title">Game Breakdown</div>
+                                <table class="game-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Game</th>
+                                            <th>Bets</th>
+                                            <th>Turnover (€)</th>
+                                            <th>GGR (€)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${player.games.map(game => `
+                                            <tr>
+                                                <td>${game.name}</td>
+                                                <td>${game.bets}</td>
+                                                <td>${formatCurrency(game.turnover)}</td>
+                                                <td class="${game.ggr >= 0 ? 'positive' : 'negative'}">${formatCurrency(game.ggr)}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="detail-section">
+                                <div class="detail-title">4-Day Comparison</div>
+                                <table class="history-table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                return `<th class="${isYesterday ? 'yesterday' : ''}">${h.date}${isYesterday ? ' *' : ''}</th>`;
+                                            }).join('')}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Deposits</td>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                const value = h.deposits === null ? '–' : formatCurrency(h.deposits);
+                                                return `<td class="${isYesterday ? 'yesterday' : ''}">${value}</td>`;
+                                            }).join('')}
+                                        </tr>
+                                        <tr>
+                                            <td># Deposits</td>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                const value = h.num_deposits === null ? '–' : h.num_deposits.toString();
+                                                return `<td class="${isYesterday ? 'yesterday' : ''}">${value}</td>`;
+                                            }).join('')}
+                                        </tr>
+                                        <tr>
+                                            <td>Turnover</td>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                const value = h.turnover === null ? '–' : formatCurrency(h.turnover);
+                                                return `<td class="${isYesterday ? 'yesterday' : ''}">${value}</td>`;
+                                            }).join('')}
+                                        </tr>
+                                        <tr>
+                                            <td>Casino TO</td>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                const value = h.casino_to === null ? '–' : formatCurrency(h.casino_to);
+                                                return `<td class="${isYesterday ? 'yesterday' : ''}">${value}</td>`;
+                                            }).join('')}
+                                        </tr>
+                                        <tr>
+                                            <td>Casino GGR</td>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                let value = '–';
+                                                if (h.casino_ggr !== null) {
+                                                    value = `<span class="${h.casino_ggr >= 0 ? 'positive' : 'negative'}">${formatCurrency(h.casino_ggr)}</span>`;
+                                                }
+                                                return `<td class="${isYesterday ? 'yesterday' : ''}">${value}</td>`;
+                                            }).join('')}
+                                        </tr>
+                                        <tr>
+                                            <td>Bets</td>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                const value = h.bets === null ? '–' : h.bets.toString();
+                                                return `<td class="${isYesterday ? 'yesterday' : ''}">${value}</td>`;
+                                            }).join('')}
+                                        </tr>
+                                        <tr>
+                                            <td>Casino TO/Dep</td>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                let value = '–';
+                                                if (h.deposits !== null && h.deposits !== undefined && h.casino_to !== null && h.casino_to !== undefined && h.deposits !== 0) {
+                                                    value = formatRatio(h.casino_to / h.deposits);
+                                                }
+                                                return `<td class="${isYesterday ? 'yesterday' : ''}">${value}</td>`;
+                                            }).join('')}
+                                        </tr>
+                                        <tr>
+                                            <td>Casino GGR/Dep</td>
+                                            ${player.history.map((h, i) => {
+                                                const isYesterday = i === 3;
+                                                let value = '–';
+                                                let className = '';
+                                                if (h.deposits !== null && h.deposits !== undefined && h.casino_ggr !== null && h.casino_ggr !== undefined && h.deposits !== 0) {
+                                                    const ratio = h.casino_ggr / h.deposits;
+                                                    value = formatRatio(ratio);
+                                                    className = ratio >= 0 ? 'positive' : 'negative';
+                                                }
+                                                return `<td class="${isYesterday ? 'yesterday' : ''} ${className}">${value}</td>`;
+                                            }).join('')}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(detailsRow);
+            });
+
+            // Re-attach sort listeners
+            attachSortListeners();
+        }
+
+        // Toggle expanded row
+        function toggleExpanded(index) {
+            const detailsRow = document.getElementById(`details-${index}`);
+            detailsRow.classList.toggle('expanded');
+        }
+
+        // Attach sort listeners
+        function attachSortListeners() {
+            document.querySelectorAll('th.sortable').forEach(header => {
+                header.addEventListener('click', () => {
+                    const column = header.dataset.column;
+                    const direction = currentSort.column === column && currentSort.direction === 'asc' ? 'desc' : 'asc';
+
+                    // Remove all sort indicators
+                    document.querySelectorAll('th.sortable').forEach(h => {
+                        h.classList.remove('sort-asc', 'sort-desc');
+                    });
+
+                    // Add sort indicator to clicked header
+                    header.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
+
+                    currentSort = { column, direction };
+                    sortPlayers(column, direction);
+                    renderTable();
+                });
+            });
+        }
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('light-mode');
+            document.getElementById('themeToggle').textContent = isDarkMode ? 'Dark Mode' : 'Light Mode';
         });
 
-        html += `</tr>`;
-      });
-
-      html += `
-            </tbody>
-          </table>
-        </div>
-      `;
-
-      return html;
-    }
-
-    // Sorting
-    let sortState = {};
-
-    document.querySelectorAll('th.sortable').forEach(th => {
-      th.addEventListener('click', () => {
-        const sortKey = th.dataset.sort;
-        const isAsc = sortState[sortKey] === 'asc';
-
-        // Reset all columns
-        document.querySelectorAll('th.sortable').forEach(t => {
-          t.classList.remove('sort-asc', 'sort-desc');
-        });
-
-        // Set new sort state
-        sortState = { [sortKey]: isAsc ? 'desc' : 'asc' };
-        th.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
-
-        // Sort data
-        const sorted = [...flaggedPlayers].sort((a, b) => {
-          let valA = a[sortKey.charAt(0).toUpperCase() + sortKey.slice(1)];
-          let valB = b[sortKey.charAt(0).toUpperCase() + sortKey.slice(1)];
-
-          // Handle different cases
-          if (sortKey === 'depositCount') {
-            valA = a.DepositCount;
-            valB = b.DepositCount;
-          } else if (sortKey === 'casinoTO') {
-            valA = a.CasinoTO;
-            valB = b.CasinoTO;
-          } else if (sortKey === 'casinoGGR') {
-            valA = a.CasinoGGR;
-            valB = b.CasinoGGR;
-          } else if (sortKey === 'totalTO') {
-            valA = a.TotalTO;
-            valB = b.TotalTO;
-          } else if (sortKey === 'toDep') {
-            valA = a.TO_Dep;
-            valB = b.TO_Dep;
-          } else if (sortKey === 'ggrDep') {
-            valA = a.GGR_Dep;
-            valB = b.GGR_Dep;
-          }
-
-          if (typeof valA === 'string') {
-            return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-          }
-          return isAsc ? valA - valB : valB - valA;
-        });
-
-        renderTable(sorted);
-      });
-    });
-
-    // Initial render
-    renderTable(flaggedPlayers);
-  </script>
-
+        // Initialize
+        renderTable();
+        document.querySelector('th.sortable').classList.add('sort-asc');
+    </script>
 </body>
 </html>
