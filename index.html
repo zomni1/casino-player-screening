@@ -1,364 +1,888 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casino Player Screening — 06 APR 2026</title>
-<style>
-:root {
-  --bg1: #0d1117;
-  --bg2: #161b22;
-  --bg3: #1c2333;
-  --bg4: #242d3d;
-  --text1: #e6edf3;
-  --text2: #8b949e;
-  --text3: #6e7681;
-  --border: #30363d;
-  --accent: #f0883e;
-  --accent2: #d29922;
-  --green: #3fb950;
-  --red: #f85149;
-  --blue: #58a6ff;
-  --purple: #bc8cff;
-}
-[data-theme="light"] {
-  --bg1: #f6f8fa;
-  --bg2: #ffffff;
-  --bg3: #f0f2f5;
-  --bg4: #e8ebef;
-  --text1: #1f2328;
-  --text2: #57606a;
-  --text3: #8b949e;
-  --border: #d0d7de;
-  --accent: #d4700a;
-  --accent2: #9a6700;
-  --green: #1a7f37;
-  --red: #cf222e;
-  --blue: #0969da;
-  --purple: #8250df;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; background: var(--bg1); color: var(--text1); line-height: 1.5; }
-.container { max-width: 1280px; margin: 0 auto; padding: 24px 20px; }
-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
-header h1 { font-size: 22px; font-weight: 600; color: var(--text1); }
-header h1 span { color: var(--accent); }
-.header-right { display: flex; align-items: center; gap: 14px; }
-.badge { background: var(--bg3); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-size: 12px; color: var(--text2); }
-.toggle-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text2); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
-.toggle-btn:hover { border-color: var(--accent); color: var(--text1); }
-
-/* KPI Cards */
-.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 28px; }
-.kpi-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
-.kpi-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text3); margin-bottom: 6px; }
-.kpi-card .value { font-size: 26px; font-weight: 700; color: var(--text1); }
-.kpi-card .value.accent { color: var(--accent); }
-.kpi-card .value.red { color: var(--red); }
-.kpi-card .value.green { color: var(--green); }
-.kpi-card .value.blue { color: var(--blue); }
-.kpi-card .value.purple { color: var(--purple); }
-
-/* Table */
-.table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-thead th { background: var(--bg3); padding: 12px 14px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text2); cursor: pointer; user-select: none; border-bottom: 1px solid var(--border); white-space: nowrap; }
-thead th:hover { color: var(--accent); }
-thead th .arrow { margin-left: 4px; opacity: 0.4; }
-thead th.sorted .arrow { opacity: 1; color: var(--accent); }
-tbody tr { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
-tbody tr:hover { background: var(--bg3); }
-tbody tr:last-child { border-bottom: none; }
-td { padding: 11px 14px; white-space: nowrap; }
-td.num { text-align: right; font-variant-numeric: tabular-nums; }
-td.player { color: var(--blue); font-weight: 500; }
-.ratio-warn { color: var(--accent2); }
-.ratio-ok { color: var(--green); }
-
-/* Expanded row */
-.expand-row { display: none; }
-.expand-row.open { display: table-row; }
-.expand-row td { padding: 0; background: var(--bg1); }
-.expand-content { padding: 16px 20px; display: flex; gap: 28px; flex-wrap: wrap; }
-.expand-section { flex: 1; min-width: 260px; }
-.expand-section h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text3); margin-bottom: 10px; font-weight: 600; }
-
-/* 4-Day comparison horizontal table */
-.history-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.history-table th, .history-table td { padding: 6px 10px; border: 1px solid var(--border); background: var(--bg3); }
-.history-table th { text-align: left; color: var(--text3); font-weight: 500; font-size: 11px; }
-.history-table th.today { background: var(--accent); color: #000; font-weight: 700; }
-.history-table td.today { font-weight: 700; color: var(--text1); }
-.history-table td { text-align: right; color: var(--text2); }
-.history-table td.label-cell { text-align: left; color: var(--text2); font-weight: 500; background: var(--bg4); }
-.history-table td.no-data { color: var(--text3); font-style: italic; text-align: center; }
-
-/* Game chips */
-.game-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.game-chip { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 11px; display: flex; align-items: center; gap: 6px; }
-.game-chip .gname { color: var(--text2); }
-.game-chip .gcount { color: var(--accent); font-weight: 600; }
-.game-chip .gggr { font-weight: 500; }
-.game-chip .gggr.pos { color: var(--green); }
-.game-chip .gggr.neg { color: var(--red); }
-
-/* Footer */
-footer { margin-top: 32px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text3); }
-footer .criteria { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
-footer .crit { background: var(--bg3); padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); }
-
-@media (max-width: 768px) {
-  .kpi-row { grid-template-columns: repeat(2, 1fr); }
-  .expand-content { flex-direction: column; }
-  td, th { padding: 8px 8px; font-size: 12px; }
-}
-</style>
-</head>
-<body>
-<div class="container">
-  <header>
-    <h1>Casino Player Screening <span>06 APR 2026</span></h1>
-    <div class="header-right">
-      <span class="badge">10CRIC</span>
-      <span class="badge">Auto-generated</span>
-      <button class="toggle-btn" onclick="toggleTheme()" id="themeBtn">Light Mode</button>
-    </div>
-  </header>
-
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="label">Total Screened</div>
-      <div class="value">1,577</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Flagged</div>
-      <div class="value accent">8</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Flagged Deposits Sum</div>
-      <div class="value blue">&euro;3,342</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Flagged Total TO</div>
-      <div class="value purple">&euro;16,076</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Avg TO / Dep</div>
-      <div class="value green">1.27x</div>
-    </div>
-    <div class="kpi-card">
-      <div class="label">Avg GGR / Dep</div>
-      <div class="value red">-0.01x</div>
-    </div>
-  </div>
-
-  <div class="table-wrap">
-    <table id="mainTable">
-      <thead>
-        <tr>
-          <th data-col="0">Username <span class="arrow">&#9650;</span></th>
-          <th data-col="1" data-type="num">Deposits <span class="arrow">&#9650;</span></th>
-          <th data-col="2" data-type="num"># Dep <span class="arrow">&#9650;</span></th>
-          <th data-col="3" data-type="num">Total TO <span class="arrow">&#9650;</span></th>
-          <th data-col="4" data-type="num">Casino TO <span class="arrow">&#9650;</span></th>
-          <th data-col="5" data-type="num">Casino GGR <span class="arrow">&#9650;</span></th>
-          <th data-col="6" data-type="num">Bets <span class="arrow">&#9650;</span></th>
-          <th data-col="7" data-type="num">TO/Dep <span class="arrow">&#9650;</span></th>
-          <th data-col="8" data-type="num">GGR/Dep <span class="arrow">&#9650;</span></th>
-        </tr>
-      </thead>
-      <tbody id="tableBody">
-      </tbody>
-    </table>
-  </div>
-
-  <footer>
-    <div>Report generated: <span id="genTime"></span> &middot; Data date: 06 APR 2026</div>
-    <div class="criteria">
-      <span class="crit">Deposits &ge; &euro;100</span>
-      <span class="crit">2+ Deposits</span>
-      <span class="crit">Casino TO &gt; 0</span>
-      <span class="crit">TO/Dep 0.9x&ndash;2.5x</span>
-      <span class="crit">GGR/Dep &minus;0.15x to +0.15x</span>
-    </div>
-  </footer>
-</div>
-
-<script>
-const players = [
-  {id:"20779518-2",username:"yajamana3363",deposits:1012.36,depCount:6,totalTO:12965.69,casinoTO:1018.21,casinoGGR:107.40,bets:103,toDep:1.006,ggrDep:0.106},
-  {id:"54195087-2",username:"UnderBetaFolks60",deposits:838.11,depCount:6,totalTO:859.71,casinoTO:859.71,casinoGGR:-116.33,bets:2631,toDep:1.026,ggrDep:-0.139},
-  {id:"54192095-2",username:"BarsSea79",deposits:418.69,depCount:3,totalTO:620.25,casinoTO:620.25,casinoGGR:-10.23,bets:81,toDep:1.481,ggrDep:-0.024},
-  {id:"54194734-2",username:"BowlBluesWing92",deposits:418.68,depCount:3,totalTO:446.22,casinoTO:446.22,casinoGGR:-57.79,bets:78,toDep:1.066,ggrDep:-0.138},
-  {id:"54180044-2",username:"FlewAbc20",deposits:204.99,depCount:7,totalTO:492.16,casinoTO:492.16,casinoGGR:20.43,bets:328,toDep:2.401,ggrDep:0.100},
-  {id:"54196196-2",username:"SeasSenSaw25",deposits:186.46,depCount:2,totalTO:226.99,casinoTO:226.99,casinoGGR:-9.25,bets:546,toDep:1.217,ggrDep:-0.050},
-  {id:"53438556-2",username:"anilbinance123",deposits:141.18,depCount:2,totalTO:243.61,casinoTO:243.61,casinoGGR:-1.50,bets:10,toDep:1.726,ggrDep:-0.011},
-  {id:"51196718-2",username:"pratap9010",deposits:121.14,depCount:4,totalTO:221.01,casinoTO:146.46,casinoGGR:-7.09,bets:88,toDep:1.209,ggrDep:-0.059}
-];
-
-const games = {
-  "20779518-2":[{name:"Aviator",bets:53,ggr:91.70},{name:"Tiger's Glory",bets:50,ggr:15.70}],
-  "54195087-2":[{name:"Ganesha Gold",bets:398,ggr:-177.11},{name:"Majestic Treasures",bets:274,ggr:23.54},{name:"Double Fortune",bets:254,ggr:38.13},{name:"Jungle King",bets:254,ggr:1.94},{name:"Queen Of Bounty",bets:235,ggr:-20.08},{name:"Jungle Delight",bets:232,ggr:18.71},{name:"Forgotten Island Megaways",bets:226,ggr:18.05},{name:"Alibaba's Cave of Fortune",bets:161,ggr:-20.56},{name:"Hotpot",bets:117,ggr:10.77},{name:"Wings of Iguazu",bets:101,ggr:13.81},{name:"Thunderstruck Wild Lightning",bets:87,ggr:-53.12},{name:"Dragon Hatch",bets:74,ggr:-0.21},{name:"Path of Destiny",bets:54,ggr:15.23},{name:"64 Gold Coins Hold and Win",bets:44,ggr:-10.33},{name:"Wild Bounty Showdown",bets:43,ggr:9.54},{name:"64 Gold Coins HW 20000",bets:42,ggr:15.35},{name:"Ganesha Fortune",bets:35,ggr:0.02}],
-  "54192095-2":[{name:"Ganesha Fortune",bets:65,ggr:-11.11},{name:"PlinkoX",bets:16,ggr:0.88}],
-  "54194734-2":[{name:"Ganesha Fortune",bets:74,ggr:-58.17},{name:"Aviator",bets:4,ggr:0.37}],
-  "54180044-2":[{name:"Fishin' Bear",bets:246,ggr:-4.50},{name:"Crazy Time",bets:81,ggr:25.77},{name:"Andar Bahar Ezugi",bets:1,ggr:-0.84}],
-  "54196196-2":[{name:"Monkey Party",bets:285,ggr:-18.74},{name:"Jungle King",bets:261,ggr:9.48}],
-  "53438556-2":[{name:"Spin a Win",bets:10,ggr:-1.50}],
-  "51196718-2":[{name:"Aviator",bets:71,ggr:-18.48},{name:"War of Gods",bets:17,ggr:11.39}]
-};
-
-const history = {
-  "20779518-2":{"03/04/2026":{dep:596.53,depCnt:4,to:7355.75,cto:1775.76,cggr:175.98,bets:79},"04/04/2026":{dep:191.39,depCnt:2,to:9461.85,cto:66.24,cggr:21.96,bets:54},"05/04/2026":{dep:560.48,depCnt:3,to:12855.14,cto:1186.64,cggr:94.00,bets:60},"06/04/2026":{dep:1012.36,depCnt:6,to:12965.69,cto:1018.21,cggr:107.40,bets:103}},
-  "54195087-2":{"03/04/2026":{dep:233.93,depCnt:3,to:348.21,cto:348.21,cggr:12.13,bets:1266},"04/04/2026":{dep:1680.48,depCnt:12,to:2083.52,cto:2083.52,cggr:217.56,bets:2962},"05/04/2026":{dep:1260.36,depCnt:9,to:1352.15,cto:1352.15,cggr:75.50,bets:2890},"06/04/2026":{dep:838.11,depCnt:6,to:859.71,cto:859.71,cggr:-116.33,bets:2631}},
-  "54192095-2":{"03/04/2026":{dep:1028.78,depCnt:7,to:1940.70,cto:1940.70,cggr:68.90,bets:402},"04/04/2026":{dep:1633.80,depCnt:12,to:3722.08,cto:3708.07,cggr:-36.10,bets:1465},"05/04/2026":{dep:280.08,depCnt:2,to:897.23,cto:897.23,cggr:284.12,bets:112},"06/04/2026":{dep:418.70,depCnt:3,to:620.25,cto:620.25,cggr:-10.23,bets:81}},
-  "54194734-2":{"03/04/2026":{dep:187.00,depCnt:2,to:213.34,cto:213.34,cggr:46.75,bets:411},"04/04/2026":{dep:1120.32,depCnt:8,to:1175.16,cto:1175.16,cggr:-135.74,bets:185},"06/04/2026":{dep:418.68,depCnt:3,to:446.22,cto:446.22,cggr:-57.79,bets:78}},
-  "54180044-2":{"03/04/2026":{dep:327.55,depCnt:7,to:1311.15,cto:1311.15,cggr:280.76,bets:120},"04/04/2026":{dep:140.14,depCnt:5,to:619.06,cto:619.06,cggr:187.85,bets:101},"06/04/2026":{dep:204.99,depCnt:7,to:492.16,cto:492.16,cggr:20.43,bets:328}},
-  "54196196-2":{"05/04/2026":{dep:121.37,depCnt:2,to:212.11,cto:212.11,cggr:41.84,bets:444},"06/04/2026":{dep:186.46,depCnt:2,to:226.99,cto:226.99,cggr:-9.25,bets:546}},
-  "53438556-2":{"06/04/2026":{dep:141.18,depCnt:2,to:243.61,cto:243.61,cggr:-1.50,bets:10}},
-  "51196718-2":{"06/04/2026":{dep:121.14,depCnt:4,to:221.01,cto:146.46,cggr:-7.09,bets:88}}
-};
-
-const dateCols = ["03/04/2026","04/04/2026","05/04/2026","06/04/2026"];
-const dateLabels = ["03 APR","04 APR","05 APR","06 APR *"];
-
-function fmt(n, d=2) { return n !== null && n !== undefined ? n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}) : '—'; }
-function fmtInt(n) { return n !== null && n !== undefined ? n.toLocaleString('en-US') : '—'; }
-function ratioClass(v, lo, hi) { return (v >= lo && v <= hi) ? 'ratio-warn' : ''; }
-
-function renderTable(sortCol, sortDir) {
-  const sorted = [...players].sort((a,b) => {
-    const keys = ['username','deposits','depCount','totalTO','casinoTO','casinoGGR','bets','toDep','ggrDep'];
-    const k = keys[sortCol];
-    if (typeof a[k] === 'string') return sortDir * a[k].localeCompare(b[k]);
-    return sortDir * (a[k] - b[k]);
-  });
-
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '';
-
-  sorted.forEach(p => {
-    const tr = document.createElement('tr');
-    tr.setAttribute('data-id', p.id);
-    tr.innerHTML = `
-      <td class="player">${p.username}</td>
-      <td class="num">&euro;${fmt(p.deposits)}</td>
-      <td class="num">${p.depCount}</td>
-      <td class="num">&euro;${fmt(p.totalTO)}</td>
-      <td class="num">&euro;${fmt(p.casinoTO)}</td>
-      <td class="num" style="color:${p.casinoGGR >= 0 ? 'var(--green)' : 'var(--red)'}">&euro;${fmt(p.casinoGGR)}</td>
-      <td class="num">${fmtInt(p.bets)}</td>
-      <td class="num ratio-warn">${fmt(p.toDep,3)}x</td>
-      <td class="num" style="color:${Math.abs(p.ggrDep) <= 0.05 ? 'var(--accent2)' : p.ggrDep >= 0 ? 'var(--green)' : 'var(--red)'}">${fmt(p.ggrDep,3)}x</td>
-    `;
-    tr.onclick = () => {
-      const er = document.getElementById('expand-' + p.id);
-      if (er) er.classList.toggle('open');
-    };
-    tbody.appendChild(tr);
-
-    // Expand row
-    const expandTr = document.createElement('tr');
-    expandTr.className = 'expand-row';
-    expandTr.id = 'expand-' + p.id;
-
-    // Build game chips
-    const pg = games[p.id] || [];
-    let gameHtml = pg.map(g => `<div class="game-chip"><span class="gname">${g.name}</span><span class="gcount">${g.bets}</span><span class="gggr ${g.ggr >= 0 ? 'pos' : 'neg'}">${g.ggr >= 0 ? '+' : ''}${fmt(g.ggr)}</span></div>`).join('');
-
-    // Build 4-day history horizontal table
-    const ph = history[p.id] || {};
-    const metrics = [
-      {label: 'Deposits', key: 'dep', isCur: true},
-      {label: '# Deposits', key: 'depCnt', isInt: true},
-      {label: 'Turnover', key: 'to', isCur: true},
-      {label: 'Casino TO', key: 'cto', isCur: true},
-      {label: 'Casino GGR', key: 'cggr', isCur: true, colored: true},
-      {label: 'Bets', key: 'bets', isInt: true},
-      {label: 'Casino TO/Dep', key: 'ctodep', isRatio: true},
-      {label: 'Casino GGR/Dep', key: 'ggrdep', isRatio: true, colored: true}
-    ];
-
-    let histRows = '';
-    metrics.forEach(m => {
-      histRows += '<tr>';
-      histRows += `<td class="label-cell">${m.label}</td>`;
-      dateCols.forEach((dc, i) => {
-        const d = ph[dc];
-        const isToday = i === 3;
-        const cls = isToday ? ' today' : '';
-        if (!d) {
-          histRows += `<td class="${cls} no-data">—</td>`;
-        } else {
-          let val;
-          if (m.key === 'ctodep') val = d.dep > 0 ? (d.cto / d.dep) : 0;
-          else if (m.key === 'ggrdep') val = d.dep > 0 ? (d.cggr / d.dep) : 0;
-          else val = d[m.key];
-
-          let display;
-          if (m.isRatio) display = fmt(val, 3) + 'x';
-          else if (m.isInt) display = fmtInt(val);
-          else if (m.isCur) display = '&euro;' + fmt(val);
-          else display = fmt(val);
-
-          let style = '';
-          if (m.colored && typeof val === 'number') {
-            style = ` style="color:${val >= 0 ? 'var(--green)' : 'var(--red)'}"`;
-          }
-          histRows += `<td class="${cls}"${style}>${display}</td>`;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Player Screening Report</title>
+    <style>
+        :root {
+            --bg1: #0d1117;
+            --bg2: #161b22;
+            --bg3: #21262d;
+            --text1: #e6edf3;
+            --text2: #8b949e;
+            --accent: #f0883e;
+            --green: #3fb950;
+            --red: #f85149;
+            --border: #30363d;
+            --shadow: rgba(0, 0, 0, 0.3);
         }
-      });
-      histRows += '</tr>';
-    });
 
-    let histTable = `<table class="history-table"><thead><tr><th></th>`;
-    dateLabels.forEach((dl, i) => {
-      histTable += `<th${i === 3 ? ' class="today"' : ''}>${dl}</th>`;
-    });
-    histTable += '</tr></thead><tbody>' + histRows + '</tbody></table>';
+        [data-theme="light"] {
+            --bg1: #ffffff;
+            --bg2: #f6f8fa;
+            --bg3: #eaeef2;
+            --text1: #24292f;
+            --text2: #57606a;
+            --accent: #f0883e;
+            --green: #2da44e;
+            --red: #cf222e;
+            --border: #d0d7de;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
 
-    expandTr.innerHTML = `<td colspan="9"><div class="expand-content">
-      <div class="expand-section">
-        <h4>4-Day Comparison</h4>
-        ${histTable}
-      </div>
-      <div class="expand-section">
-        <h4>Games Played Yesterday</h4>
-        <div class="game-chips">${gameHtml || '<span style="color:var(--text3)">No game data</span>'}</div>
-      </div>
-    </div></td>`;
-    tbody.appendChild(expandTr);
-  });
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-let currentSort = 1;
-let currentDir = -1;
+        html {
+            scroll-behavior: smooth;
+        }
 
-document.querySelectorAll('#mainTable thead th').forEach(th => {
-  th.addEventListener('click', () => {
-    const col = parseInt(th.dataset.col);
-    if (col === currentSort) currentDir *= -1;
-    else { currentSort = col; currentDir = -1; }
-    document.querySelectorAll('#mainTable thead th').forEach(t => t.classList.remove('sorted'));
-    th.classList.add('sorted');
-    th.querySelector('.arrow').textContent = currentDir === 1 ? '\u25B2' : '\u25BC';
-    renderTable(currentSort, currentDir);
-  });
-});
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg1);
+            color: var(--text1);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-function toggleTheme() {
-  const body = document.body;
-  const btn = document.getElementById('themeBtn');
-  if (body.getAttribute('data-theme') === 'light') {
-    body.removeAttribute('data-theme');
-    btn.textContent = 'Light Mode';
-  } else {
-    body.setAttribute('data-theme', 'light');
-    btn.textContent = 'Dark Mode';
-  }
-}
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-document.getElementById('genTime').textContent = new Date().toLocaleString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-renderTable(currentSort, currentDir);
-</script>
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            color: var(--text2);
+            font-size: 14px;
+        }
+
+        .theme-toggle {
+            background-color: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 16px;
+            color: var(--text1);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg3);
+            border-color: var(--accent);
+        }
+
+        /* KPI Cards */
+        .kpi-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background-color: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .kpi-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px var(--shadow);
+        }
+
+        .kpi-label {
+            color: var(--text2);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .kpi-subtext {
+            color: var(--text2);
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* Table Section */
+        .table-section {
+            background-color: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            background-color: var(--bg3);
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .players-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .players-table thead {
+            background-color: var(--bg3);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .players-table th {
+            padding: 15px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            user-select: none;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .players-table th:hover {
+            background-color: var(--bg1);
+            color: var(--accent);
+        }
+
+        .players-table th.sortable::after {
+            content: ' ⇅';
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .players-table th.sortable:hover::after {
+            opacity: 1;
+        }
+
+        .players-table th.sort-asc::after {
+            content: ' ↑';
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .players-table th.sort-desc::after {
+            content: ' ↓';
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .players-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .players-table tbody tr {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .players-table tbody tr:hover {
+            background-color: var(--bg3);
+        }
+
+        .players-table tbody tr.expanded {
+            background-color: var(--bg3);
+        }
+
+        .username-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .numeric {
+            font-family: 'Courier New', monospace;
+            text-align: right;
+        }
+
+        .positive {
+            color: var(--green);
+        }
+
+        .negative {
+            color: var(--red);
+        }
+
+        /* Expanded Row */
+        .expanded-row {
+            display: none;
+        }
+
+        .expanded-row.show {
+            display: table-row;
+        }
+
+        .expanded-content {
+            padding: 20px;
+            background-color: var(--bg3);
+        }
+
+        .expanded-content h3 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text2);
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+
+        .expanded-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .games-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .games-table th,
+        .games-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .games-table th {
+            background-color: var(--bg2);
+            font-weight: 600;
+            color: var(--text2);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .games-table td.numeric {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* 4-Day Comparison */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background-color: var(--bg2);
+            font-weight: 600;
+            color: var(--text2);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .comparison-table td:first-child {
+            background-color: var(--bg2);
+            font-weight: 500;
+            width: 150px;
+        }
+
+        .comparison-table td.numeric {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+
+        .comparison-table th.highlight,
+        .comparison-table td.highlight {
+            background-color: rgba(240, 136, 62, 0.15);
+            border-color: var(--accent);
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .comparison-table th.highlight {
+            background-color: rgba(240, 136, 62, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text2);
+            font-size: 12px;
+        }
+
+        footer p {
+            margin-bottom: 8px;
+        }
+
+        .filter-criteria {
+            display: inline-block;
+            background-color: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-top: 10px;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .kpi-section {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 12px;
+            }
+
+            .kpi-value {
+                font-size: 24px;
+            }
+
+            .players-table th,
+            .players-table td {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .comparison-table td:first-child {
+                width: 120px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .header-left h1 {
+                font-size: 22px;
+            }
+
+            .kpi-section {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .kpi-value {
+                font-size: 28px;
+            }
+
+            .players-table {
+                font-size: 11px;
+            }
+
+            .players-table th,
+            .players-table td {
+                padding: 8px 6px;
+            }
+
+            .expanded-content {
+                padding: 12px;
+            }
+
+            .comparison-table {
+                font-size: 11px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 6px;
+            }
+
+            .comparison-table td:first-child {
+                width: 100px;
+            }
+        }
+
+        /* Loading and empty states */
+        .no-data {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text2);
+        }
+
+        .error {
+            background-color: rgba(248, 81, 73, 0.1);
+            border: 1px solid var(--red);
+            color: var(--red);
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>Player Screening Report</h1>
+                <p>Report Date: 07 April 2026 | Period: 04–07 APR 2026</p>
+            </div>
+            <button class="theme-toggle" id="themeToggle">🌙 Dark Mode</button>
+        </header>
+
+        <!-- KPI Section -->
+        <div class="kpi-section">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Screened</div>
+                <div class="kpi-value">10,044</div>
+                <div class="kpi-subtext">All players with activity</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Flagged</div>
+                <div class="kpi-value">8</div>
+                <div class="kpi-subtext">Risk indicators detected</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Flagged Deposits</div>
+                <div class="kpi-value">€5,589.76</div>
+                <div class="kpi-subtext">Total deposits (flagged)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Avg TO/Dep</div>
+                <div class="kpi-value" id="avgTODep">1.099</div>
+                <div class="kpi-subtext">Turnover ratio</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Avg GGR/Dep</div>
+                <div class="kpi-value" id="avgGGRDep">0.058</div>
+                <div class="kpi-subtext">Profit ratio</div>
+            </div>
+        </div>
+
+        <!-- Players Table -->
+        <div class="table-section">
+            <div class="table-header">
+                <h2>Flagged Players</h2>
+            </div>
+            <table class="players-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-column="username">Username</th>
+                        <th class="sortable" data-column="deposits">Deposits (€)</th>
+                        <th class="sortable" data-column="depositCount"># Deps</th>
+                        <th class="sortable" data-column="casinoTO">Casino TO (€)</th>
+                        <th class="sortable" data-column="casinoGGR">Casino GGR (€)</th>
+                        <th class="sortable" data-column="bets">Bets</th>
+                        <th class="sortable" data-column="toDep">TO/Dep</th>
+                        <th class="sortable" data-column="ggrDep">GGR/Dep</th>
+                    </tr>
+                </thead>
+                <tbody id="playersTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Casino Player Screening Report</p>
+            <div class="filter-criteria">
+                Filter: Deposits ≥ €100 | 2+ deposits | Casino TO > 0 | TO/Dep 0.9x–2.5x | GGR/Dep -0.15x–+0.15x
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Embedded data
+        const flaggedPlayers = [
+            {"PlayerID":"51467016-2","Username":"ravishankarpeddeti","Deposits":1723.16,"DepositCount":4,"CasinoTO":1888.54,"CasinoGGR":74.42,"Bets":46,"TotalTO":1888.54,"TO_Dep":1.096,"GGR_Dep":0.043},
+            {"PlayerID":"51230200-2","Username":"rq2683","Deposits":960.43,"DepositCount":2,"CasinoTO":959.70,"CasinoGGR":-13.94,"Bets":2,"TotalTO":959.70,"TO_Dep":0.999,"GGR_Dep":-0.015},
+            {"PlayerID":"51232351-2","Username":"jagannath000","Deposits":960.42,"DepositCount":2,"CasinoTO":959.70,"CasinoGGR":27.00,"Bets":2,"TotalTO":959.70,"TO_Dep":0.999,"GGR_Dep":0.028},
+            {"PlayerID":"51376322-2","Username":"ekasbhatia2011","Deposits":744.19,"DepositCount":2,"CasinoTO":870.67,"CasinoGGR":8.94,"Bets":360,"TotalTO":2440.54,"TO_Dep":1.170,"GGR_Dep":0.012},
+            {"PlayerID":"51715349-2","Username":"gulshanshakya567","Deposits":418.59,"DepositCount":5,"CasinoTO":405.64,"CasinoGGR":45.57,"Bets":13,"TotalTO":791.67,"TO_Dep":0.969,"GGR_Dep":0.109},
+            {"PlayerID":"54195087-2","Username":"UnderBetaFolks60","Deposits":373.43,"DepositCount":3,"CasinoTO":484.48,"CasinoGGR":50.42,"Bets":1241,"TotalTO":484.48,"TO_Dep":1.297,"GGR_Dep":0.135},
+            {"PlayerID":"27173450-2","Username":"ravinash","Deposits":279.16,"DepositCount":2,"CasinoTO":307.06,"CasinoGGR":0.07,"Bets":7,"TotalTO":307.06,"TO_Dep":1.100,"GGR_Dep":0.000},
+            {"PlayerID":"21620948-2","Username":"irfanzaheer","Deposits":130.38,"DepositCount":4,"CasinoTO":174.04,"CasinoGGR":17.93,"Bets":16,"TotalTO":288.82,"TO_Dep":1.335,"GGR_Dep":0.138}
+        ];
+
+        const gameData = [
+            ["21620948-2","Dragon Tiger",15,161.46,10.73],
+            ["21620948-2","Ganesha Fortune",1,12.58,7.20],
+            ["27173450-2","Speed Auto Roulette",7,307.06,0.07],
+            ["51230200-2","Auto-Roulette",2,959.70,-13.94],
+            ["51232351-2","Auto-Roulette",2,959.70,27.00],
+            ["51376322-2","Aviator",4,23.26,-20.37],
+            ["51376322-2","Cross the Road",3,2.79,-0.32],
+            ["51376322-2","Ganesha Fortune",9,48.74,-45.78],
+            ["51376322-2","Million Plinko",208,529.29,33.58],
+            ["51376322-2","Mines",3,14.51,-34.30],
+            ["51376322-2","Plinko",131,244.64,72.09],
+            ["51376322-2","TowerX",2,7.44,4.06],
+            ["51467016-2","Lightning Roulette",46,1888.54,74.42],
+            ["51715349-2","Lightning Roulette",7,322.08,49.19],
+            ["51715349-2","Mines",6,83.56,-3.62],
+            ["54195087-2","Asgardian Rising",489,217.60,18.09],
+            ["54195087-2","Betty, Boris and Boo",32,2.98,1.88],
+            ["54195087-2","Fire Forge",41,6.60,3.77],
+            ["54195087-2","Fishin' Bear",14,1.12,1.02],
+            ["54195087-2","Golden Octopus",19,5.33,4.23],
+            ["54195087-2","Indian Adventure",40,11.22,4.93],
+            ["54195087-2","Indian Fortune",44,12.33,9.61],
+            ["54195087-2","Monkey Party",365,176.76,13.81],
+            ["54195087-2","Path of Destiny",1,1.86,-1.90],
+            ["54195087-2","Sakura Masks",1,0.93,0.90],
+            ["54195087-2","Super Ace",195,47.77,-5.94]
+        ];
+
+        const historyData = [
+            ["21620948-2","04/04/2026",98.03,6,590.76,490.44,21.08,162],
+            ["21620948-2","05/04/2026",46.68,3,182.63,146.13,14.65,24],
+            ["21620948-2","06/04/2026",41.91,2,400.75,367.26,-32.24,97],
+            ["21620948-2","07/04/2026",130.38,4,288.82,174.04,17.93,16],
+            ["27173450-2","04/04/2026",0,0,0,0,0,0],
+            ["27173450-2","05/04/2026",0,0,0,0,0,0],
+            ["27173450-2","07/04/2026",279.16,2,307.06,307.06,0.07,7],
+            ["51230200-2","05/04/2026",0,0,40.70,40.70,12.17,4],
+            ["51230200-2","06/04/2026",2358.46,5,4946.78,4946.78,429.19,65],
+            ["51230200-2","07/04/2026",960.43,2,959.70,959.70,-13.94,2],
+            ["51232351-2","05/04/2026",0,0,0,0,0,0],
+            ["51232351-2","06/04/2026",2414.75,5,3457.64,3457.64,-839.62,39],
+            ["51232351-2","07/04/2026",960.42,2,959.70,959.70,27.00,2],
+            ["51376322-2","04/04/2026",793.56,3,3721.94,0,0,0],
+            ["51376322-2","05/04/2026",373.44,2,5677.03,0,0,0],
+            ["51376322-2","07/04/2026",744.19,2,2440.54,870.67,8.94,360],
+            ["51467016-2","04/04/2026",1120.32,8,1511.40,1511.40,929.19,62],
+            ["51467016-2","05/04/2026",84.02,1,1744.90,1744.90,504.14,83],
+            ["51467016-2","06/04/2026",1749.65,4,4925.93,4925.93,1752.83,75],
+            ["51467016-2","07/04/2026",1723.16,4,1888.54,1888.54,74.42,46],
+            ["51715349-2","04/04/2026",46.68,1,81.60,0,0,0],
+            ["51715349-2","05/04/2026",93.36,1,142.84,0,0,0],
+            ["51715349-2","07/04/2026",418.59,5,791.67,405.64,45.57,13],
+            ["54195087-2","04/04/2026",1680.48,12,2083.52,2083.52,217.56,2962],
+            ["54195087-2","05/04/2026",1260.36,9,1352.15,1352.15,75.50,2890],
+            ["54195087-2","06/04/2026",838.11,6,859.71,859.71,-116.33,2631],
+            ["54195087-2","07/04/2026",373.43,3,484.48,484.48,50.42,1241]
+        ];
+
+        // Current sort state
+        let currentSort = { column: 'username', direction: 'asc' };
+        let expandedRows = {};
+
+        // Initialize
+        function init() {
+            renderTable();
+            setupEventListeners();
+            updateKPIs();
+        }
+
+        // Update KPI values
+        function updateKPIs() {
+            const totalDeposits = flaggedPlayers.reduce((sum, p) => sum + p.Deposits, 0);
+            const avgTODep = (flaggedPlayers.reduce((sum, p) => sum + p.TO_Dep, 0) / flaggedPlayers.length).toFixed(3);
+            const avgGGRDep = (flaggedPlayers.reduce((sum, p) => sum + p.GGR_Dep, 0) / flaggedPlayers.length).toFixed(3);
+
+            document.getElementById('avgTODep').textContent = avgTODep;
+            document.getElementById('avgGGRDep').textContent = avgGGRDep;
+        }
+
+        // Format currency
+        function formatCurrency(value) {
+            return '€' + parseFloat(value).toFixed(2);
+        }
+
+        // Format number
+        function formatNumber(value, decimals = 0) {
+            return parseFloat(value).toFixed(decimals);
+        }
+
+        // Get CSS class for positive/negative values
+        function getValueClass(value) {
+            if (value > 0) return 'positive';
+            if (value < 0) return 'negative';
+            return '';
+        }
+
+        // Render main table
+        function renderTable() {
+            const tbody = document.getElementById('playersTableBody');
+            tbody.innerHTML = '';
+
+            let sorted = [...flaggedPlayers];
+            sorted.sort((a, b) => {
+                let aVal = a[mapColumn(currentSort.column)];
+                let bVal = b[mapColumn(currentSort.column)];
+
+                if (typeof aVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+
+                if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
+                if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            sorted.forEach(player => {
+                const row = document.createElement('tr');
+                const isExpanded = expandedRows[player.PlayerID];
+
+                row.innerHTML = `
+                    <td class="username-cell">${player.Username}</td>
+                    <td class="numeric">${formatCurrency(player.Deposits)}</td>
+                    <td class="numeric">${player.DepositCount}</td>
+                    <td class="numeric">${formatCurrency(player.CasinoTO)}</td>
+                    <td class="numeric ${getValueClass(player.CasinoGGR)}">${formatCurrency(player.CasinoGGR)}</td>
+                    <td class="numeric">${formatNumber(player.Bets)}</td>
+                    <td class="numeric">${formatNumber(player.TO_Dep, 3)}</td>
+                    <td class="numeric ${getValueClass(player.GGR_Dep)}">${formatNumber(player.GGR_Dep, 3)}</td>
+                `;
+
+                row.addEventListener('click', () => toggleExpandedRow(player.PlayerID));
+                row.classList.toggle('expanded', isExpanded);
+
+                tbody.appendChild(row);
+
+                if (isExpanded) {
+                    const expandedRow = document.createElement('tr');
+                    expandedRow.className = 'expanded-row show';
+                    expandedRow.innerHTML = `<td colspan="8">${renderExpandedContent(player.PlayerID)}</td>`;
+                    tbody.appendChild(expandedRow);
+                }
+            });
+        }
+
+        // Toggle expanded row
+        function toggleExpandedRow(playerId) {
+            expandedRows[playerId] = !expandedRows[playerId];
+            renderTable();
+        }
+
+        // Render expanded content
+        function renderExpandedContent(playerId) {
+            const playerGames = gameData.filter(g => g[0] === playerId);
+            const playerHistory = historyData.filter(h => h[0] === playerId);
+
+            let html = '<div class="expanded-content">';
+
+            // Game breakdown
+            html += '<h3>Game Breakdown (Yesterday)</h3>';
+            if (playerGames.length > 0) {
+                html += `
+                    <table class="games-table">
+                        <thead>
+                            <tr>
+                                <th>Game</th>
+                                <th class="numeric">Bets</th>
+                                <th class="numeric">Turnover (€)</th>
+                                <th class="numeric">GGR (€)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                playerGames.forEach(game => {
+                    html += `
+                        <tr>
+                            <td>${game[1]}</td>
+                            <td class="numeric">${formatNumber(game[2])}</td>
+                            <td class="numeric">${formatCurrency(game[3])}</td>
+                            <td class="numeric ${getValueClass(game[4])}">${formatCurrency(game[4])}</td>
+                        </tr>
+                    `;
+                });
+                html += '</tbody></table>';
+            } else {
+                html += '<p style="color: var(--text2); font-size: 13px;">No game data</p>';
+            }
+
+            // 4-day comparison
+            html += '<h3>4-Day Comparison</h3>';
+            const dates = ['04/04/2026', '05/04/2026', '06/04/2026', '07/04/2026'];
+            const dateLabels = ['04 APR', '05 APR', '06 APR', '07 APR *'];
+
+            const playerHistoryByDate = {};
+            playerHistory.forEach(h => {
+                playerHistoryByDate[h[1]] = h;
+            });
+
+            html += `
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            ${dateLabels.map((label, idx) => {
+                                const isYesterday = idx === 3;
+                                return `<th ${isYesterday ? 'class="highlight"' : ''}>${label}</th>`;
+                            }).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            const metrics = [
+                { label: 'Deposits', key: 2, format: 'currency' },
+                { label: '# Deposits', key: 3, format: 'number' },
+                { label: 'Turnover', key: 4, format: 'currency' },
+                { label: 'Casino TO', key: 5, format: 'currency' },
+                { label: 'Casino GGR', key: 6, format: 'currency' },
+                { label: 'Bets', key: 7, format: 'number' },
+                { label: 'Casino TO/Dep', key: 'toDep', format: 'ratio' },
+                { label: 'Casino GGR/Dep', key: 'ggrDep', format: 'ratio' }
+            ];
+
+            metrics.forEach(metric => {
+                html += `<tr><td>${metric.label}</td>`;
+                dates.forEach((date, idx) => {
+                    const historyRow = playerHistoryByDate[date];
+                    let value = '-';
+                    let cellClass = idx === 3 ? 'highlight' : '';
+
+                    if (historyRow) {
+                        if (metric.key === 'toDep') {
+                            const deposits = historyRow[2];
+                            const to = historyRow[4];
+                            value = deposits > 0 ? formatNumber(to / deposits, 3) : '-';
+                        } else if (metric.key === 'ggrDep') {
+                            const deposits = historyRow[2];
+                            const ggr = historyRow[5];
+                            value = deposits > 0 ? formatNumber(ggr / deposits, 3) : '-';
+                        } else {
+                            const val = historyRow[metric.key];
+                            if (metric.format === 'currency') {
+                                value = formatCurrency(val);
+                            } else {
+                                value = formatNumber(val);
+                            }
+                        }
+                    }
+
+                    const valueNum = parseFloat(value.replace('€', ''));
+                    const valueClass = isNaN(valueNum) ? '' : getValueClass(valueNum);
+
+                    html += `<td class="numeric ${cellClass} ${valueClass}">${value}</td>`;
+                });
+                html += '</tr>';
+            });
+
+            html += '</tbody></table>';
+            html += '</div>';
+
+            return html;
+        }
+
+        // Map column name to property
+        function mapColumn(column) {
+            const map = {
+                'username': 'Username',
+                'deposits': 'Deposits',
+                'depositCount': 'DepositCount',
+                'casinoTO': 'CasinoTO',
+                'casinoGGR': 'CasinoGGR',
+                'bets': 'Bets',
+                'toDep': 'TO_Dep',
+                'ggrDep': 'GGR_Dep'
+            };
+            return map[column] || column;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.querySelectorAll('.players-table th.sortable').forEach(th => {
+                th.addEventListener('click', () => {
+                    const column = th.dataset.column;
+                    if (currentSort.column === column) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.column = column;
+                        currentSort.direction = 'asc';
+                    }
+                    updateSortIndicators();
+                    renderTable();
+                });
+            });
+
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        }
+
+        // Update sort indicators
+        function updateSortIndicators() {
+            document.querySelectorAll('.players-table th').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (th.dataset.column === currentSort.column) {
+                    th.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+
+            const button = document.getElementById('themeToggle');
+            button.textContent = newTheme === 'dark' ? '🌙 Dark Mode' : '☀️ Light Mode';
+
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            const button = document.getElementById('themeToggle');
+            button.textContent = saved === 'dark' ? '🌙 Dark Mode' : '☀️ Light Mode';
+        }
+
+        // Run initialization
+        loadTheme();
+        init();
+    </script>
 </body>
 </html>
