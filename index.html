@@ -603,9 +603,9 @@
             <th class="sortable" data-sort="username">Username</th>
             <th class="sortable" data-sort="deposits">Deposits (€)</th>
             <th class="sortable" data-sort="depositCount"># Deps</th>
+            <th class="sortable" data-sort="totalTO">Total TO (€)</th>
             <th class="sortable" data-sort="casinoTO">Casino TO (€)</th>
             <th class="sortable" data-sort="casinoGGR">Casino GGR (€)</th>
-            <th class="sortable" data-sort="totalTO">Total TO (€)</th>
             <th class="sortable" data-sort="bets">Bets</th>
             <th class="sortable" data-sort="toDep">TO/Dep</th>
             <th class="sortable" data-sort="ggrDep">GGR/Dep</th>
@@ -744,11 +744,11 @@
           <td><span class="expand-icon">▶</span>${player.Username}</td>
           <td>${formatCurrency(player.Deposits)}</td>
           <td>${player.DepositCount}</td>
+          <td>${formatCurrency(player.TotalTO)}</td>
           <td>${formatCurrency(player.CasinoTO)}</td>
           <td class="${player.CasinoGGR >= 0 ? 'status-positive' : 'status-negative'}">
             ${formatCurrency(player.CasinoGGR)}
           </td>
-          <td>${formatCurrency(player.TotalTO)}</td>
           <td>${player.Bets}</td>
           <td>${formatNumber(player.TO_Dep)}x</td>
           <td class="${player.GGR_Dep >= 0 ? 'status-positive' : 'status-negative'}">
