@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casino Player Screening — 09 APR 2026</title>
+<title>Casino Player Screening — 10 APR 2026</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
   :root {
@@ -104,7 +104,7 @@
     <div>
       <div class="hero-title">Casino Player Screening</div>
       <div class="hero-heading">Daily Screening Report</div>
-      <div class="hero-date">09 April 2026 &nbsp;|&nbsp; Generated automatically</div>
+      <div class="hero-date">10 April 2026 &nbsp;|&nbsp; Generated automatically</div>
     </div>
     <button class="theme-btn" onclick="toggleTheme()">Toggle Light / Dark</button>
   </div>
@@ -116,31 +116,31 @@
   <div class="kpi-grid" id="kpiGrid">
     <div class="kpi-card">
       <div class="kpi-label">Total Screened</div>
-      <div class="kpi-value">9,534</div>
+      <div class="kpi-value">815</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Flagged</div>
-      <div class="kpi-value flagged">8</div>
+      <div class="kpi-value flagged">6</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Flagged Deposits</div>
-      <div class="kpi-value">€4,350</div>
+      <div class="kpi-value">€4,095</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Flagged Casino TO</div>
-      <div class="kpi-value">€6,389</div>
+      <div class="kpi-value">€5,275</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Avg TO / Dep</div>
-      <div class="kpi-value accent">1.52x</div>
+      <div class="kpi-value accent">1.46x</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Avg GGR / Dep</div>
-      <div class="kpi-value">0.01x</div>
+      <div class="kpi-value">-0.02x</div>
     </div>
   </div>
 
-  <div class="section-label">Flagged Players — 09 Apr 2026</div>
+  <div class="section-label">Flagged Players — 10 Apr 2026</div>
 
   <!-- MAIN TABLE -->
   <div class="table-wrap">
@@ -174,114 +174,86 @@
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────────
 const PLAYERS = [
-  { username:"chetanh",           deposits:1475.9969,  depCount:5,  totalTO:2125.8825,  casinoTO:2125.8825,  casinoGGR:-15.3392,  bets:180  },
-  { username:"india2606",         deposits:785.62,     depCount:9,  totalTO:1982.4858,  casinoTO:1293.9772,  casinoGGR:11.6906,   bets:46   },
-  { username:"karan4",            deposits:713.7631,   depCount:7,  totalTO:1902.3716,  casinoTO:712.9632,   casinoGGR:73.6446,   bets:44   },
-  { username:"LanceBrakeNato60",  deposits:569.2827,   depCount:7,  totalTO:643.5633,   casinoTO:643.5633,   casinoGGR:2.4327,    bets:1455 },
-  { username:"sandy1431993",      deposits:410.1364,   depCount:4,  totalTO:1275.6256,  casinoTO:998.2324,   casinoGGR:-48.1277,  bets:366  },
-  { username:"virenskalokhe",     deposits:185.232,    depCount:4,  totalTO:420.3681,   casinoTO:325.3865,   casinoGGR:13.7893,   bets:39   },
-  { username:"upputurikishore32", deposits:107.9344,   depCount:4,  totalTO:286.9075,   casinoTO:161.9866,   casinoGGR:-9.3484,   bets:148  },
-  { username:"shakilajs0429",     deposits:101.6785,   depCount:10, totalTO:147.4152,   casinoTO:126.6269,   casinoGGR:11.6193,   bets:107  }
+  { username:"jagannath000",  deposits:965.67,   depCount:2,  totalTO:1109.84,   casinoTO:1109.84,  casinoGGR:-79.70,  bets:7   },
+  { username:"rq2683",        deposits:921.60,   depCount:2,  totalTO:966.19,    casinoTO:966.19,   casinoGGR:-26.79,  bets:11  },
+  { username:"gsekhar121990", deposits:907.88,   depCount:2,  totalTO:1344.18,   casinoTO:1344.18,  casinoGGR:-78.22,  bets:301 },
+  { username:"goluriskybet",  deposits:863.62,   depCount:4,  totalTO:3219.55,   casinoTO:1087.86,  casinoGGR:4.72,    bets:96  },
+  { username:"avigopani03",   deposits:297.40,   depCount:2,  totalTO:869.68,    casinoTO:446.92,   casinoGGR:30.85,   bets:29  },
+  { username:"avihande55",    deposits:138.38,   depCount:3,  totalTO:1125.21,   casinoTO:320.45,   casinoGGR:-6.74,   bets:31  }
 ];
 
 const GAMES = {
-  "chetanh": [
-    { game:"Aviator",                    bets:71,   to:22.038,   ggr:2.441 },
-    { game:"Bet on Teen Patti Ezugi",    bets:72,   to:1189.844, ggr:734.832 },
-    { game:"Dragon Tiger",               bets:2,    to:753.618,  ggr:-753.618 },
-    { game:"Fishin' Bear",               bets:30,   to:2.793,    ggr:1.005 },
-    { game:"Sic Bo Ezugi",               bets:5,    to:157.59,   ggr:0 }
+  "jagannath000": [
+    { game:"Auto-Roulette",   bets:2,   to:1083.97,  ggr:-66.90 },
+    { game:"Super Sic Bo",    bets:4,   to:25.41,    ggr:-13.26 },
+    { game:"Aviator",         bets:1,   to:0.46,     ggr:0.46   }
   ],
-  "india2606": [
-    { game:"Fishin' Bear",               bets:12,   to:1.016,    ggr:0.887 },
-    { game:"JetX",                       bets:33,   to:1292.037, ggr:21.633 },
-    { game:"War of Gods",                bets:1,    to:0.924,    ggr:-8.787 }
+  "rq2683": [
+    { game:"Auto-Roulette",   bets:2,   to:919.25,   ggr:1.45   },
+    { game:"Super Sic Bo",    bets:8,   to:46.03,    ggr:-27.32 },
+    { game:"Dragon Tiger",    bets:1,   to:0.92,     ggr:-0.92  }
   ],
-  "karan4": [
-    { game:"Betty, Boris and Boo",       bets:22,   to:4.804,    ggr:-0.831 },
-    { game:"Infinite Blackjack",         bets:1,    to:0.924,    ggr:-0.924 },
-    { game:"Lightning Storm",            bets:21,   to:707.235,  ggr:300.698 }
+  "gsekhar121990": [
+    { game:"Dragon Tiger",    bets:232, to:894.83,   ggr:-73.22 },
+    { game:"Football Studio", bets:35,  to:302.41,   ggr:-29.78 },
+    { game:"Super Sic Bo",    bets:34,  to:146.94,   ggr:24.78  }
   ],
-  "LanceBrakeNato60": [
-    { game:"Ganesha Fortune",            bets:5,    to:0.279,    ggr:0.279 },
-    { game:"Million Plinko",             bets:1450, to:643.284,  ggr:2.154 }
+  "goluriskybet": [
+    { game:"Chicken X",       bets:95,  to:1086.94,  ggr:4.26   },
+    { game:"War of Gods",     bets:1,   to:0.92,     ggr:0.47   }
   ],
-  "sandy1431993": [
-    { game:"Aviator",                    bets:57,   to:52.774,   ggr:5.307 },
-    { game:"Lightning Sic Bo",           bets:59,   to:246.380,  ggr:-273.281 },
-    { game:"Path of Destiny",            bets:1,    to:4.620,    ggr:3.197 },
-    { game:"Super Sic Bo",               bets:162,  to:678.283,  ggr:182.221 },
-    { game:"War of Gods",                bets:87,   to:16.175,   ggr:5.447 }
+  "avigopani03": [
+    { game:"Hilo",            bets:11,  to:297.02,   ggr:62.67  },
+    { game:"Ganesha Fortune", bets:8,   to:148.97,   ggr:-32.70 },
+    { game:"Fishin\' Bear",  bets:10,  to:0.93,     ggr:0.87   }
   ],
-  "virenskalokhe": [
-    { game:"Lightning Roulette",         bets:29,   to:209.352,  ggr:-5.561 },
-    { game:"Super Sic Bo",               bets:10,   to:116.035,  ggr:-8.572 }
-  ],
-  "upputurikishore32": [
-    { game:"Hindi Roulette",             bets:94,   to:142.303,  ggr:28.637 },
-    { game:"War of Gods",                bets:54,   to:19.683,   ggr:5.600 }
-  ],
-  "shakilajs0429": [
-    { game:"Hindi Lightning Roulette",   bets:44,   to:55.477,   ggr:41.605 },
-    { game:"Lightning Roulette",         bets:50,   to:61.902,   ggr:48.051 },
-    { game:"XXXtreme Lightning Roulette",bets:13,   to:9.248,    ggr:9.248 }
+  "avihande55": [
+    { game:"Lightning Roulette", bets:31, to:320.45, ggr:-6.74  }
   ]
 };
 
 // 4-day history — keyed by username, then date "DD/MM/YYYY"
 const HISTORY = {
-  "chetanh": {
-    "06/04/2026": { deps:295.588,  depCount:4, totalTO:4110.638, casinoTO:4096.628, casinoGGR:-23.265,  bets:267 },
-    "07/04/2026": { deps:132.548,  depCount:4, totalTO:2546.898, casinoTO:2546.898, casinoGGR:85.381,   bets:294 },
-    "08/04/2026": { deps:143.328,  depCount:4, totalTO:6396.527, casinoTO:6396.527, casinoGGR:385.108,  bets:526 },
-    "09/04/2026": { deps:1475.997, depCount:5, totalTO:2125.883, casinoTO:2125.883, casinoGGR:-15.339,  bets:180 }
+  "jagannath000": {
+    "07/04/2026": { deps:960.42,  depCount:2, totalTO:959.70,    casinoTO:959.70,   casinoGGR:27.00,    bets:2  },
+    "08/04/2026": { deps:1387.25, depCount:3, totalTO:2549.91,   casinoTO:2549.91,  casinoGGR:-489.61,  bets:38 },
+    "09/04/2026": { deps:953.51,  depCount:2, totalTO:5224.96,   casinoTO:5224.96,  casinoGGR:46.00,    bets:46 },
+    "10/04/2026": { deps:965.67,  depCount:2, totalTO:1109.84,   casinoTO:1109.84,  casinoGGR:-79.70,   bets:7  }
   },
-  "india2606": {
-    "06/04/2026": { deps:363.021,  depCount:3, totalTO:2260.775, casinoTO:1409.756, casinoGGR:442.819,  bets:17 },
-    "07/04/2026": { deps:531.673,  depCount:4, totalTO:2016.552, casinoTO:158.894,  casinoGGR:338.686,  bets:9  },
-    "08/04/2026": { deps:136.927,  depCount:2, totalTO:508.453,  casinoTO:7.406,    casinoGGR:52.130,   bets:12 },
-    "09/04/2026": { deps:785.62,   depCount:9, totalTO:1982.486, casinoTO:1293.977, casinoGGR:11.691,   bets:46 }
+  "rq2683": {
+    "07/04/2026": { deps:960.43,  depCount:2, totalTO:959.70,    casinoTO:959.70,   casinoGGR:-13.94,   bets:2  },
+    "08/04/2026": { deps:1471.39, depCount:3, totalTO:4797.80,   casinoTO:4797.80,  casinoGGR:1027.59,  bets:41 },
+    "09/04/2026": { deps:953.37,  depCount:3, totalTO:952.36,    casinoTO:952.36,   casinoGGR:952.36,   bets:2  },
+    "10/04/2026": { deps:921.60,  depCount:2, totalTO:966.19,    casinoTO:966.19,   casinoGGR:-26.79,   bets:11 }
   },
-  "karan4": {
-    "06/04/2026": null,
+  "gsekhar121990": {
     "07/04/2026": null,
-    "08/04/2026": null,
-    "09/04/2026": { deps:713.763,  depCount:7, totalTO:1902.372, casinoTO:712.963,  casinoGGR:73.645,   bets:44 }
+    "08/04/2026": { deps:453.64,  depCount:1, totalTO:3544.13,   casinoTO:3544.13,  casinoGGR:-113.88,  bets:399 },
+    "09/04/2026": { deps:943.45,  depCount:4, totalTO:2468.40,   casinoTO:2468.40,  casinoGGR:-59.69,   bets:1080},
+    "10/04/2026": { deps:907.88,  depCount:2, totalTO:1344.18,   casinoTO:1344.18,  casinoGGR:-78.22,   bets:301 }
   },
-  "LanceBrakeNato60": {
-    "06/04/2026": null,
-    "07/04/2026": null,
-    "08/04/2026": null,
-    "09/04/2026": { deps:569.283,  depCount:7, totalTO:643.563,  casinoTO:643.563,  casinoGGR:2.433,    bets:1455 }
+  "goluriskybet": {
+    "07/04/2026": { deps:46.50,   depCount:1, totalTO:68.07,     casinoTO:1.86,     casinoGGR:-0.26,    bets:1  },
+    "08/04/2026": { deps:92.60,   depCount:3, totalTO:570.13,    casinoTO:0.92,     casinoGGR:0.00,     bets:1  },
+    "09/04/2026": { deps:721.32,  depCount:3, totalTO:2662.58,   casinoTO:1175.04,  casinoGGR:28.65,    bets:126},
+    "10/04/2026": { deps:863.62,  depCount:4, totalTO:3219.55,   casinoTO:1087.86,  casinoGGR:4.72,     bets:96 }
   },
-  "sandy1431993": {
-    "06/04/2026": { deps:266.442,  depCount:5, totalTO:345.026,  casinoTO:325.789,  casinoGGR:61.670,   bets:216 },
-    "07/04/2026": { deps:275.443,  depCount:4, totalTO:411.448,  casinoTO:105.656,  casinoGGR:132.115,  bets:118 },
-    "08/04/2026": { deps:257.425,  depCount:4, totalTO:1666.166, casinoTO:1234.824, casinoGGR:-153.599, bets:689 },
-    "09/04/2026": { deps:410.136,  depCount:4, totalTO:1275.626, casinoTO:998.232,  casinoGGR:-48.128,  bets:366 }
+  "avigopani03": {
+    "07/04/2026": { deps:437.25,  depCount:3, totalTO:1131.49,   casinoTO:806.89,   casinoGGR:316.88,   bets:41 },
+    "08/04/2026": { deps:124.96,  depCount:1, totalTO:1088.02,   casinoTO:461.82,   casinoGGR:49.17,    bets:22 },
+    "09/04/2026": { deps:90.57,   depCount:1, totalTO:751.67,    casinoTO:183.59,   casinoGGR:50.01,    bets:5  },
+    "10/04/2026": { deps:297.40,  depCount:2, totalTO:869.68,    casinoTO:446.92,   casinoGGR:30.85,    bets:29 }
   },
-  "virenskalokhe": {
-    "06/04/2026": { deps:121.06,   depCount:3, totalTO:333.898,  casinoTO:310.615,  casinoGGR:98.627,   bets:32 },
-    "07/04/2026": { deps:74.482,   depCount:5, totalTO:164.189,  casinoTO:164.189,  casinoGGR:-40.918,  bets:51 },
-    "08/04/2026": { deps:106.344,  depCount:5, totalTO:253.037,  casinoTO:135.399,  casinoGGR:7.054,    bets:21 },
-    "09/04/2026": { deps:185.232,  depCount:4, totalTO:420.368,  casinoTO:325.387,  casinoGGR:13.789,   bets:39 }
-  },
-  "upputurikishore32": {
-    "06/04/2026": { deps:37.224,   depCount:1, totalTO:323.076,  casinoTO:242.746,  casinoGGR:-13.726,  bets:46  },
-    "07/04/2026": { deps:284.722,  depCount:11,totalTO:1417.973, casinoTO:1196.786, casinoGGR:312.321,  bets:355 },
-    "08/04/2026": { deps:106.547,  depCount:5, totalTO:614.803,  casinoTO:486.752,  casinoGGR:134.610,  bets:112 },
-    "09/04/2026": { deps:107.934,  depCount:4, totalTO:286.907,  casinoTO:161.987,  casinoGGR:-9.348,   bets:148 }
-  },
-  "shakilajs0429": {
-    "06/04/2026": { deps:83.804,   depCount:9, totalTO:323.577,  casinoTO:323.577,  casinoGGR:46.590,   bets:193 },
-    "07/04/2026": { deps:199.906,  depCount:17,totalTO:752.771,  casinoTO:734.167,  casinoGGR:-74.824,  bets:401 },
-    "08/04/2026": { deps:64.756,   depCount:5, totalTO:209.378,  casinoTO:205.670,  casinoGGR:66.605,   bets:143 },
-    "09/04/2026": { deps:101.679,  depCount:10,totalTO:147.415,  casinoTO:126.627,  casinoGGR:11.619,   bets:107 }
+  "avihande55": {
+    "07/04/2026": { deps:204.66,  depCount:6, totalTO:715.48,    casinoTO:73.51,    casinoGGR:17.68,    bets:7  },
+    "08/04/2026": { deps:184.86,  depCount:4, totalTO:1074.75,   casinoTO:419.65,   casinoGGR:19.76,    bets:42 },
+    "09/04/2026": { deps:87.93,   depCount:3, totalTO:206.74,    casinoTO:0.00,     casinoGGR:0.00,     bets:0  },
+    "10/04/2026": { deps:138.38,  depCount:3, totalTO:1125.21,   casinoTO:320.45,   casinoGGR:-6.74,    bets:31 }
   }
 };
 
-const DATES = ["06/04/2026","07/04/2026","08/04/2026","09/04/2026"];
-const DATE_LABELS = ["06 APR","07 APR","08 APR","09 APR ★"];
+const DATES = ["07/04/2026","08/04/2026","09/04/2026","10/04/2026"];
+const DATE_LABELS = ["07 APR","08 APR","09 APR","10 APR ★"];
 const TODAY_IDX = 3;
 
 const METRICS = [
