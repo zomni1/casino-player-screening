@@ -1,93 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casino Player Screening — 12 Apr 2026</title>
+<title>CASINO PLAYER SCREENING — 13 APR 2026</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
+  :root[data-theme="dark"] {
     --bg-hero: #000000;
     --bg-body: #111111;
     --bg-card: #1a1a1a;
-    --bg-card2: #222222;
+    --bg-table-row: #111111;
+    --bg-table-row-alt: #151515;
+    --bg-expanded: #1a1a1a;
     --text-primary: #ffffff;
-    --text-meta: #757575;
     --text-secondary: #bbbbbb;
-    --accent: #1c69d4;
+    --text-meta: #757575;
     --border: #2a2a2a;
+    --border-strong: #333333;
+    --accent: #1c69d4;
+    --accent-hover: #1557b8;
     --positive: #22c55e;
     --negative: #ef4444;
-    --font: Helvetica, Arial, sans-serif;
+    --warning: #f59e0b;
   }
-  body.light {
-    --bg-hero: #1c69d4;
+  :root[data-theme="light"] {
+    --bg-hero: #ffffff;
     --bg-body: #ffffff;
     --bg-card: #f5f5f5;
-    --bg-card2: #eeeeee;
+    --bg-table-row: #ffffff;
+    --bg-table-row-alt: #f9f9f9;
+    --bg-expanded: #f5f5f5;
     --text-primary: #262626;
+    --text-secondary: #444444;
     --text-meta: #757575;
-    --text-secondary: #4a4a4a;
+    --border: #e0e0e0;
+    --border-strong: #cccccc;
     --accent: #1c69d4;
-    --border: #d4d4d4;
+    --accent-hover: #1557b8;
     --positive: #16a34a;
     --negative: #dc2626;
+    --warning: #d97706;
   }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
+
   body {
-    font-family: var(--font);
+    font-family: Helvetica, Arial, sans-serif;
     background: var(--bg-body);
     color: var(--text-primary);
+    line-height: 1.15;
     font-size: 14px;
-    line-height: 1.2;
-    transition: background 0.2s, color 0.2s;
+    min-height: 100vh;
   }
-  /* HERO HEADER */
-  .hero {
+
+  /* HEADER */
+  .header {
     background: var(--bg-hero);
-    padding: 24px 32px;
+    border-bottom: 1px solid var(--border-strong);
+    padding: 0 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--border);
+    height: 64px;
   }
-  .hero-left { display: flex; flex-direction: column; gap: 4px; }
-  .hero-brand {
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .bmw-logo {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+  .header-title {
     font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-meta);
-  }
-  .hero-title {
-    font-size: 22px;
-    font-weight: 300;
+    font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--text-primary);
   }
-  .hero-date {
+  .header-date {
     font-size: 11px;
     color: var(--text-meta);
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-top: 2px;
   }
   .theme-toggle {
     background: transparent;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-strong);
     color: var(--text-secondary);
-    font-family: var(--font);
+    padding: 8px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: Helvetica, Arial, sans-serif;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--bg-hero);
+    padding: 40px 32px 32px;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .hero-label {
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    padding: 8px 16px;
-    cursor: pointer;
+    color: var(--text-meta);
+    margin-bottom: 8px;
   }
-  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-heading {
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    line-height: 1.1;
+  }
+  .hero-sub {
+    font-size: 12px;
+    color: var(--text-meta);
+    margin-top: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
 
-  /* MAIN CONTENT */
-  .content { padding: 24px 32px; }
+  /* ERROR BANNER */
+  .error-banner {
+    background: #1a0a0a;
+    border: 1px solid #4a1a1a;
+    border-left: 3px solid var(--negative);
+    margin: 24px 32px;
+    padding: 16px 20px;
+  }
+  .error-banner-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--negative);
+    margin-bottom: 6px;
+  }
+  .error-banner-msg {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .error-banner-action {
+    font-size: 11px;
+    color: var(--text-meta);
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  /* CONTENT */
+  .content {
+    padding: 24px 32px;
+    max-width: 1400px;
+  }
 
   /* KPI CARDS */
   .kpi-row {
@@ -95,38 +174,40 @@
     grid-template-columns: repeat(6, 1fr);
     gap: 1px;
     background: var(--border);
-    margin-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 1100px) {
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
   }
   .kpi-card {
     background: var(--bg-card);
-    padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    padding: 20px 16px 16px;
   }
   .kpi-label {
     font-size: 9px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--text-meta);
+    margin-bottom: 10px;
   }
   .kpi-value {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 300;
     color: var(--text-primary);
-    letter-spacing: -0.5px;
+    line-height: 1;
   }
-  .kpi-sub {
-    font-size: 10px;
+  .kpi-value.no-data {
     color: var(--text-meta);
-    letter-spacing: 1px;
+    font-size: 22px;
   }
 
-  /* TABLE */
-  .table-wrap { overflow-x: auto; }
-  .section-label {
-    font-size: 9px;
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -135,557 +216,222 @@
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
   }
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    background: var(--bg-card);
-    padding: 12px 14px;
-    text-align: left;
+
+  /* TABLE */
+  .table-container {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead tr {
+    border-bottom: 2px solid var(--border-strong);
+  }
+  th {
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
     color: var(--text-meta);
+    padding: 12px 12px;
+    text-align: left;
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
-    border-bottom: 2px solid var(--border);
   }
-  thead th:hover { color: var(--accent); }
-  thead th.sorted { color: var(--accent); }
-  tbody tr {
+  th:hover { color: var(--text-primary); }
+  th .sort-icon { margin-left: 4px; font-size: 9px; }
+  td {
+    padding: 12px 12px;
     border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 0.1s;
-  }
-  tbody tr:hover { background: var(--bg-card); }
-  tbody tr.expanded { background: var(--bg-card); }
-  tbody td {
-    padding: 12px 14px;
-    font-size: 13px;
     color: var(--text-secondary);
     white-space: nowrap;
   }
-  tbody td:first-child { color: var(--text-primary); font-weight: 400; }
-  .sort-indicator { margin-left: 4px; color: var(--accent); }
-
-  /* EXPAND ROW */
-  .expand-row td { padding: 0; }
-  .expand-content {
-    background: var(--bg-card2);
-    padding: 20px;
-    border-bottom: 2px solid var(--accent);
-    display: none;
+  tbody tr:hover { background: var(--bg-card); }
+  tbody tr.clickable { cursor: pointer; }
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-meta);
   }
-  .expand-content.open { display: block; }
-  .expand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-
-  /* GAME TABLE */
-  .sub-section-title {
-    font-size: 9px;
+  .empty-state-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    opacity: 0.4;
+  }
+  .empty-state-title {
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
+    margin-bottom: 8px;
     color: var(--text-meta);
-    margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border);
   }
-  .game-table { width: 100%; border-collapse: collapse; }
-  .game-table th {
-    text-align: left;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-meta);
-    padding: 6px 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .game-table td {
-    padding: 8px 10px;
+  .empty-state-msg {
     font-size: 12px;
-    color: var(--text-secondary);
-    border-bottom: 1px solid var(--border);
-  }
-  .game-table td:first-child { color: var(--text-primary); }
-  .pos { color: var(--positive); }
-  .neg { color: var(--negative); }
-
-  /* 4-DAY TABLE */
-  .history-table { width: 100%; border-collapse: collapse; }
-  .history-table th {
-    text-align: center;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    border: 1px solid var(--border);
-    white-space: nowrap;
-  }
-  .history-table th.date-col { color: var(--text-meta); background: var(--bg-card); }
-  .history-table th.date-col.today { color: #ffffff; background: var(--accent); }
-  .history-table th.metric-col {
-    text-align: left;
     color: var(--text-meta);
-    background: var(--bg-card);
-    font-size: 9px;
-  }
-  .history-table td {
-    text-align: center;
-    padding: 7px 12px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    white-space: nowrap;
-  }
-  .history-table td.today-val { color: var(--text-primary); font-weight: 700; }
-  .history-table td.metric-name {
-    text-align: left;
-    font-size: 10px;
-    color: var(--text-meta);
-    font-weight: 400;
-    background: var(--bg-card);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
   }
 
   /* FOOTER */
   .footer {
-    padding: 16px 32px;
     border-top: 1px solid var(--border);
+    padding: 20px 32px;
+    margin-top: 40px;
+  }
+  .footer-filter {
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
     color: var(--text-meta);
   }
-
-  @media (max-width: 900px) {
-    .kpi-row { grid-template-columns: repeat(3, 1fr); }
-    .expand-grid { grid-template-columns: 1fr; }
-    .hero { padding: 16px; }
-    .content { padding: 16px; }
+  .footer-run {
+    font-size: 9px;
+    color: var(--text-meta);
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+    text-transform: uppercase;
   }
-  @media (max-width: 600px) {
-    .kpi-row { grid-template-columns: repeat(2, 1fr); }
-    .hero-title { font-size: 16px; }
-    .kpi-value { font-size: 18px; }
+
+  /* STATUS DOT */
+  .status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--negative);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .status-dot.ok { background: var(--positive); }
+
+  [data-theme="light"] .error-banner {
+    background: #fff5f5;
+    border-color: #fecaca;
   }
 </style>
 </head>
-<body class="dark">
+<body>
 
-<header class="hero">
-  <div class="hero-left">
-    <div class="hero-brand">10CRIC · Risk &amp; Compliance</div>
-    <div class="hero-title">Casino Player Screening</div>
-    <div class="hero-date">12 April 2026 &nbsp;·&nbsp; Generated: 13 April 2026</div>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <!-- BMW Logo SVG -->
+    <svg class="bmw-logo" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="19" fill="none" stroke="#1c69d4" stroke-width="1.5"/>
+      <circle cx="20" cy="20" r="14" fill="none" stroke="#1c69d4" stroke-width="1"/>
+      <path d="M20 6 L20 20 L6 20" fill="#1c69d4" opacity="0.9"/>
+      <path d="M20 20 L34 20 L20 34" fill="#ffffff" opacity="0.15"/>
+      <text x="20" y="24" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="7" font-weight="700" fill="#ffffff" letter-spacing="0.5">BMW</text>
+    </svg>
+    <div>
+      <div class="header-title">Casino Player Screening</div>
+      <div class="header-date">13 April 2026</div>
+    </div>
   </div>
-  <button class="theme-toggle" onclick="toggleTheme()">Light / Dark</button>
+  <button class="theme-toggle" onclick="toggleTheme()">◐ Toggle Theme</button>
 </header>
 
-<main class="content">
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Daily Intelligence Report</div>
+  <div class="hero-heading">Player Screening<br>Report</div>
+  <div class="hero-sub"><span class="status-dot"></span>Data unavailable — Qlik authentication required</div>
+</div>
+
+<!-- ERROR BANNER -->
+<div class="error-banner">
+  <div class="error-banner-title">⚠ Qlik Connector Authentication Error</div>
+  <div class="error-banner-msg">
+    The automated screening task ran on schedule for <strong>13 April 2026</strong>, but could not retrieve player data.
+    The Qlik MCP connector requires user authentication before it can be used in automated sessions.
+    All Qlik API calls returned: <em>"This connector requires authentication. The user needs to connect it before this tool can be used."</em>
+  </div>
+  <div class="error-banner-action">
+    ACTION REQUIRED: Open Cowork, connect the Qlik connector, then re-run this scheduled task. Alternatively, run the screening manually while connected.
+  </div>
+</div>
+
+<div class="content">
 
   <!-- KPI CARDS -->
   <div class="kpi-row">
     <div class="kpi-card">
       <div class="kpi-label">Total Screened</div>
-      <div class="kpi-value">9,814</div>
-      <div class="kpi-sub">Active players</div>
+      <div class="kpi-value no-data">—</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Flagged</div>
-      <div class="kpi-value" style="color:#1c69d4">6</div>
-      <div class="kpi-sub">Passed all filters</div>
+      <div class="kpi-value no-data">—</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Flagged Deposits</div>
-      <div class="kpi-value">€1,949</div>
-      <div class="kpi-sub">Combined</div>
+      <div class="kpi-value no-data">—</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Flagged Casino TO</div>
-      <div class="kpi-value">€3,087</div>
-      <div class="kpi-sub">Combined</div>
+      <div class="kpi-value no-data">—</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Avg TO / Dep</div>
-      <div class="kpi-value">1.75x</div>
-      <div class="kpi-sub">Flagged cohort</div>
+      <div class="kpi-label">Avg TO/Dep</div>
+      <div class="kpi-value no-data">—</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Avg GGR / Dep</div>
-      <div class="kpi-value">0.00x</div>
-      <div class="kpi-sub">Flagged cohort</div>
+      <div class="kpi-label">Avg GGR/Dep</div>
+      <div class="kpi-value no-data">—</div>
     </div>
   </div>
 
-  <!-- MAIN TABLE -->
-  <div class="section-label">Flagged Players — 12 April 2026</div>
-  <div class="table-wrap">
-    <table id="mainTable">
+  <!-- TABLE SECTION -->
+  <div class="section-title">Flagged Players</div>
+  <div class="table-container">
+    <table>
       <thead>
         <tr>
-          <th onclick="sortTable(0)">Username <span class="sort-indicator" id="si0"></span></th>
-          <th onclick="sortTable(1)">Deposits (€) <span class="sort-indicator" id="si1">▼</span></th>
-          <th onclick="sortTable(2)"># Deps <span class="sort-indicator" id="si2"></span></th>
-          <th onclick="sortTable(3)">Total TO (€) <span class="sort-indicator" id="si3"></span></th>
-          <th onclick="sortTable(4)">Casino TO (€) <span class="sort-indicator" id="si4"></span></th>
-          <th onclick="sortTable(5)">Casino GGR (€) <span class="sort-indicator" id="si5"></span></th>
-          <th onclick="sortTable(6)">Bets <span class="sort-indicator" id="si6"></span></th>
-          <th onclick="sortTable(7)">TO / Dep <span class="sort-indicator" id="si7"></span></th>
-          <th onclick="sortTable(8)">GGR / Dep <span class="sort-indicator" id="si8"></span></th>
+          <th>Username</th>
+          <th>Deposits (€)</th>
+          <th># Deps</th>
+          <th>Total TO (€)</th>
+          <th>Casino TO (€)</th>
+          <th>Casino GGR (€)</th>
+          <th>Bets</th>
+          <th>TO/Dep</th>
+          <th>GGR/Dep</th>
         </tr>
       </thead>
-      <tbody id="tableBody">
+      <tbody>
+        <tr>
+          <td colspan="9">
+            <div class="empty-state">
+              <div class="empty-state-icon">⊘</div>
+              <div class="empty-state-title">No Data Available</div>
+              <div class="empty-state-msg">Qlik authentication failed. Please reconnect the Qlik connector and re-run the task.</div>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
 
-</main>
+</div>
 
+<!-- FOOTER -->
 <footer class="footer">
-  Filter: Deposits ≥ €100 &nbsp;|&nbsp; 2+ Deposits &nbsp;|&nbsp; Casino TO &gt; 0 &nbsp;|&nbsp; TO/Dep 0.9x–2.5x &nbsp;|&nbsp; GGR/Dep -0.15x–+0.15x
+  <div class="footer-filter">
+    Filter: Deposits ≥ €100 | 2+ Deposits | Casino TO &gt; 0 | TO/Dep 0.9x–2.5x | GGR/Dep -0.15x–+0.15x
+  </div>
+  <div class="footer-run">
+    Run: 14 April 2026 (automated) — Data date: 13 April 2026 — Status: QLIK AUTH FAILED
+  </div>
 </footer>
 
 <script>
-// ============================================================
-// DATA
-// ============================================================
-const PLAYERS = [
-  {
-    id: '50607734-2',
-    username: 'nageshbasavaraju',
-    deposits: 823.95,
-    depCount: 3,
-    totalTO: 1496.97519,
-    casinoTO: 901.5705,
-    casinoGGR: -47.13795,
-    bets: 9,
-    games: [
-      { name: 'Andar Bahar Ezugi', bets: 9, turnover: 901.5705, ggr: -47.13795 }
-    ],
-    history: {
-      '09/04': { dep: 351.17, depCount: 2, totalTO: 656.12, casinoTO: 471.22, casinoGGR: 295.64, bets: 4 },
-      '10/04': { dep: 183.80, depCount: 1, totalTO: 183.48, casinoTO: 0, casinoGGR: 0, bets: 0 },
-      '11/04': { dep: 760.20, depCount: 4, totalTO: 989.63, casinoTO: 393.84, casinoGGR: 393.84, bets: 2 },
-      '12/04': { dep: 823.95, depCount: 3, totalTO: 1496.98, casinoTO: 901.57, casinoGGR: -47.14, bets: 9 }
-    }
-  },
-  {
-    id: '15217225-2',
-    username: '9700709080',
-    deposits: 366.36,
-    depCount: 3,
-    totalTO: 1078.29932,
-    casinoTO: 753.338,
-    casinoGGR: 41.30438,
-    bets: 44,
-    games: [
-      { name: 'Aviator', bets: 34, turnover: 751.038, ggr: 41.39868 },
-      { name: 'Super Sixer Xtreme', bets: 10, turnover: 2.30, ggr: -0.0943 }
-    ],
-    history: {
-      '09/04': null,
-      '10/04': { dep: 229.42, depCount: 2, totalTO: 443.41, casinoTO: 99.13, casinoGGR: 99.13, bets: 8 },
-      '11/04': { dep: 366.39, depCount: 3, totalTO: 2047.87, casinoTO: 1163.79, casinoGGR: -245.43, bets: 52 },
-      '12/04': { dep: 366.36, depCount: 3, totalTO: 1078.30, casinoTO: 753.34, casinoGGR: 41.30, bets: 44 }
-    }
-  },
-  {
-    id: '51775602-2',
-    username: 'madhanmaddy313',
-    deposits: 274.71,
-    depCount: 3,
-    totalTO: 610.8153,
-    casinoTO: 610.8153,
-    casinoGGR: 23.38704,
-    bets: 33,
-    games: [
-      { name: 'Super Andar Bahar', bets: 32, turnover: 519.2253, ggr: -68.20296 },
-      { name: 'Andar Bahar', bets: 1, turnover: 91.59, ggr: 91.59 }
-    ],
-    history: {
-      '09/04': { dep: 166.13, depCount: 4, totalTO: 1027.17, casinoTO: 1026.61, casinoGGR: -72.22, bets: 53 },
-      '10/04': { dep: 202.14, depCount: 3, totalTO: 594.37, casinoTO: 593.91, casinoGGR: -51.54, bets: 23 },
-      '11/04': { dep: 274.77, depCount: 3, totalTO: 1927.05, casinoTO: 1927.05, casinoGGR: -201.16, bets: 40 },
-      '12/04': { dep: 274.71, depCount: 3, totalTO: 610.82, casinoTO: 610.82, casinoGGR: 23.39, bets: 33 }
-    }
-  },
-  {
-    id: '16309728-2',
-    username: 'manichinnu123',
-    deposits: 184.189803,
-    depCount: 8,
-    totalTO: 595.1094,
-    casinoTO: 367.1607,
-    casinoGGR: -22.621275,
-    bets: 23,
-    games: [
-      { name: 'Hindi Speed Baccarat A', bets: 23, turnover: 367.1607, ggr: -22.621275 }
-    ],
-    history: {
-      '09/04': { dep: 13.53, depCount: 1, totalTO: 21.48, casinoTO: 0.92, casinoGGR: -0.16, bets: 1 },
-      '10/04': { dep: 17.45, depCount: 1, totalTO: 24.37, casinoTO: 2.29, casinoGGR: 1.30, bets: 10 },
-      '11/04': { dep: 289.31, depCount: 10, totalTO: 1320.95, casinoTO: 1128.16, casinoGGR: 161.72, bets: 141 },
-      '12/04': { dep: 184.19, depCount: 8, totalTO: 595.11, casinoTO: 367.16, casinoGGR: -22.62, bets: 23 }
-    }
-  },
-  {
-    id: '50605315-2',
-    username: 'lonewolf43',
-    deposits: 160.2525,
-    depCount: 3,
-    totalTO: 248.63385,
-    casinoTO: 164.40225,
-    casinoGGR: -13.408692,
-    bets: 15,
-    games: [
-      { name: 'Football Studio', bets: 12, turnover: 161.65635, ggr: -13.28055 },
-      { name: 'Chicken X', bets: 3, turnover: 2.7459, ggr: -0.128142 }
-    ],
-    history: {
-      '09/04': { dep: 41.59, depCount: 1, totalTO: 41.59, casinoTO: 0, casinoGGR: 0, bets: 0 },
-      '10/04': { dep: 45.84, depCount: 1, totalTO: 56.94, casinoTO: 11.10, casinoGGR: -1.70, bets: 3 },
-      '11/04': { dep: 137.39, depCount: 2, totalTO: 246.38, casinoTO: 0, casinoGGR: 0, bets: 0 },
-      '12/04': { dep: 160.25, depCount: 3, totalTO: 248.63, casinoTO: 164.40, casinoGGR: -13.41, bets: 15 }
-    }
-  },
-  {
-    id: '26258112-2',
-    username: 'chsatish311',
-    deposits: 139.206,
-    depCount: 5,
-    totalTO: 537.184846,
-    casinoTO: 289.891846,
-    casinoGGR: 10.5037554,
-    bets: 555,
-    games: [
-      { name: 'Jam Bonanza', bets: 554, turnover: 288.971846, ggr: 9.9609554 },
-      { name: 'War of Gods', bets: 1, turnover: 0.92, ggr: 0.5428 }
-    ],
-    history: {
-      '09/04': { dep: 277.27, depCount: 5, totalTO: 395.83, casinoTO: 34.92, casinoGGR: -0.94, bets: 137 },
-      '10/04': { dep: 124.02, depCount: 3, totalTO: 423.99, casinoTO: 94.56, casinoGGR: -5.42, bets: 381 },
-      '11/04': { dep: 191.42, depCount: 6, totalTO: 702.00, casinoTO: 347.55, casinoGGR: -46.60, bets: 964 },
-      '12/04': { dep: 139.21, depCount: 5, totalTO: 537.18, casinoTO: 289.89, casinoGGR: 10.50, bets: 555 }
-    }
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   }
-];
-
-const DATES = ['09/04', '10/04', '11/04', '12/04'];
-
-// ============================================================
-// HELPERS
-// ============================================================
-function fmt(n, dec=2) {
-  if (n === null || n === undefined) return '–';
-  return n.toLocaleString('en-GB', { minimumFractionDigits: dec, maximumFractionDigits: dec });
-}
-function fmtRatio(n, dec=2) {
-  if (n === null || n === undefined || isNaN(n)) return '–';
-  return n.toFixed(dec) + 'x';
-}
-function ggrColor(v) {
-  if (v === null || v === undefined) return '';
-  return v >= 0 ? 'pos' : 'neg';
-}
-
-// ============================================================
-// SORT STATE
-// ============================================================
-let sortCol = 1;
-let sortDir = -1; // -1 = desc, 1 = asc
-let tableData = PLAYERS.map(p => ({...p}));
-
-function sortTable(col) {
-  if (sortCol === col) { sortDir *= -1; }
-  else { sortCol = col; sortDir = -1; }
-  renderTable();
-}
-
-// ============================================================
-// RENDER TABLE
-// ============================================================
-function renderTable() {
-  // Update sort indicators
-  for (let i = 0; i <= 8; i++) {
-    const el = document.getElementById('si'+i);
-    if (!el) continue;
-    el.textContent = i === sortCol ? (sortDir === -1 ? '▼' : '▲') : '';
-  }
-
-  const sorted = [...tableData].sort((a, b) => {
-    const vals = [
-      [a.username, b.username],
-      [a.deposits, b.deposits],
-      [a.depCount, b.depCount],
-      [a.totalTO, b.totalTO],
-      [a.casinoTO, b.casinoTO],
-      [a.casinoGGR, b.casinoGGR],
-      [a.bets, b.bets],
-      [a.casinoTO/a.deposits, b.casinoTO/b.deposits],
-      [a.casinoGGR/a.deposits, b.casinoGGR/b.deposits]
-    ][sortCol];
-    if (vals[0] < vals[1]) return sortDir;
-    if (vals[0] > vals[1]) return -sortDir;
-    return 0;
-  });
-
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '';
-
-  sorted.forEach((p, idx) => {
-    const toDep = p.casinoTO / p.deposits;
-    const ggrDep = p.casinoGGR / p.deposits;
-    const rowId = 'row-' + p.id.replace(/[^a-z0-9]/gi,'');
-    const expId = 'exp-' + p.id.replace(/[^a-z0-9]/gi,'');
-
-    // Main row
-    const tr = document.createElement('tr');
-    tr.id = rowId;
-    tr.onclick = () => toggleExpand(expId, rowId);
-    tr.innerHTML = `
-      <td><strong>${p.username}</strong></td>
-      <td>€${fmt(p.deposits)}</td>
-      <td>${p.depCount}</td>
-      <td>€${fmt(p.totalTO)}</td>
-      <td>€${fmt(p.casinoTO)}</td>
-      <td class="${ggrColor(p.casinoGGR)}">€${fmt(p.casinoGGR)}</td>
-      <td>${p.bets.toLocaleString()}</td>
-      <td>${fmtRatio(toDep)}</td>
-      <td class="${ggrColor(ggrDep)}">${fmtRatio(ggrDep)}</td>
-    `;
-    tbody.appendChild(tr);
-
-    // Expand row
-    const expTr = document.createElement('tr');
-    expTr.className = 'expand-row';
-    const expTd = document.createElement('td');
-    expTd.colSpan = 9;
-    const expDiv = document.createElement('div');
-    expDiv.className = 'expand-content';
-    expDiv.id = expId;
-    expDiv.innerHTML = buildExpand(p);
-    expTd.appendChild(expDiv);
-    expTr.appendChild(expTd);
-    tbody.appendChild(expTr);
-  });
-}
-
-function toggleExpand(expId, rowId) {
-  const expDiv = document.getElementById(expId);
-  const row = document.getElementById(rowId);
-  if (!expDiv) return;
-  const isOpen = expDiv.classList.contains('open');
-  // Close all
-  document.querySelectorAll('.expand-content.open').forEach(d => d.classList.remove('open'));
-  document.querySelectorAll('tbody tr.expanded').forEach(r => r.classList.remove('expanded'));
-  if (!isOpen) {
-    expDiv.classList.add('open');
-    row.classList.add('expanded');
-  }
-}
-
-// ============================================================
-// BUILD EXPAND CONTENT
-// ============================================================
-function buildExpand(p) {
-  return `<div class="expand-grid">
-    <div>
-      <div class="sub-section-title">Game Breakdown</div>
-      <table class="game-table">
-        <thead><tr>
-          <th>Game</th><th>Bets</th><th>Turnover (€)</th><th>GGR (€)</th>
-        </tr></thead>
-        <tbody>
-          ${p.games.map(g => `<tr>
-            <td>${g.name}</td>
-            <td>${g.bets.toLocaleString()}</td>
-            <td>€${fmt(g.turnover)}</td>
-            <td class="${ggrColor(g.ggr)}">€${fmt(g.ggr)}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <div class="sub-section-title">4-Day Comparison</div>
-      ${buildHistory(p)}
-    </div>
-  </div>`;
-}
-
-function buildHistory(p) {
-  const metrics = [
-    { label: 'Deposits (€)', key: 'dep', prefix: '€', fn: v => fmt(v) },
-    { label: '# Deposits', key: 'depCount', prefix: '', fn: v => v },
-    { label: 'Turnover (€)', key: 'totalTO', prefix: '€', fn: v => fmt(v) },
-    { label: 'Casino TO (€)', key: 'casinoTO', prefix: '€', fn: v => fmt(v) },
-    { label: 'Casino GGR (€)', key: 'casinoGGR', prefix: '€', fn: v => fmt(v), colored: true },
-    { label: 'Bets', key: 'bets', prefix: '', fn: v => v !== null ? v.toLocaleString() : '–' },
-    { label: 'Casino TO/Dep', key: '_toDep', prefix: '', fn: (v) => fmtRatio(v) },
-    { label: 'Casino GGR/Dep', key: '_ggrDep', prefix: '', fn: (v) => fmtRatio(v), colored: true }
-  ];
-
-  const dateLabels = {
-    '09/04': '09 APR', '10/04': '10 APR', '11/04': '11 APR', '12/04': '12 APR ★'
-  };
-
-  let html = '<table class="history-table"><thead><tr>';
-  html += '<th class="metric-col">Metric</th>';
-  DATES.forEach(d => {
-    const isToday = d === '12/04';
-    html += `<th class="date-col${isToday ? ' today' : ''}">${dateLabels[d]}</th>`;
-  });
-  html += '</tr></thead><tbody>';
-
-  metrics.forEach(m => {
-    html += '<tr>';
-    html += `<td class="metric-name">${m.label}</td>`;
-    DATES.forEach(d => {
-      const isToday = d === '12/04';
-      const hday = p.history[d];
-      let val = null;
-      let dispVal = '–';
-      if (hday) {
-        if (m.key === '_toDep') {
-          val = hday.dep > 0 ? hday.casinoTO / hday.dep : null;
-        } else if (m.key === '_ggrDep') {
-          val = hday.dep > 0 ? hday.casinoGGR / hday.dep : null;
-        } else {
-          val = hday[m.key];
-        }
-        if (val !== null && val !== undefined) {
-          dispVal = (m.prefix || '') + m.fn(val);
-        }
-      }
-      let cls = isToday ? 'today-val' : '';
-      if (m.colored && val !== null && val !== undefined) {
-        cls += (val >= 0 ? ' pos' : ' neg');
-      }
-      html += `<td class="${cls.trim()}">${dispVal}</td>`;
-    });
-    html += '</tr>';
-  });
-
-  html += '</tbody></table>';
-  return html;
-}
-
-// ============================================================
-// THEME
-// ============================================================
-function toggleTheme() {
-  document.body.classList.toggle('light');
-  document.body.classList.toggle('dark');
-}
-document.body.classList.add('dark');
-
-// ============================================================
-// INIT
-// ============================================================
-renderTable();
 </script>
+
 </body>
 </html>
