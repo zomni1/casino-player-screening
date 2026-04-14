@@ -9,8 +9,8 @@
     --bg-hero: #000000;
     --bg-body: #111111;
     --bg-card: #1a1a1a;
-    --bg-table-row: #111111;
-    --bg-table-row-alt: #151515;
+    --bg-row: #111111;
+    --bg-row-alt: #151515;
     --bg-expanded: #1a1a1a;
     --text-primary: #ffffff;
     --text-secondary: #bbbbbb;
@@ -21,14 +21,13 @@
     --accent-hover: #1557b8;
     --positive: #22c55e;
     --negative: #ef4444;
-    --warning: #f59e0b;
   }
   :root[data-theme="light"] {
     --bg-hero: #ffffff;
     --bg-body: #ffffff;
     --bg-card: #f5f5f5;
-    --bg-table-row: #ffffff;
-    --bg-table-row-alt: #f9f9f9;
+    --bg-row: #ffffff;
+    --bg-row-alt: #f9f9f9;
     --bg-expanded: #f5f5f5;
     --text-primary: #262626;
     --text-secondary: #444444;
@@ -39,285 +38,68 @@
     --accent-hover: #1557b8;
     --positive: #16a34a;
     --negative: #dc2626;
-    --warning: #d97706;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
+  body { font-family: Helvetica, Arial, sans-serif; background: var(--bg-body); color: var(--text-primary); line-height: 1.15; font-size: 14px; min-height: 100vh; }
 
-  body {
-    font-family: Helvetica, Arial, sans-serif;
-    background: var(--bg-body);
-    color: var(--text-primary);
-    line-height: 1.15;
-    font-size: 14px;
-    min-height: 100vh;
-  }
+  .header { background: var(--bg-hero); border-bottom: 1px solid var(--border-strong); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .header-left { display: flex; align-items: center; gap: 24px; }
+  .bmw-logo { width: 40px; height: 40px; flex-shrink: 0; }
+  .header-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-primary); }
+  .header-date { font-size: 11px; color: var(--text-meta); letter-spacing: 1px; text-transform: uppercase; }
+  .theme-toggle { background: transparent; border: 1px solid var(--border-strong); color: var(--text-secondary); padding: 8px 16px; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-family: Helvetica, Arial, sans-serif; transition: border-color 0.15s, color 0.15s; }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* HEADER */
-  .header {
-    background: var(--bg-hero);
-    border-bottom: 1px solid var(--border-strong);
-    padding: 0 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-  }
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-  .bmw-logo {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-  }
-  .header-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-primary);
-  }
-  .header-date {
-    font-size: 11px;
-    color: var(--text-meta);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .theme-toggle {
-    background: transparent;
-    border: 1px solid var(--border-strong);
-    color: var(--text-secondary);
-    padding: 8px 16px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: Helvetica, Arial, sans-serif;
-    transition: border-color 0.15s, color 0.15s;
-  }
-  .theme-toggle:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
+  .hero { background: var(--bg-hero); padding: 40px 32px 32px; border-bottom: 1px solid var(--border-strong); }
+  .hero-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-meta); margin-bottom: 8px; }
+  .hero-heading { font-size: 32px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--text-primary); line-height: 1.1; }
+  .hero-sub { font-size: 12px; color: var(--text-meta); margin-top: 8px; letter-spacing: 1px; text-transform: uppercase; }
+  .status-dot { display: inline-block; width: 6px; height: 6px; background: var(--positive); margin-right: 6px; vertical-align: middle; }
 
-  /* HERO */
-  .hero {
-    background: var(--bg-hero);
-    padding: 40px 32px 32px;
-    border-bottom: 1px solid var(--border-strong);
-  }
-  .hero-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-meta);
-    margin-bottom: 8px;
-  }
-  .hero-heading {
-    font-size: 32px;
-    font-weight: 300;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-primary);
-    line-height: 1.1;
-  }
-  .hero-sub {
-    font-size: 12px;
-    color: var(--text-meta);
-    margin-top: 8px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
+  .content { padding: 24px 32px; max-width: 1400px; }
 
-  /* ERROR BANNER */
-  .error-banner {
-    background: #1a0a0a;
-    border: 1px solid #4a1a1a;
-    border-left: 3px solid var(--negative);
-    margin: 24px 32px;
-    padding: 16px 20px;
-  }
-  .error-banner-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--negative);
-    margin-bottom: 6px;
-  }
-  .error-banner-msg {
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.4;
-  }
-  .error-banner-action {
-    font-size: 11px;
-    color: var(--text-meta);
-    margin-top: 8px;
-    letter-spacing: 0.5px;
-  }
+  .kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--border); margin-bottom: 32px; }
+  @media (max-width: 1100px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+  .kpi-card { background: var(--bg-card); padding: 20px 16px 16px; }
+  .kpi-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-meta); margin-bottom: 10px; }
+  .kpi-value { font-size: 28px; font-weight: 300; color: var(--text-primary); line-height: 1; }
 
-  /* CONTENT */
-  .content {
-    padding: 24px 32px;
-    max-width: 1400px;
-  }
+  .section-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-meta); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 
-  /* KPI CARDS */
-  .kpi-row {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1px;
-    background: var(--border);
-    margin-bottom: 32px;
-  }
-  @media (max-width: 1100px) {
-    .kpi-row { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width: 640px) {
-    .kpi-row { grid-template-columns: repeat(2, 1fr); }
-  }
-  .kpi-card {
-    background: var(--bg-card);
-    padding: 20px 16px 16px;
-  }
-  .kpi-label {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text-meta);
-    margin-bottom: 10px;
-  }
-  .kpi-value {
-    font-size: 28px;
-    font-weight: 300;
-    color: var(--text-primary);
-    line-height: 1;
-  }
-  .kpi-value.no-data {
-    color: var(--text-meta);
-    font-size: 22px;
-  }
-
-  /* SECTION TITLE */
-  .section-title {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-meta);
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* TABLE */
-  .table-container {
-    overflow-x: auto;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  thead tr {
-    border-bottom: 2px solid var(--border-strong);
-  }
-  th {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-meta);
-    padding: 12px 12px;
-    text-align: left;
-    cursor: pointer;
-    white-space: nowrap;
-    user-select: none;
-  }
+  .table-container { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { border-bottom: 2px solid var(--border-strong); }
+  th { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-meta); padding: 12px 12px; text-align: left; cursor: pointer; white-space: nowrap; user-select: none; }
   th:hover { color: var(--text-primary); }
   th .sort-icon { margin-left: 4px; font-size: 9px; }
-  td {
-    padding: 12px 12px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text-secondary);
-    white-space: nowrap;
-  }
+  td { padding: 12px 12px; border-bottom: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
   tbody tr:hover { background: var(--bg-card); }
   tbody tr.clickable { cursor: pointer; }
-  .empty-state {
-    text-align: center;
-    padding: 48px 24px;
-    color: var(--text-meta);
-  }
-  .empty-state-icon {
-    font-size: 32px;
-    margin-bottom: 12px;
-    opacity: 0.4;
-  }
-  .empty-state-title {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    color: var(--text-meta);
-  }
-  .empty-state-msg {
-    font-size: 12px;
-    color: var(--text-meta);
-  }
+  tbody tr.expanded { background: var(--bg-card); }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+  .pos { color: var(--positive); }
+  .neg { color: var(--negative); }
 
-  /* FOOTER */
-  .footer {
-    border-top: 1px solid var(--border);
-    padding: 20px 32px;
-    margin-top: 40px;
-  }
-  .footer-filter {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-meta);
-  }
-  .footer-run {
-    font-size: 9px;
-    color: var(--text-meta);
-    letter-spacing: 0.5px;
-    margin-top: 6px;
-    text-transform: uppercase;
-  }
+  .expanded-row td { padding: 0; border-bottom: 1px solid var(--border-strong); background: var(--bg-expanded); }
+  .expanded-inner { padding: 20px 16px; }
+  .sub-title { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-meta); margin: 8px 0 10px; }
+  .game-table, .cmp-table { width: 100%; border-collapse: collapse; font-size: 12px; background: var(--bg-row); border: 1px solid var(--border); margin-bottom: 20px; }
+  .game-table th, .cmp-table th { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-meta); padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); cursor: default; }
+  .game-table td, .cmp-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 12px; }
+  .cmp-table th.today { background: var(--accent); color: #fff; }
+  .cmp-table td.today { color: var(--text-primary); font-weight: 700; }
+  .cmp-table td.metric { color: var(--text-meta); font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 
-  /* STATUS DOT */
-  .status-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: var(--negative);
-    margin-right: 6px;
-    vertical-align: middle;
-  }
-  .status-dot.ok { background: var(--positive); }
-
-  [data-theme="light"] .error-banner {
-    background: #fff5f5;
-    border-color: #fecaca;
-  }
+  .footer { border-top: 1px solid var(--border); padding: 20px 32px; margin-top: 40px; }
+  .footer-filter { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-meta); }
+  .footer-run { font-size: 9px; color: var(--text-meta); letter-spacing: 0.5px; margin-top: 6px; text-transform: uppercase; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header">
   <div class="header-left">
-    <!-- BMW Logo SVG -->
     <svg class="bmw-logo" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
       <circle cx="20" cy="20" r="19" fill="none" stroke="#1c69d4" stroke-width="1.5"/>
       <circle cx="20" cy="20" r="14" fill="none" stroke="#1c69d4" stroke-width="1"/>
@@ -333,104 +115,233 @@
   <button class="theme-toggle" onclick="toggleTheme()">◐ Toggle Theme</button>
 </header>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-label">Daily Intelligence Report</div>
   <div class="hero-heading">Player Screening<br>Report</div>
-  <div class="hero-sub"><span class="status-dot"></span>Data unavailable — Qlik authentication required</div>
-</div>
-
-<!-- ERROR BANNER -->
-<div class="error-banner">
-  <div class="error-banner-title">⚠ Qlik Connector Authentication Error</div>
-  <div class="error-banner-msg">
-    The automated screening task ran on schedule for <strong>13 April 2026</strong>, but could not retrieve player data.
-    The Qlik MCP connector requires user authentication before it can be used in automated sessions.
-    All Qlik API calls returned: <em>"This connector requires authentication. The user needs to connect it before this tool can be used."</em>
-  </div>
-  <div class="error-banner-action">
-    ACTION REQUIRED: Open Cowork, connect the Qlik connector, then re-run this scheduled task. Alternatively, run the screening manually while connected.
-  </div>
+  <div class="hero-sub"><span class="status-dot"></span>Qlik data retrieved — 9,377 players screened, 3 flagged</div>
 </div>
 
 <div class="content">
-
-  <!-- KPI CARDS -->
   <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-label">Total Screened</div>
-      <div class="kpi-value no-data">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Flagged</div>
-      <div class="kpi-value no-data">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Flagged Deposits</div>
-      <div class="kpi-value no-data">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Flagged Casino TO</div>
-      <div class="kpi-value no-data">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Avg TO/Dep</div>
-      <div class="kpi-value no-data">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Avg GGR/Dep</div>
-      <div class="kpi-value no-data">—</div>
-    </div>
+    <div class="kpi-card"><div class="kpi-label">Total Screened</div><div class="kpi-value">9,377</div></div>
+    <div class="kpi-card"><div class="kpi-label">Flagged</div><div class="kpi-value">3</div></div>
+    <div class="kpi-card"><div class="kpi-label">Flagged Deposits</div><div class="kpi-value">€4,177.87</div></div>
+    <div class="kpi-card"><div class="kpi-label">Flagged Casino TO</div><div class="kpi-value">€9,964.07</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg TO/Dep</div><div class="kpi-value">2.24x</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg GGR/Dep</div><div class="kpi-value">-0.064x</div></div>
   </div>
 
-  <!-- TABLE SECTION -->
   <div class="section-title">Flagged Players</div>
   <div class="table-container">
-    <table>
+    <table id="players-table">
       <thead>
         <tr>
-          <th>Username</th>
-          <th>Deposits (€)</th>
-          <th># Deps</th>
-          <th>Total TO (€)</th>
-          <th>Casino TO (€)</th>
-          <th>Casino GGR (€)</th>
-          <th>Bets</th>
-          <th>TO/Dep</th>
-          <th>GGR/Dep</th>
+          <th data-col="username">Username<span class="sort-icon"></span></th>
+          <th data-col="dep" class="num">Deposits (€)<span class="sort-icon"></span></th>
+          <th data-col="ndep" class="num"># Deps<span class="sort-icon"></span></th>
+          <th data-col="tto" class="num">Total TO (€)<span class="sort-icon"></span></th>
+          <th data-col="cto" class="num">Casino TO (€)<span class="sort-icon"></span></th>
+          <th data-col="cggr" class="num">Casino GGR (€)<span class="sort-icon"></span></th>
+          <th data-col="bets" class="num">Bets<span class="sort-icon"></span></th>
+          <th data-col="rto" class="num">TO/Dep<span class="sort-icon"></span></th>
+          <th data-col="rggr" class="num">GGR/Dep<span class="sort-icon"></span></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td colspan="9">
-            <div class="empty-state">
-              <div class="empty-state-icon">⊘</div>
-              <div class="empty-state-title">No Data Available</div>
-              <div class="empty-state-msg">Qlik authentication failed. Please reconnect the Qlik connector and re-run the task.</div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+      <tbody id="tbody"></tbody>
     </table>
   </div>
-
 </div>
 
-<!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-filter">
-    Filter: Deposits ≥ €100 | 2+ Deposits | Casino TO &gt; 0 | TO/Dep 0.9x–2.5x | GGR/Dep -0.15x–+0.15x
-  </div>
-  <div class="footer-run">
-    Run: 14 April 2026 (automated) — Data date: 13 April 2026 — Status: QLIK AUTH FAILED
-  </div>
+  <div class="footer-filter">Filter: Deposits ≥ €100 | 2+ Deposits | Casino TO &gt; 0 | TO/Dep 0.9x–2.5x | GGR/Dep -0.15x–+0.15x</div>
+  <div class="footer-run">Run: 14 April 2026 (automated) — Data date: 13 April 2026 — Status: OK</div>
 </footer>
 
 <script>
+  const PLAYERS = [
+    {
+      username: "kajalkaju360",
+      dep: 3172.368, ndep: 4, tto: 7873.56, cto: 7867.24, cggr: -395.94, bets: 53,
+      games: [
+        {game: "First Person Blackjack", bets: 47, to: 7447.69, ggr: -201.87},
+        {game: "VIP Blackjack em Portugus 4", bets: 6, to: 419.55, ggr: -194.07}
+      ],
+      history: {
+        "46122": null,
+        "46123": {dep: 4578.79, ndep: 6, tto: 6581.38, cto: 6535.58, cggr: 162.01, bets: 84},
+        "46124": {dep: 2747.10, ndep: 3, tto: 5494.49, cto: 5210.71, cggr: -588.20, bets: 54},
+        "46125": {dep: 3172.37, ndep: 4, tto: 7873.56, cto: 7867.24, cggr: -395.94, bets: 53}
+      }
+    },
+    {
+      username: "SuperChain91",
+      dep: 548.30, ndep: 2, tto: 2145.52, cto: 955.57, cggr: -45.08, bets: 33,
+      games: [
+        {game: "Rummy", bets: 33, to: 955.57, ggr: -45.08}
+      ],
+      history: {
+        "46122": {dep: 0, ndep: 0, tto: 13.48, cto: 13.48, cggr: 6.24, bets: 11},
+        "46123": null,
+        "46124": null,
+        "46125": {dep: 548.30, ndep: 2, tto: 2145.52, cto: 955.57, cggr: -45.08, bets: 33}
+      }
+    },
+    {
+      username: "sandy1431993",
+      dep: 457.20, ndep: 4, tto: 1873.64, cto: 1141.26, cggr: 6.80, bets: 304,
+      games: [
+        {game: "Super Sic Bo", bets: 161, to: 654.40, ggr: 97.28},
+        {game: "Lightning Sic Bo", bets: 84, to: 430.18, ggr: -89.11},
+        {game: "Aviator", bets: 48, to: 53.01, ggr: -4.13},
+        {game: "Sylvan Spirits", bets: 11, to: 3.67, ggr: 2.77}
+      ],
+      history: {
+        "46122": {dep: 221.42, ndep: 3, tto: 575.42, cto: 159.96, cggr: 70.79, bets: 103},
+        "46123": {dep: 183.20, ndep: 2, tto: 552.88, cto: 165.46, cggr: -205.74, bets: 109},
+        "46124": {dep: 385.08, ndep: 3, tto: 800.74, cto: 156.70, cggr: -16.12, bets: 79},
+        "46125": {dep: 457.20, ndep: 4, tto: 1873.64, cto: 1141.26, cggr: 6.80, bets: 304}
+      }
+    }
+  ];
+
+  const DATES = [
+    {k: "46122", label: "10 APR", today: false},
+    {k: "46123", label: "11 APR", today: false},
+    {k: "46124", label: "12 APR", today: false},
+    {k: "46125", label: "13 APR *", today: true}
+  ];
+
+  function fmtEUR(v) { if (v==null || isNaN(v)) return "—"; return v.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2}); }
+  function fmtInt(v) { if (v==null) return "—"; return Math.round(v).toLocaleString("en-US"); }
+  function fmtRatio(v) { if (v==null || isNaN(v)) return "—"; return v.toFixed(3) + "x"; }
+  function ggrClass(v) { if (v==null) return ""; return v > 0 ? "pos" : (v < 0 ? "neg" : ""); }
+
+  let sortCol = "dep";
+  let sortDir = "desc";
+
+  function addRatios(p) { p.rto = p.dep ? p.cto/p.dep : 0; p.rggr = p.dep ? p.cggr/p.dep : 0; return p; }
+  PLAYERS.forEach(addRatios);
+
+  function sortPlayers() {
+    PLAYERS.sort((a,b) => {
+      let x = a[sortCol], y = b[sortCol];
+      if (typeof x === "string") { x = x.toLowerCase(); y = y.toLowerCase(); }
+      if (x < y) return sortDir === "asc" ? -1 : 1;
+      if (x > y) return sortDir === "asc" ? 1 : -1;
+      return 0;
+    });
+  }
+
+  function renderTable() {
+    sortPlayers();
+    const tbody = document.getElementById("tbody");
+    tbody.innerHTML = "";
+    PLAYERS.forEach((p, idx) => {
+      const tr = document.createElement("tr");
+      tr.className = "clickable";
+      tr.dataset.idx = idx;
+      tr.innerHTML = `
+        <td>${p.username}</td>
+        <td class="num">${fmtEUR(p.dep)}</td>
+        <td class="num">${p.ndep}</td>
+        <td class="num">${fmtEUR(p.tto)}</td>
+        <td class="num">${fmtEUR(p.cto)}</td>
+        <td class="num ${ggrClass(p.cggr)}">${fmtEUR(p.cggr)}</td>
+        <td class="num">${fmtInt(p.bets)}</td>
+        <td class="num">${p.rto.toFixed(2)}x</td>
+        <td class="num ${ggrClass(p.rggr)}">${(p.rggr>=0?"+":"") + p.rggr.toFixed(3)}x</td>
+      `;
+      tr.onclick = () => toggleExpand(idx, tr);
+      tbody.appendChild(tr);
+    });
+    updateSortIcons();
+  }
+
+  function updateSortIcons() {
+    document.querySelectorAll("#players-table th").forEach(th => {
+      const icon = th.querySelector(".sort-icon");
+      if (th.dataset.col === sortCol) icon.textContent = sortDir === "asc" ? "▲" : "▼";
+      else icon.textContent = "";
+    });
+  }
+
+  function toggleExpand(idx, tr) {
+    const next = tr.nextElementSibling;
+    if (next && next.classList.contains("expanded-row")) {
+      next.remove(); tr.classList.remove("expanded"); return;
+    }
+    // close any other open
+    document.querySelectorAll("tr.expanded-row").forEach(r => r.remove());
+    document.querySelectorAll("tr.expanded").forEach(r => r.classList.remove("expanded"));
+
+    tr.classList.add("expanded");
+    const p = PLAYERS[idx];
+    const expTr = document.createElement("tr");
+    expTr.className = "expanded-row";
+    const td = document.createElement("td");
+    td.colSpan = 9;
+
+    // Game breakdown
+    let gameHTML = `<div class="sub-title">Game Breakdown (13 Apr)</div>
+      <table class="game-table">
+        <thead><tr><th>Game</th><th class="num">Bets</th><th class="num">Turnover (€)</th><th class="num">GGR (€)</th></tr></thead>
+        <tbody>`;
+    p.games.forEach(g => {
+      gameHTML += `<tr><td>${g.game}</td><td class="num">${fmtInt(g.bets)}</td><td class="num">${fmtEUR(g.to)}</td><td class="num ${ggrClass(g.ggr)}">${fmtEUR(g.ggr)}</td></tr>`;
+    });
+    gameHTML += `</tbody></table>`;
+
+    // 4-day comparison
+    let cmpHTML = `<div class="sub-title">4-Day Comparison</div>
+      <table class="cmp-table"><thead><tr><th>Metric</th>`;
+    DATES.forEach(d => { cmpHTML += `<th class="num ${d.today?'today':''}">${d.label}</th>`; });
+    cmpHTML += `</tr></thead><tbody>`;
+
+    const metrics = [
+      {key: "dep",  label: "Deposits",      fmt: v => v==null?"—":fmtEUR(v)},
+      {key: "ndep", label: "# Deposits",    fmt: v => v==null?"—":v},
+      {key: "tto",  label: "Turnover",      fmt: v => v==null?"—":fmtEUR(v)},
+      {key: "cto",  label: "Casino TO",     fmt: v => v==null?"—":fmtEUR(v)},
+      {key: "cggr", label: "Casino GGR",    fmt: v => v==null?"—":fmtEUR(v), colorKey: true},
+      {key: "bets", label: "Bets",          fmt: v => v==null?"—":fmtInt(v)},
+      {key: "rto",  label: "Casino TO/Dep", calc: r => (r && r.dep) ? (r.cto/r.dep) : null, fmt: v => v==null?"—":v.toFixed(2)+"x"},
+      {key: "rggr", label: "Casino GGR/Dep",calc: r => (r && r.dep) ? (r.cggr/r.dep) : null, fmt: v => v==null?"—":(v>=0?"+":"")+v.toFixed(3)+"x", colorKey: true}
+    ];
+
+    metrics.forEach(m => {
+      cmpHTML += `<tr><td class="metric">${m.label}</td>`;
+      DATES.forEach(d => {
+        const rec = p.history[d.k];
+        let v;
+        if (m.calc) v = m.calc(rec);
+        else v = rec ? rec[m.key] : null;
+        const cls = (d.today ? "today " : "") + "num" + (m.colorKey && v!=null ? " "+ggrClass(v) : "");
+        cmpHTML += `<td class="${cls}">${m.fmt(v)}</td>`;
+      });
+      cmpHTML += `</tr>`;
+    });
+    cmpHTML += `</tbody></table>`;
+
+    td.innerHTML = `<div class="expanded-inner">${gameHTML}${cmpHTML}</div>`;
+    expTr.appendChild(td);
+    tr.after(expTr);
+  }
+
+  document.querySelectorAll("#players-table th").forEach(th => {
+    th.onclick = () => {
+      const col = th.dataset.col;
+      if (sortCol === col) sortDir = sortDir === "asc" ? "desc" : "asc";
+      else { sortCol = col; sortDir = (col === "username") ? "asc" : "desc"; }
+      renderTable();
+    };
+  });
+
   function toggleTheme() {
     const html = document.documentElement;
     html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   }
+
+  renderTable();
 </script>
 
 </body>
