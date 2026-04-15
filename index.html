@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- selfCheck: {"date":"2026-04-14","date_key":46126,"total_screened":9792,"flagged_count":5,"all_pass":true} -->
+<!-- selfCheck: {"date": "2026-04-14", "date_key": 46126, "total_screened": 9792, "flagged_count": 5, "all_pass": true} -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -387,68 +387,14 @@
 
 <script>
 /* @@DATA_START@@ */
-const META = {
-  reportDate:    "14 April 2026",
-  generatedDate: "15 April 2026",
-  sectionLabel:  "Flagged Players \u2014 14 April 2026",
-  totalScreened: 9792,
-  flaggedCount:  5,
-  flaggedDep:    1866.21,
-  flaggedCTO:    2937.05,
-  avgTODep:      1.515,
-  avgGGRDep:     -0.068,
-  status:        "OK",
-  dateKeys:      [46123, 46124, 46125, 46126],
-  dateLabels:    ["11 APR", "12 APR", "13 APR", "14 APR \u2605"],
-  todayDK:       46126
-};
+const META = {"reportDate": "14 April 2026", "generatedDate": "15 April 2026", "sectionLabel": "Flagged Players — 14 April 2026", "totalScreened": 9792, "flaggedCount": 5, "flaggedDep": 1866.21, "flaggedCTO": 2937.05, "avgTODep": 1.5154, "avgGGRDep": -0.0682, "status": "OK", "dateKeys": [46123, 46124, 46125, 46126], "dateLabels": ["11 APR", "12 APR", "13 APR", "14 APR ★"], "todayDK": 46126};
 
-const PLAYERS = [
-  {u:"darwinsiva",        dep:665.8071,    nd:7,  tto:703.35674,   cto:655.796,    cggr:9.106,      bets:31,  tod:0.9851,  ggrd:0.0137},
-  {u:"manojyash",         dep:637.56,      nd:7,  tto:1251.4947,   cto:1251.4947,  cggr:-48.51828,  bets:64,  tod:1.9630,  ggrd:-0.0761},
-  {u:"avihande55",        dep:309.841,     nd:6,  tto:2143.00139,  cto:748.24408,  cggr:-14.72772,  bets:71,  tod:2.4149,  ggrd:-0.0475},
-  {u:"sakshamsahiya1234", dep:141.2075,    nd:4,  tto:345.45006,   cto:163.06502,  cggr:-19.3077,   bets:540, tod:1.1547,  ggrd:-0.1367},
-  {u:"RadarPasteRob72",   dep:111.79528,   nd:3,  tto:118.453,     cto:118.453,    cggr:-10.578489, bets:8,   tod:1.0595,  ggrd:-0.0946}
-];
+const PLAYERS = [{"u": "darwinsiva", "dep": 665.8071, "nd": 7, "tto": 703.3567, "cto": 655.796, "cggr": 9.106, "bets": 31, "tod": 0.985, "ggrd": 0.0137}, {"u": "manojyash", "dep": 637.56, "nd": 7, "tto": 1251.4947, "cto": 1251.4947, "cggr": -48.5183, "bets": 64, "tod": 1.9629, "ggrd": -0.0761}, {"u": "avihande55", "dep": 309.841, "nd": 6, "tto": 2143.0014, "cto": 748.2441, "cggr": -14.7277, "bets": 71, "tod": 2.4149, "ggrd": -0.0475}, {"u": "sakshamsahiya1234", "dep": 141.2075, "nd": 4, "tto": 345.4501, "cto": 163.065, "cggr": -19.3077, "bets": 540, "tod": 1.1548, "ggrd": -0.1367}, {"u": "RadarPasteRob72", "dep": 111.7953, "nd": 3, "tto": 118.453, "cto": 118.453, "cggr": -10.5785, "bets": 8, "tod": 1.0596, "ggrd": -0.0946}];
 
-const GAMES = {
-  "darwinsiva":        [{game:"French Roulette Classic",   bets:31,  to:655.796,    ggr:9.106}],
-  "manojyash":         [{game:"Bet on Teen Patti Ezugi",   bets:52,  to:1222.3427,  ggr:-12.07828},
-                        {game:"Cricket Auto Roulette",      bets:12,  to:29.152,     ggr:-36.44}],
-  "avihande55":        [{game:"Lightning Roulette",         bets:71,  to:748.24408,  ggr:-14.72772}],
-  "sakshamsahiya1234": [{game:"Sylvan Spirits",             bets:539, to:162.15502,  ggr:-20.12674},
-                        {game:"War of Gods",                bets:1,   to:0.91,       ggr:0.819}],
-  "RadarPasteRob72":   [{game:"Aviator",                   bets:8,   to:118.453,    ggr:-10.578489}]
-};
+const GAMES = {"avihande55": [{"game": "Lightning Roulette", "bets": 71, "to": 748.2441, "ggr": -14.7277}], "darwinsiva": [{"game": "French Roulette Classic", "bets": 31, "to": 655.796, "ggr": 9.106}], "manojyash": [{"game": "Bet on Teen Patti Ezugi", "bets": 52, "to": 1222.3427, "ggr": -12.0783}, {"game": "Cricket Auto Roulette", "bets": 12, "to": 29.152, "ggr": -36.44}], "RadarPasteRob72": [{"game": "Aviator", "bets": 8, "to": 118.453, "ggr": -10.5785}], "sakshamsahiya1234": [{"game": "Sylvan Spirits", "bets": 539, "to": 162.155, "ggr": -20.1267}, {"game": "War of Gods", "bets": 1, "to": 0.91, "ggr": 0.819}]};
 
 // Rows: {dk, dep, nd, tto, cto, cggr, bets} — missing dates are absent from array
-const HISTORY = {
-  "darwinsiva": [
-    {dk:46125, dep:609.319062, nd:12, tto:669.77532,  cto:626.8878,   cggr:0,        bets:36},
-    {dk:46126, dep:665.8071,   nd:7,  tto:703.35674,  cto:655.796,    cggr:9.106,    bets:31}
-  ],
-  "manojyash": [
-    {dk:46123, dep:549.6,      nd:6,  tto:1548.0595,  cto:1548.0595,  cggr:163.71238,bets:34},
-    {dk:46124, dep:825.650841, nd:9,  tto:1498.2433,  cto:1498.2433,  cggr:440.58031,bets:48},
-    {dk:46125, dep:271.02,     nd:3,  tto:407.117,    cto:407.117,    cggr:268.02818,bets:14},
-    {dk:46126, dep:637.56,     nd:7,  tto:1251.4947,  cto:1251.4947,  cggr:-48.51828,bets:64}
-  ],
-  "avihande55": [
-    {dk:46123, dep:219.809,  nd:5, tto:540.130978,  cto:160.44816,  cggr:23.07816,  bets:15},
-    {dk:46124, dep:384.672,  nd:9, tto:1058.820195, cto:246.10233,  cggr:-17.67687, bets:24},
-    {dk:46125, dep:91.58,    nd:2, tto:386.04309,   cto:64.58506,   cggr:21.3081,   bets:9},
-    {dk:46126, dep:309.841,  nd:6, tto:2143.00139,  cto:748.24408,  cggr:-14.72772, bets:71}
-  ],
-  "sakshamsahiya1234": [
-    {dk:46123, dep:164.888,  nd:3, tto:613.2329246, cto:164.46193,  cggr:34.3875856,bets:729},
-    {dk:46124, dep:320.415,  nd:5, tto:473.539974,  cto:1.83,       cggr:1.6104,    bets:1},
-    {dk:46125, dep:45.715,   nd:1, tto:138.260211,  cto:5.77408,    cggr:4.339582,  bets:39},
-    {dk:46126, dep:141.2075, nd:4, tto:345.45006,   cto:163.06502,  cggr:-19.3077,  bets:540}
-  ],
-  "RadarPasteRob72": [
-    {dk:46126, dep:111.79528, nd:3, tto:118.453, cto:118.453, cggr:-10.578489, bets:8}
-  ]
-};
+const HISTORY = {"avihande55": [{"dk": 46123, "dep": 219.809, "nd": 5, "tto": 540.131, "cto": 160.4482, "cggr": 23.0782, "bets": 15}, {"dk": 46124, "dep": 384.672, "nd": 9, "tto": 1058.8202, "cto": 246.1023, "cggr": -17.6769, "bets": 24}, {"dk": 46125, "dep": 91.58, "nd": 2, "tto": 386.0431, "cto": 64.5851, "cggr": 21.3081, "bets": 9}, {"dk": 46126, "dep": 309.841, "nd": 6, "tto": 2143.0014, "cto": 748.2441, "cggr": -14.7277, "bets": 71}], "darwinsiva": [{"dk": 46125, "dep": 609.3191, "nd": 12, "tto": 669.7753, "cto": 626.8878, "cggr": 0, "bets": 36}, {"dk": 46126, "dep": 665.8071, "nd": 7, "tto": 703.3567, "cto": 655.796, "cggr": 9.106, "bets": 31}], "manojyash": [{"dk": 46123, "dep": 549.6, "nd": 6, "tto": 1548.0595, "cto": 1548.0595, "cggr": 163.7124, "bets": 34}, {"dk": 46124, "dep": 825.6508, "nd": 9, "tto": 1498.2433, "cto": 1498.2433, "cggr": 440.5803, "bets": 48}, {"dk": 46125, "dep": 271.02, "nd": 3, "tto": 407.117, "cto": 407.117, "cggr": 268.0282, "bets": 14}, {"dk": 46126, "dep": 637.56, "nd": 7, "tto": 1251.4947, "cto": 1251.4947, "cggr": -48.5183, "bets": 64}], "RadarPasteRob72": [{"dk": 46126, "dep": 111.7953, "nd": 3, "tto": 118.453, "cto": 118.453, "cggr": -10.5785, "bets": 8}], "sakshamsahiya1234": [{"dk": 46123, "dep": 164.888, "nd": 3, "tto": 613.2329, "cto": 164.4619, "cggr": 34.3876, "bets": 729}, {"dk": 46124, "dep": 320.415, "nd": 5, "tto": 473.54, "cto": 1.83, "cggr": 1.6104, "bets": 1}, {"dk": 46125, "dep": 45.715, "nd": 1, "tto": 138.2602, "cto": 5.7741, "cggr": 4.3396, "bets": 39}, {"dk": 46126, "dep": 141.2075, "nd": 4, "tto": 345.4501, "cto": 163.065, "cggr": -19.3077, "bets": 540}]};
 /* @@DATA_END@@ */
 
 /* ── HELPERS ──────────────────────────────────────────────────────────────── */
