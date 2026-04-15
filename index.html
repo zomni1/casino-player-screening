@@ -1,512 +1,539 @@
 <!DOCTYPE html>
-<!-- selfCheck: {"date":"2026-04-14","date_key":46126,"total_screened":9792,"flagged_count":5,"checks":[{"name":"Total screened 2k-25k","value":9792,"expected":"2000-25000","pass":true},{"name":"Flagged count 0-50","value":5,"expected":"0-50","pass":true},{"name":"Flagged deposits > 0","value":1866.21,"expected":"> 0","pass":true},{"name":"Every flagged player has \u22651 game","value":"All have games","expected":"All present","pass":true},{"name":"Every flagged player has DK=46126 row","value":"All present","expected":"All present","pass":true},{"name":"CasinoTO table vs game sum","value":"Table: 2937.05, Games: 2937.05, Diff: 0.00%","expected":"< 1% diff","pass":true}],"all_pass":true} -->
+<!-- selfCheck: {"date":"2026-04-14","date_key":46126,"total_screened":9792,"flagged_count":5,"all_pass":true} -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casino Player Screening — 14 APR 2026</title>
+<title>Casino Player Screening — 14 April 2026</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; border-radius: 0 !important; margin: 0; padding: 0; }
+
+  /* ── TOKENS ─────────────────────────────────────────────── */
   :root {
-    --bg: #111;
-    --card: #1a1a1a;
-    --hero: #000;
-    --text: #fff;
-    --muted: #bbb;
-    --dim: #757575;
-    --accent: #1c69d4;
-    --border: #2a2a2a;
-    --neg: #e84040;
-    --pos: #3ecf6b;
-    --row-hover: #222;
-    --expanded: #161616;
+    --bg:        #0d0d0d;
+    --surface:   #161616;
+    --card:      #1c1c1c;
+    --card2:     #222;
+    --border:    #2e2e2e;
+    --border2:   #383838;
+    --text:      #f0f0f0;
+    --muted:     #999;
+    --dim:       #555;
+    --accent:    #1c69d4;
+    --accent-bg: rgba(28,105,212,.12);
+    --neg:       #e05252;
+    --pos:       #3ecf6b;
+    --row-hover: #1e1e1e;
+    --exp-bg:    #131313;
+    --hdr-bg:    #111;
+    --sect-bg:   #181818;
+    --sect-text: #888;
   }
   body.light {
-    --bg: #f5f5f5;
-    --card: #fff;
-    --hero: #fff;
-    --text: #262626;
-    --muted: #444;
-    --dim: #757575;
-    --border: #e0e0e0;
-    --row-hover: #f0f0f0;
-    --expanded: #fafafa;
+    --bg:        #f0f0f0;
+    --surface:   #e8e8e8;
+    --card:      #ffffff;
+    --card2:     #f5f5f5;
+    --border:    #d8d8d8;
+    --border2:   #c8c8c8;
+    --text:      #1a1a1a;
+    --muted:     #555;
+    --dim:       #999;
+    --row-hover: #f8f8f8;
+    --exp-bg:    #fafafa;
+    --hdr-bg:    #fff;
+    --sect-bg:   #eee;
+    --sect-text: #888;
   }
+
   body {
     font-family: Helvetica, Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 13px;
   }
 
-  /* HEADER */
+  /* ── HEADER ─────────────────────────────────────────────── */
   .header {
-    background: var(--hero);
+    background: var(--hdr-bg);
     border-bottom: 1px solid var(--border);
-    padding: 28px 40px;
+    padding: 28px 36px 24px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+    gap: 24px;
   }
-  .header-left {}
-  .brand {
-    font-size: 11px;
+  .brand-line {
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
+    color: var(--muted);
+    margin-bottom: 8px;
   }
-  .hero-title {
-    font-size: 28px;
-    font-weight: 300;
+  .main-title {
+    font-size: 32px;
+    font-weight: 200;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .date-line {
+    font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--text);
+    color: var(--muted);
   }
-  .hero-sub {
-    font-size: 12px;
-    color: var(--dim);
-    margin-top: 4px;
-    letter-spacing: 1px;
-  }
-  .toggle-btn {
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 8px 18px;
+  .theme-btn {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--muted);
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .toggle-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-  /* KPI GRID */
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  @media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 600px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-  .kpi-card {
-    background: var(--card);
-    padding: 24px 20px;
-  }
-  .kpi-label {
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    margin-top: 4px;
+  }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── KPI GRID ────────────────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+  .kpi-card {
+    background: var(--surface);
+    padding: 22px 24px 20px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .kpi-card:last-child { border-right: none; }
+  .kpi-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
     color: var(--dim);
     margin-bottom: 10px;
   }
   .kpi-value {
-    font-size: 26px;
-    font-weight: 300;
+    font-size: 30px;
+    font-weight: 200;
     color: var(--text);
-    letter-spacing: 0.5px;
     font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin-bottom: 8px;
   }
-  .kpi-card.accent .kpi-value { color: var(--accent); }
-
-  /* MAIN CONTENT */
-  .content { padding: 32px 40px; }
-
-  .section-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--dim);
-    margin-bottom: 16px;
-  }
-
-  /* TABLE */
-  .table-wrap { overflow-x: auto; }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  thead tr {
-    background: var(--hero);
-    border-bottom: 2px solid var(--accent);
-  }
-  th {
-    padding: 12px 14px;
-    text-align: left;
+  .kpi-card.flagged-card .kpi-value { color: var(--accent); font-weight: 300; }
+  .kpi-sub {
     font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.3px;
+  }
+
+  /* ── SECTION BAR ─────────────────────────────────────────── */
+  .section-bar {
+    background: var(--sect-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 36px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--sect-text);
+  }
+
+  /* ── MAIN TABLE ──────────────────────────────────────────── */
+  .table-wrap { overflow-x: auto; }
+  table.main { width: 100%; border-collapse: collapse; }
+
+  table.main thead tr {
+    background: var(--hdr-bg);
+    border-bottom: 1px solid var(--border2);
+  }
+  table.main th {
+    padding: 11px 16px;
+    font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--dim);
+    text-align: left;
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
+    transition: color 0.15s;
   }
-  th:hover { color: var(--text); }
-  th.num { text-align: right; }
-  th .sort-indicator { margin-left: 4px; color: var(--accent); }
+  table.main th:hover { color: var(--muted); }
+  table.main th.r { text-align: right; }
+  .sort-arrow { margin-left: 4px; color: var(--accent); }
 
-  tbody tr.player-row {
+  table.main tbody tr.player-row {
     border-bottom: 1px solid var(--border);
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.12s;
   }
-  tbody tr.player-row:hover { background: var(--row-hover); }
-  tbody tr.player-row.expanded { background: var(--row-hover); border-bottom: none; }
+  table.main tbody tr.player-row:hover { background: var(--row-hover); }
+  table.main tbody tr.player-row.is-open { background: var(--row-hover); border-bottom: none; }
 
-  td {
-    padding: 13px 14px;
+  table.main td {
+    padding: 14px 16px;
     color: var(--text);
     white-space: nowrap;
   }
-  td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  td.neg { color: var(--neg); }
-  td.pos { color: var(--pos); }
+  table.main td.r { text-align: right; font-variant-numeric: tabular-nums; }
+  td.c-neg { color: var(--neg); }
+  td.c-pos { color: var(--pos); }
+  .username-cell { font-weight: 600; }
 
-  /* EXPAND INDICATOR */
-  .expand-icon {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
-    text-align: center;
-    background: var(--border);
-    color: var(--dim);
-    font-size: 10px;
-    margin-right: 8px;
-    transition: transform 0.2s;
-  }
-  tr.expanded .expand-icon { transform: rotate(90deg); background: var(--accent); color: #fff; }
-
-  /* EXPANDED ROW */
-  tr.expanded-content td {
+  /* ── EXPANDED ROW ────────────────────────────────────────── */
+  tr.exp-row td {
+    background: var(--exp-bg);
     padding: 0;
-    background: var(--expanded);
     border-bottom: 2px solid var(--accent);
   }
-  .expanded-inner {
-    padding: 20px 28px 24px 60px;
+  .exp-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    gap: 0;
   }
-  @media (max-width: 900px) { .expanded-inner { grid-template-columns: 1fr; } }
-
-  .sub-title {
-    font-size: 10px;
+  .exp-panel {
+    padding: 20px 24px 24px 36px;
+  }
+  .exp-panel:first-child { border-right: 1px solid var(--border); }
+  .exp-title {
+    font-size: 9px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
     color: var(--accent);
+    padding-bottom: 10px;
     margin-bottom: 12px;
-    padding-bottom: 6px;
     border-bottom: 1px solid var(--border);
   }
 
-  /* MINI TABLE */
-  .mini-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .mini-table th {
+  /* mini table */
+  table.mini { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.mini th {
     padding: 7px 10px;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--dim);
-    cursor: default;
-    background: transparent;
+    text-align: left;
     border-bottom: 1px solid var(--border);
+    cursor: default;
   }
-  .mini-table th.num { text-align: right; }
-  .mini-table td {
+  table.mini th.r { text-align: right; }
+  table.mini td {
     padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
     color: var(--muted);
-    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
   }
-  .mini-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  .mini-table tr:last-child td { border-bottom: none; }
+  table.mini td.r { text-align: right; }
+  table.mini tr:last-child td { border-bottom: none; }
 
-  /* 4-DAY HORIZONTAL TABLE */
-  .hist-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .hist-table th {
+  /* history table */
+  table.hist { width: 100%; border-collapse: collapse; font-size: 11px; }
+  table.hist th {
     padding: 7px 10px;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--dim);
-    cursor: default;
-    background: transparent;
-    border-bottom: 1px solid var(--border);
     text-align: center;
+    border-bottom: 1px solid var(--border);
+    cursor: default;
     white-space: nowrap;
   }
-  .hist-table th.today { background: var(--accent); color: #fff; }
-  .hist-table th.metric { text-align: left; }
-  .hist-table td {
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
+  table.hist th.lbl { text-align: left; }
+  table.hist th.today-hdr {
+    background: var(--accent);
+    color: #fff;
+  }
+  table.hist td {
+    padding: 7px 10px;
     color: var(--muted);
+    border-bottom: 1px solid var(--border);
     text-align: center;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-  .hist-table td.metric { text-align: left; color: var(--dim); font-size: 11px; }
-  .hist-table td.today-val { color: var(--text); font-weight: 600; }
-  .hist-table tr:last-child td { border-bottom: none; }
+  table.hist td.lbl {
+    text-align: left;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  table.hist td.today-val { color: var(--text); font-weight: 700; }
+  table.hist tr:last-child td { border-bottom: none; }
 
-  /* FOOTER */
+  /* ── FOOTER ──────────────────────────────────────────────── */
   .footer {
-    margin-top: 48px;
-    padding: 24px 40px;
     border-top: 1px solid var(--border);
+    padding: 20px 36px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 12px;
+    margin-top: 2px;
   }
-  .footer-filter {
-    font-size: 11px;
-    color: var(--dim);
-    letter-spacing: 0.5px;
-  }
-  .footer-meta {
-    font-size: 11px;
-    color: var(--dim);
-    text-align: right;
-  }
-  .status-ok { color: var(--pos); font-weight: 700; }
-  .status-warn { color: #f0a500; font-weight: 700; }
+  .footer-filter { font-size: 10px; color: var(--dim); letter-spacing: 0.3px; line-height: 1.8; }
+  .footer-meta { font-size: 10px; color: var(--dim); text-align: right; line-height: 1.8; }
+  .st-ok  { color: var(--pos); font-weight: 700; }
+  .st-warn { color: #f0a000; font-weight: 700; }
+  .st-err { color: var(--neg); font-weight: 700; }
 
-  /* NO DATA */
-  .no-data {
-    padding: 48px 0;
-    text-align: center;
-    color: var(--dim);
-    font-size: 14px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
+  /* ── RESPONSIVE ──────────────────────────────────────────── */
+  @media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(3,1fr); } }
+  @media (max-width: 700px)  { .kpi-grid { grid-template-columns: repeat(2,1fr); } .exp-inner { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
+<!-- ══ HEADER ══════════════════════════════════════════════════════════════ -->
 <div class="header">
-  <div class="header-left">
-    <div class="brand">Casino Intelligence</div>
-    <div class="hero-title">Player Screening Report</div>
-    <div class="hero-sub">Data Date: 14 APR 2026 &nbsp;|&nbsp; Filter Window: Yesterday</div>
+  <div>
+    <div class="brand-line">10CRIC &middot; Risk &amp; Compliance</div>
+    <div class="main-title">Casino Player Screening</div>
+    <div class="date-line" id="dateLine">Report Date: 14 April 2026 &nbsp;&middot;&nbsp; Generated: 15 April 2026</div>
   </div>
-  <button class="toggle-btn" onclick="toggleTheme()">Toggle Light / Dark</button>
+  <button class="theme-btn" onclick="toggleTheme()">Light / Dark</button>
 </div>
 
+<!-- ══ KPI GRID ═════════════════════════════════════════════════════════════ -->
 <div class="kpi-grid">
   <div class="kpi-card">
     <div class="kpi-label">Total Screened</div>
-    <div class="kpi-value">9,792</div>
+    <div class="kpi-value" id="kpiScreened">9,792</div>
+    <div class="kpi-sub">Active players</div>
   </div>
-  <div class="kpi-card accent">
+  <div class="kpi-card flagged-card">
     <div class="kpi-label">Flagged</div>
-    <div class="kpi-value">5</div>
+    <div class="kpi-value" id="kpiFlagged">5</div>
+    <div class="kpi-sub">Passed all filters</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-label">Flagged Deposits</div>
-    <div class="kpi-value">€1,866</div>
+    <div class="kpi-value" id="kpiDep">€1,866</div>
+    <div class="kpi-sub">Combined</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-label">Flagged Casino TO</div>
-    <div class="kpi-value">€2,937</div>
+    <div class="kpi-value" id="kpiCTO">€2,937</div>
+    <div class="kpi-sub">Combined</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-label">Avg TO / Dep</div>
-    <div class="kpi-value">1.52x</div>
+    <div class="kpi-value" id="kpiTOD">1.52x</div>
+    <div class="kpi-sub">Flagged cohort</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-label">Avg GGR / Dep</div>
-    <div class="kpi-value">−0.068x</div>
+    <div class="kpi-value" id="kpiGGRD">-0.07x</div>
+    <div class="kpi-sub">Flagged cohort</div>
   </div>
 </div>
 
-<div class="content">
-  <div class="section-title">Flagged Players — 14 April 2026</div>
-  <div class="table-wrap">
-    <table id="mainTable">
-      <thead>
-        <tr>
-          <th onclick="sortTable(0)">Username <span class="sort-indicator" id="si0"></span></th>
-          <th class="num" onclick="sortTable(1)">Deposits (€) <span class="sort-indicator" id="si1"></span></th>
-          <th class="num" onclick="sortTable(2)"># Deps <span class="sort-indicator" id="si2"></span></th>
-          <th class="num" onclick="sortTable(3)">Total TO (€) <span class="sort-indicator" id="si3"></span></th>
-          <th class="num" onclick="sortTable(4)">Casino TO (€) <span class="sort-indicator" id="si4"></span></th>
-          <th class="num" onclick="sortTable(5)">Casino GGR (€) <span class="sort-indicator" id="si5"></span></th>
-          <th class="num" onclick="sortTable(6)">Bets <span class="sort-indicator" id="si6"></span></th>
-          <th class="num" onclick="sortTable(7)">TO/Dep <span class="sort-indicator" id="si7"></span></th>
-          <th class="num" onclick="sortTable(8)">GGR/Dep <span class="sort-indicator" id="si8"></span></th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-    <div id="noData" class="no-data" style="display:none;">No flagged players for this date.</div>
-  </div>
+<!-- ══ SECTION BAR ══════════════════════════════════════════════════════════ -->
+<div class="section-bar" id="sectionBar">Flagged Players &mdash; 14 April 2026</div>
 
-  <div class="footer">
-    <div class="footer-filter">
-      FILTER: Deposits ≥ €100 &nbsp;|&nbsp; 2+ deposits &nbsp;|&nbsp; Casino TO &gt; 0 &nbsp;|&nbsp; TO/Dep 0.9x–2.5x &nbsp;|&nbsp; GGR/Dep −0.15x–+0.15x
-    </div>
-    <div class="footer-meta">
-      Run: <span id="runTs"></span><br>
-      Data: 14 APR 2026<br>
-      Status: <span class="status-ok">OK — ALL CHECKS PASSED</span>
-    </div>
+<!-- ══ TABLE ════════════════════════════════════════════════════════════════ -->
+<div class="table-wrap">
+  <table class="main" id="mainTable">
+    <thead>
+      <tr>
+        <th onclick="sortBy(0)">Username <span class="sort-arrow" id="sa0"></span></th>
+        <th class="r" onclick="sortBy(1)">Deposits (€) <span class="sort-arrow" id="sa1">▼</span></th>
+        <th class="r" onclick="sortBy(2)"># Deps <span class="sort-arrow" id="sa2"></span></th>
+        <th class="r" onclick="sortBy(3)">Total TO (€) <span class="sort-arrow" id="sa3"></span></th>
+        <th class="r" onclick="sortBy(4)">Casino TO (€) <span class="sort-arrow" id="sa4"></span></th>
+        <th class="r" onclick="sortBy(5)">Casino GGR (€) <span class="sort-arrow" id="sa5"></span></th>
+        <th class="r" onclick="sortBy(6)">Bets <span class="sort-arrow" id="sa6"></span></th>
+        <th class="r" onclick="sortBy(7)">TO / Dep <span class="sort-arrow" id="sa7"></span></th>
+        <th class="r" onclick="sortBy(8)">GGR / Dep <span class="sort-arrow" id="sa8"></span></th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════════════════ -->
+<div class="footer">
+  <div class="footer-filter">
+    Filter: Deposits &ge; €100 &nbsp;&nbsp;|&nbsp;&nbsp; 2+ deposits &nbsp;&nbsp;|&nbsp;&nbsp; Casino TO &gt; 0
+    &nbsp;&nbsp;|&nbsp;&nbsp; TO/Dep 0.9x–2.5x &nbsp;&nbsp;|&nbsp;&nbsp; GGR/Dep -0.15x–+0.15x
+  </div>
+  <div class="footer-meta">
+    Run: <span id="runTs"></span><br>
+    Data: 14 APR 2026 &nbsp;&nbsp;|&nbsp;&nbsp; Status: <span class="st-ok" id="statusSpan">OK — ALL CHECKS PASSED</span>
   </div>
 </div>
 
 <script>
-// ─── DATA ──────────────────────────────────────────────────────────────────
-const PLAYERS = [
-  {
-    Username: "darwinsiva",
-    Deposits: 665.8071, NumDeps: 7, TotalTO: 703.35674,
-    CasinoTO: 655.796, CasinoGGR: 9.106, Bets: 31,
-    TO_Dep: 0.9851, GGR_Dep: 0.0137
-  },
-  {
-    Username: "manojyash",
-    Deposits: 637.56, NumDeps: 7, TotalTO: 1251.4947,
-    CasinoTO: 1251.4947, CasinoGGR: -48.51828, Bets: 64,
-    TO_Dep: 1.9630, GGR_Dep: -0.0761
-  },
-  {
-    Username: "avihande55",
-    Deposits: 309.841, NumDeps: 6, TotalTO: 2143.00139,
-    CasinoTO: 748.24408, CasinoGGR: -14.72772, Bets: 71,
-    TO_Dep: 2.4149, GGR_Dep: -0.0475
-  },
-  {
-    Username: "sakshamsahiya1234",
-    Deposits: 141.2075, NumDeps: 4, TotalTO: 345.45006,
-    CasinoTO: 163.06502, CasinoGGR: -19.3077, Bets: 540,
-    TO_Dep: 1.1547, GGR_Dep: -0.1367
-  },
-  {
-    Username: "RadarPasteRob72",
-    Deposits: 111.79528, NumDeps: 3, TotalTO: 118.453,
-    CasinoTO: 118.453, CasinoGGR: -10.578489, Bets: 8,
-    TO_Dep: 1.0595, GGR_Dep: -0.0946
-  }
-];
-
-// date_key → "DD MMM" label, yesterday DK = 46126
-const DK_LABELS = {
-  46123: "11 APR",
-  46124: "12 APR",
-  46125: "13 APR",
-  46126: "14 APR ★"
+/* @@DATA_START@@ */
+const META = {
+  reportDate:    "14 April 2026",
+  generatedDate: "15 April 2026",
+  sectionLabel:  "Flagged Players \u2014 14 April 2026",
+  totalScreened: 9792,
+  flaggedCount:  5,
+  flaggedDep:    1866.21,
+  flaggedCTO:    2937.05,
+  avgTODep:      1.515,
+  avgGGRDep:     -0.068,
+  status:        "OK",
+  dateKeys:      [46123, 46124, 46125, 46126],
+  dateLabels:    ["11 APR", "12 APR", "13 APR", "14 APR \u2605"],
+  todayDK:       46126
 };
-const TODAY_DK = 46126;
 
-// 4-day history rows: [Username, DK, Deposits, NumDeps, TotalTO, CasinoTO, CasinoGGR, Bets]
-const HISTORY = [
-  ["avihande55",46123,219.809,5,540.130978,160.44816,23.07816,15],
-  ["avihande55",46124,384.672,9,1058.820195,246.10233,-17.67687,24],
-  ["avihande55",46125,91.58,2,386.04309,64.58506,21.3081,9],
-  ["avihande55",46126,309.841,6,2143.00139,748.24408,-14.72772,71],
-  ["darwinsiva",46125,609.319062,12,669.77532,626.8878,0,36],
-  ["darwinsiva",46126,665.8071,7,703.35674,655.796,9.106,31],
-  ["manojyash",46123,549.6,6,1548.0595,1548.0595,163.71238,34],
-  ["manojyash",46124,825.650841,9,1498.2433,1498.2433,440.58031,48],
-  ["manojyash",46125,271.02,3,407.117,407.117,268.02818,14],
-  ["manojyash",46126,637.56,7,1251.4947,1251.4947,-48.51828,64],
-  ["RadarPasteRob72",46126,111.79528085,3,118.453,118.453,-10.578489,8],
-  ["sakshamsahiya1234",46123,164.888,3,613.2329246,164.46192960,34.3875856,729],
-  ["sakshamsahiya1234",46124,320.415,5,473.539974,1.83,1.6104,1],
-  ["sakshamsahiya1234",46125,45.715,1,138.260211,5.77408,4.339582,39],
-  ["sakshamsahiya1234",46126,141.2075,4,345.45006,163.06502,-19.3077,540]
+const PLAYERS = [
+  {u:"darwinsiva",        dep:665.8071,    nd:7,  tto:703.35674,   cto:655.796,    cggr:9.106,      bets:31,  tod:0.9851,  ggrd:0.0137},
+  {u:"manojyash",         dep:637.56,      nd:7,  tto:1251.4947,   cto:1251.4947,  cggr:-48.51828,  bets:64,  tod:1.9630,  ggrd:-0.0761},
+  {u:"avihande55",        dep:309.841,     nd:6,  tto:2143.00139,  cto:748.24408,  cggr:-14.72772,  bets:71,  tod:2.4149,  ggrd:-0.0475},
+  {u:"sakshamsahiya1234", dep:141.2075,    nd:4,  tto:345.45006,   cto:163.06502,  cggr:-19.3077,   bets:540, tod:1.1547,  ggrd:-0.1367},
+  {u:"RadarPasteRob72",   dep:111.79528,   nd:3,  tto:118.453,     cto:118.453,    cggr:-10.578489, bets:8,   tod:1.0595,  ggrd:-0.0946}
 ];
 
-// Game breakdown: [Username, Game, Bets, Turnover, GGR]
-const GAMES = [
-  ["avihande55","Lightning Roulette",71,748.24408,-14.72772],
-  ["darwinsiva","French Roulette Classic",31,655.796,9.106],
-  ["manojyash","Bet on Teen Patti Ezugi",52,1222.3427,-12.07828],
-  ["manojyash","Cricket Auto Roulette",12,29.152,-36.44],
-  ["RadarPasteRob72","Aviator",8,118.453,-10.578489],
-  ["sakshamsahiya1234","Sylvan Spirits",539,162.15502,-20.12674],
-  ["sakshamsahiya1234","War of Gods",1,0.91,0.819]
-];
+const GAMES = {
+  "darwinsiva":        [{game:"French Roulette Classic",   bets:31,  to:655.796,    ggr:9.106}],
+  "manojyash":         [{game:"Bet on Teen Patti Ezugi",   bets:52,  to:1222.3427,  ggr:-12.07828},
+                        {game:"Cricket Auto Roulette",      bets:12,  to:29.152,     ggr:-36.44}],
+  "avihande55":        [{game:"Lightning Roulette",         bets:71,  to:748.24408,  ggr:-14.72772}],
+  "sakshamsahiya1234": [{game:"Sylvan Spirits",             bets:539, to:162.15502,  ggr:-20.12674},
+                        {game:"War of Gods",                bets:1,   to:0.91,       ggr:0.819}],
+  "RadarPasteRob72":   [{game:"Aviator",                   bets:8,   to:118.453,    ggr:-10.578489}]
+};
 
-// ─── HELPERS ────────────────────────────────────────────────────────────────
-function fmt(n, dec=2) {
-  if (n === null || n === undefined) return '—';
-  return n.toLocaleString('en-GB', {minimumFractionDigits: dec, maximumFractionDigits: dec});
+// Rows: {dk, dep, nd, tto, cto, cggr, bets} — missing dates are absent from array
+const HISTORY = {
+  "darwinsiva": [
+    {dk:46125, dep:609.319062, nd:12, tto:669.77532,  cto:626.8878,   cggr:0,        bets:36},
+    {dk:46126, dep:665.8071,   nd:7,  tto:703.35674,  cto:655.796,    cggr:9.106,    bets:31}
+  ],
+  "manojyash": [
+    {dk:46123, dep:549.6,      nd:6,  tto:1548.0595,  cto:1548.0595,  cggr:163.71238,bets:34},
+    {dk:46124, dep:825.650841, nd:9,  tto:1498.2433,  cto:1498.2433,  cggr:440.58031,bets:48},
+    {dk:46125, dep:271.02,     nd:3,  tto:407.117,    cto:407.117,    cggr:268.02818,bets:14},
+    {dk:46126, dep:637.56,     nd:7,  tto:1251.4947,  cto:1251.4947,  cggr:-48.51828,bets:64}
+  ],
+  "avihande55": [
+    {dk:46123, dep:219.809,  nd:5, tto:540.130978,  cto:160.44816,  cggr:23.07816,  bets:15},
+    {dk:46124, dep:384.672,  nd:9, tto:1058.820195, cto:246.10233,  cggr:-17.67687, bets:24},
+    {dk:46125, dep:91.58,    nd:2, tto:386.04309,   cto:64.58506,   cggr:21.3081,   bets:9},
+    {dk:46126, dep:309.841,  nd:6, tto:2143.00139,  cto:748.24408,  cggr:-14.72772, bets:71}
+  ],
+  "sakshamsahiya1234": [
+    {dk:46123, dep:164.888,  nd:3, tto:613.2329246, cto:164.46193,  cggr:34.3875856,bets:729},
+    {dk:46124, dep:320.415,  nd:5, tto:473.539974,  cto:1.83,       cggr:1.6104,    bets:1},
+    {dk:46125, dep:45.715,   nd:1, tto:138.260211,  cto:5.77408,    cggr:4.339582,  bets:39},
+    {dk:46126, dep:141.2075, nd:4, tto:345.45006,   cto:163.06502,  cggr:-19.3077,  bets:540}
+  ],
+  "RadarPasteRob72": [
+    {dk:46126, dep:111.79528, nd:3, tto:118.453, cto:118.453, cggr:-10.578489, bets:8}
+  ]
+};
+/* @@DATA_END@@ */
+
+/* ── HELPERS ──────────────────────────────────────────────────────────────── */
+function f2(n)  { return n == null ? '—' : n.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function f0(n)  { return n == null ? '—' : n.toLocaleString('en-GB',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+function fr(n)  { return n == null ? '—' : n.toFixed(2) + 'x'; }
+function cc(v)  { return v < -0.0001 ? 'c-neg' : (v > 0.0001 ? 'c-pos' : ''); }
+function ccv(v) { return v < -0.0001 ? 'c-neg' : (v > 0.0001 ? 'c-pos' : ''); }
+
+/* ── APPLY META TO HTML ────────────────────────────────────────────────────── */
+function applyMeta() {
+  document.title   = 'Casino Player Screening \u2014 ' + META.reportDate;
+  document.getElementById('dateLine').innerHTML =
+    'Report Date: ' + META.reportDate + ' &nbsp;&middot;&nbsp; Generated: ' + META.generatedDate;
+  document.getElementById('sectionBar').textContent = META.sectionLabel;
+  document.getElementById('kpiScreened').textContent = f0(META.totalScreened);
+  document.getElementById('kpiFlagged').textContent  = META.flaggedCount;
+  document.getElementById('kpiDep').textContent      = '\u20ac' + f0(META.flaggedDep);
+  document.getElementById('kpiCTO').textContent      = '\u20ac' + f0(META.flaggedCTO);
+  document.getElementById('kpiTOD').textContent      = fr(META.avgTODep);
+  document.getElementById('kpiGGRD').textContent     = fr(META.avgGGRDep);
+  document.getElementById('runTs').textContent       = new Date().toUTCString();
+
+  const sp = document.getElementById('statusSpan');
+  if (META.status === 'OK') { sp.className = 'st-ok'; sp.textContent = 'OK \u2014 All checks passed'; }
+  else if (META.status === 'WARN') { sp.className = 'st-warn'; sp.textContent = 'WARNINGS \u2014 See report'; }
+  else { sp.className = 'st-err'; sp.textContent = 'ERROR \u2014 ' + META.status; }
 }
-function fmtR(n, dec=3) { return n === null ? '—' : n.toFixed(dec) + 'x'; }
-function colorClass(v) { return v < 0 ? 'neg' : (v > 0 ? 'pos' : ''); }
 
-// ─── TABLE RENDER ────────────────────────────────────────────────────────────
-let sortCol = 1, sortAsc = false;
-let expandedRow = null;
+/* ── TABLE SORT STATE ─────────────────────────────────────────────────────── */
+let sortCol = 1, sortAsc = false, openUser = null;
 
-function renderTable() {
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '';
+const SORT_KEYS = ['u','dep','nd','tto','cto','cggr','bets','tod','ggrd'];
 
-  const data = [...PLAYERS];
-  data.sort((a, b) => {
-    const cols = ['Username','Deposits','NumDeps','TotalTO','CasinoTO','CasinoGGR','Bets','TO_Dep','GGR_Dep'];
-    const key = cols[sortCol];
-    let va = a[key], vb = b[key];
+function sortBy(col) {
+  sortAsc = (sortCol === col) ? !sortAsc : false;
+  sortCol = col;
+  render();
+}
+
+/* ── RENDER TABLE ─────────────────────────────────────────────────────────── */
+function render() {
+  // update sort indicators
+  for (let i = 0; i < 9; i++) {
+    const el = document.getElementById('sa' + i);
+    if (!el) continue;
+    el.textContent = i === sortCol ? (sortAsc ? '\u25b2' : '\u25bc') : '';
+  }
+
+  const data = [...PLAYERS].sort((a, b) => {
+    const k = SORT_KEYS[sortCol];
+    const va = a[k], vb = b[k];
     if (typeof va === 'string') return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
     return sortAsc ? va - vb : vb - va;
   });
 
-  // Update sort indicators
-  for (let i = 0; i < 9; i++) {
-    const el = document.getElementById('si' + i);
-    if (el) el.textContent = i === sortCol ? (sortAsc ? '▲' : '▼') : '';
-  }
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
 
-  if (data.length === 0) {
-    document.getElementById('noData').style.display = 'block';
-    return;
-  }
+  data.forEach(p => {
+    const isOpen = openUser === p.u;
 
-  data.forEach((p, idx) => {
-    const isExpanded = expandedRow === p.Username;
-
+    // player row
     const tr = document.createElement('tr');
-    tr.className = 'player-row' + (isExpanded ? ' expanded' : '');
-    tr.onclick = () => toggleExpand(p.Username);
+    tr.className = 'player-row' + (isOpen ? ' is-open' : '');
+    tr.onclick = () => { openUser = (openUser === p.u ? null : p.u); render(); };
 
-    const ggrClass = colorClass(p.CasinoGGR);
-    const ggrDepClass = colorClass(p.GGR_Dep);
+    const ggrClass = ccv(p.cggr);
+    const ggrDClass = ccv(p.ggrd);
     tr.innerHTML = `
-      <td><span class="expand-icon">▶</span>${p.Username}</td>
-      <td class="num">€${fmt(p.Deposits)}</td>
-      <td class="num">${p.NumDeps}</td>
-      <td class="num">€${fmt(p.TotalTO)}</td>
-      <td class="num">€${fmt(p.CasinoTO)}</td>
-      <td class="num ${ggrClass}">€${fmt(p.CasinoGGR)}</td>
-      <td class="num">${p.Bets.toLocaleString()}</td>
-      <td class="num">${fmtR(p.TO_Dep)}</td>
-      <td class="num ${ggrDepClass}">${fmtR(p.GGR_Dep)}</td>
+      <td class="username-cell">${p.u}</td>
+      <td class="r">\u20ac${f2(p.dep)}</td>
+      <td class="r">${p.nd}</td>
+      <td class="r">\u20ac${f2(p.tto)}</td>
+      <td class="r">\u20ac${f2(p.cto)}</td>
+      <td class="r ${ggrClass}">\u20ac${f2(p.cggr)}</td>
+      <td class="r">${f0(p.bets)}</td>
+      <td class="r">${fr(p.tod)}</td>
+      <td class="r ${ggrDClass}">${fr(p.ggrd)}</td>
     `;
     tbody.appendChild(tr);
 
-    if (isExpanded) {
+    if (isOpen) {
       const trExp = document.createElement('tr');
-      trExp.className = 'expanded-content';
+      trExp.className = 'exp-row';
       const td = document.createElement('td');
       td.colSpan = 9;
       td.innerHTML = buildExpanded(p);
@@ -516,109 +543,92 @@ function renderTable() {
   });
 }
 
-function toggleExpand(username) {
-  expandedRow = expandedRow === username ? null : username;
-  renderTable();
-}
-
+/* ── BUILD EXPANDED SECTION ───────────────────────────────────────────────── */
 function buildExpanded(p) {
-  // Game breakdown
-  const playerGames = GAMES.filter(g => g[0] === p.Username);
-  let gameRows = '';
-  playerGames.forEach(g => {
-    const gc = colorClass(g[4]);
-    gameRows += `<tr>
-      <td>${g[1]}</td>
-      <td class="num">${g[2].toLocaleString()}</td>
-      <td class="num">€${fmt(g[3])}</td>
-      <td class="num ${gc}">€${fmt(g[4])}</td>
+  /* --- GAME BREAKDOWN --- */
+  const games = GAMES[p.u] || [];
+  let gRows = games.map(g => {
+    const gc = ccv(g.ggr);
+    return `<tr>
+      <td>${g.game}</td>
+      <td class="r">${f0(g.bets)}</td>
+      <td class="r">\u20ac${f2(g.to)}</td>
+      <td class="r ${gc}">\u20ac${f2(g.ggr)}</td>
     </tr>`;
-  });
-  if (!gameRows) gameRows = '<tr><td colspan="4" style="color:var(--dim);text-align:center">No game data</td></tr>';
+  }).join('');
+  if (!gRows) gRows = `<tr><td colspan="4" style="color:var(--dim);text-align:center;padding:16px">No game data</td></tr>`;
 
-  const gameTable = `
-    <div class="sub-title">Game Breakdown — 14 APR 2026</div>
-    <table class="mini-table">
+  const gamePanel = `
+    <div class="exp-title">Game Breakdown</div>
+    <table class="mini">
       <thead><tr>
-        <th>Game</th>
-        <th class="num">Bets</th>
-        <th class="num">Turnover (€)</th>
-        <th class="num">GGR (€)</th>
+        <th>Game</th><th class="r">Bets</th><th class="r">Turnover (€)</th><th class="r">GGR (€)</th>
       </tr></thead>
-      <tbody>${gameRows}</tbody>
+      <tbody>${gRows}</tbody>
     </table>`;
 
-  // 4-day history — build horizontal
-  const DKS = [46123, 46124, 46125, 46126];
-  const playerHist = {};
-  HISTORY.filter(h => h[0] === p.Username).forEach(h => { playerHist[h[1]] = h; });
+  /* --- 4-DAY HISTORY --- */
+  const histMap = {};
+  (HISTORY[p.u] || []).forEach(h => { histMap[h.dk] = h; });
+
+  const DKS = META.dateKeys;
+  const LBLS = META.dateLabels;
+
+  const hdrs = DKS.map((dk, i) => {
+    const isToday = dk === META.todayDK;
+    return `<th class="${isToday ? 'today-hdr' : ''}">${LBLS[i]}</th>`;
+  }).join('');
 
   const metrics = [
-    { label: 'Deposits', fn: h => h ? '€' + fmt(h[2]) : '—' },
-    { label: '# Deposits', fn: h => h ? h[3] : '—' },
-    { label: 'Turnover', fn: h => h ? '€' + fmt(h[4]) : '—' },
-    { label: 'Casino TO', fn: h => h ? '€' + fmt(h[5]) : '—' },
-    { label: 'Casino GGR', fn: h => {
-        if (!h) return '—';
-        const cls = colorClass(h[6]);
-        return `<span class="${cls}">€${fmt(h[6])}</span>`;
+    { lbl: 'Deposits (€)',    fn: h => h ? '\u20ac'+f2(h.dep)  : '\u2014' },
+    { lbl: '# Deposits',      fn: h => h ? h.nd                : '\u2014' },
+    { lbl: 'Turnover (€)',    fn: h => h ? '\u20ac'+f2(h.tto)  : '\u2014' },
+    { lbl: 'Casino TO (€)',   fn: h => h ? '\u20ac'+f2(h.cto)  : '\u2014' },
+    { lbl: 'Casino GGR (€)',  fn: h => {
+        if (!h) return '\u2014';
+        const cl = ccv(h.cggr);
+        return `<span class="${cl}">\u20ac${f2(h.cggr)}</span>`;
     }},
-    { label: 'Bets', fn: h => h ? h[7].toLocaleString() : '—' },
-    { label: 'Casino TO/Dep', fn: h => {
-        if (!h || h[2] === 0) return '—';
-        return fmtR(h[5] / h[2]);
+    { lbl: 'Bets',            fn: h => h ? f0(h.bets)          : '\u2014' },
+    { lbl: 'Casino TO/Dep',   fn: h => {
+        if (!h || h.dep === 0) return '\u2014';
+        return fr(h.cto / h.dep);
     }},
-    { label: 'Casino GGR/Dep', fn: h => {
-        if (!h || h[2] === 0) return '—';
-        const v = h[6] / h[2];
-        const cls = colorClass(v);
-        return `<span class="${cls}">${fmtR(v)}</span>`;
+    { lbl: 'Casino GGR/Dep',  fn: h => {
+        if (!h || h.dep === 0) return '\u2014';
+        const v = h.cggr / h.dep;
+        return `<span class="${ccv(v)}">${fr(v)}</span>`;
     }}
   ];
 
-  const hdrs = DKS.map(dk => {
-    const cls = dk === TODAY_DK ? 'today' : '';
-    return `<th class="${cls}">${DK_LABELS[dk]}</th>`;
-  }).join('');
-
-  let metricRows = metrics.map(m => {
+  const mRows = metrics.map(m => {
     const cells = DKS.map(dk => {
-      const h = playerHist[dk] || null;
-      const cls = dk === TODAY_DK ? 'today-val' : '';
-      return `<td class="${cls}">${m.fn(h)}</td>`;
+      const isToday = dk === META.todayDK;
+      const h = histMap[dk] || null;
+      return `<td class="${isToday ? 'today-val' : ''}">${m.fn(h)}</td>`;
     }).join('');
-    return `<tr><td class="metric">${m.label}</td>${cells}</tr>`;
+    return `<tr><td class="lbl">${m.lbl}</td>${cells}</tr>`;
   }).join('');
 
-  const histTable = `
-    <div class="sub-title">4-Day Comparison</div>
-    <table class="hist-table">
-      <thead><tr>
-        <th class="metric">Metric</th>
-        ${hdrs}
-      </tr></thead>
-      <tbody>${metricRows}</tbody>
+  const histPanel = `
+    <div class="exp-title">4-Day Comparison</div>
+    <table class="hist">
+      <thead><tr><th class="lbl">Metric</th>${hdrs}</tr></thead>
+      <tbody>${mRows}</tbody>
     </table>`;
 
-  return `<div class="expanded-inner">${gameTable}${histTable}</div>`;
+  return `<div class="exp-inner">
+    <div class="exp-panel">${gamePanel}</div>
+    <div class="exp-panel">${histPanel}</div>
+  </div>`;
 }
 
-function sortTable(col) {
-  if (sortCol === col) sortAsc = !sortAsc;
-  else { sortCol = col; sortAsc = false; }
-  renderTable();
-}
+/* ── THEME ────────────────────────────────────────────────────────────────── */
+function toggleTheme() { document.body.classList.toggle('light'); }
 
-// ─── THEME TOGGLE ────────────────────────────────────────────────────────────
-function toggleTheme() {
-  document.body.classList.toggle('light');
-}
-
-// ─── TIMESTAMP ───────────────────────────────────────────────────────────────
-document.getElementById('runTs').textContent = new Date().toUTCString();
-
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-renderTable();
+/* ── BOOT ─────────────────────────────────────────────────────────────────── */
+applyMeta();
+render();
 </script>
 </body>
 </html>
