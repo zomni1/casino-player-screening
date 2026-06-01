@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- selfCheck: {"date": "2026-05-30", "date_key": 46172, "total_screened": 5672, "flagged_count": 2, "all_pass": true} -->
+<!-- selfCheck: {"date": "2026-05-31", "date_key": 46173, "total_screened": 1325, "flagged_count": 0, "all_pass": false, "note": "No deposit data for yesterday"} -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -387,14 +387,14 @@
 
 <script>
 /* @@DATA_START@@ */
-const META = {"reportDate": "30 May 2026", "generatedDate": "31 May 2026", "sectionLabel": "Flagged Players — 30 May 2026", "totalScreened": 5672, "flaggedCount": 2, "flaggedDep": 496.32, "flaggedCTO": 934.52, "avgTODep": 1.6937, "avgGGRDep": 0.0058, "status": "OK", "dateKeys": [46169, 46170, 46171, 46172], "dateLabels": ["27 MAY", "28 MAY", "29 MAY", "30 MAY ★"], "todayDK": 46172};
+const META = {"reportDate": "31 May 2026", "generatedDate": "1 June 2026", "sectionLabel": "Flagged Players — 31 May 2026", "totalScreened": 1325, "flaggedCount": 0, "flaggedDep": 0.0, "flaggedCTO": 0.0, "avgTODep": 0.0, "avgGGRDep": 0.0, "status": "WARN", "statusNote": "No deposit activity loaded for 31 May 2026 in Qlik (1,325 username records present, sum of deposits = 0 EUR). Prior 4 days have normal data. Likely data pipeline lag for Sunday.", "dateKeys": [46170, 46171, 46172, 46173], "dateLabels": ["28 MAY", "29 MAY", "30 MAY", "31 MAY ★"], "todayDK": 46173};
 
-const PLAYERS = [{"u": "radhamadhavdwivedi0", "dep": 315.84, "nd": 5, "tto": 934.5164, "cto": 754.0364, "cggr": 3.6511, "bets": 72, "tod": 2.3874, "ggrd": 0.0116}, {"u": "kunapuri9698", "dep": 180.48, "nd": 2, "tto": 180.48, "cto": 180.48, "cggr": 0, "bets": 2, "tod": 1.0, "ggrd": 0.0}];
+const PLAYERS = [];
 
-const GAMES = {"kunapuri9698": [{"game": "Dragon Tiger", "bets": 2, "to": 180.48, "ggr": 0}], "radhamadhavdwivedi0": [{"game": "10CRIC Aviator", "bets": 72, "to": 754.0364, "ggr": 3.6511}]};
+const GAMES = {};
 
 // Rows: {dk, dep, nd, tto, cto, cggr, bets} — missing dates are absent from array
-const HISTORY = {"kunapuri9698": [{"dk": 46171, "dep": 162.702, "nd": 2, "tto": 253.092, "cto": 253.092, "cggr": -108.468, "bets": 3}, {"dk": 46172, "dep": 180.48, "nd": 2, "tto": 180.48, "cto": 180.48, "cggr": 0, "bets": 2}], "radhamadhavdwivedi0": [{"dk": 46172, "dep": 315.84, "nd": 5, "tto": 934.5164, "cto": 754.0364, "cggr": 3.6511, "bets": 72}]};
+const HISTORY = {};
 /* @@DATA_END@@ */
 
 /* ── HELPERS ──────────────────────────────────────────────────────────────── */
