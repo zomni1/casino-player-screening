@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- selfCheck: {"date": "2026-06-13", "date_key": 46186, "total_screened": 5730, "flagged_count": 2, "all_pass": true} -->
+<!-- selfCheck: {"date": "2026-06-13", "date_key": 46186, "total_screened": 0, "flagged_count": 0, "all_pass": false, "error": "qlik_connection_invalidated"} -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -387,14 +387,14 @@
 
 <script>
 /* @@DATA_START@@ */
-const META = {"reportDate": "13 June 2026", "generatedDate": "14 June 2026", "sectionLabel": "Flagged Players — 13 June 2026", "totalScreened": 5730, "flaggedCount": 2, "flaggedDep": 1179.1, "flaggedCTO": 2574.26, "avgTODep": 1.6957, "avgGGRDep": -0.0176, "status": "OK", "dateKeys": [46183, 46184, 46185, 46186], "dateLabels": ["10 JUN", "11 JUN", "12 JUN", "13 JUN ★"], "todayDK": 46186};
+const META = {"reportDate": "13 June 2026", "generatedDate": "14 June 2026", "sectionLabel": "Flagged Players — 13 June 2026 (DATA UNAVAILABLE)", "totalScreened": 0, "flaggedCount": 0, "flaggedDep": 0, "flaggedCTO": 0, "avgTODep": 0, "avgGGRDep": 0, "status": "ERROR: Qlik connector connection invalidated — needs reconnection. No data pulled for this run.", "dateKeys": [46183, 46184, 46185, 46186], "dateLabels": ["10 JUN", "11 JUN", "12 JUN", "13 JUN ★"], "todayDK": 46186};
 
-const PLAYERS = [{"u": "prernajain30", "dep": 1043.02, "nd": 3, "tto": 2429.7401, "cto": 2429.7401, "cggr": -36.8559, "bets": 316, "tod": 2.3295, "ggrd": -0.0353}, {"u": "ashokaryavir13", "dep": 136.08, "nd": 5, "tto": 482.95, "cto": 144.517, "cggr": 0, "bets": 40, "tod": 1.062, "ggrd": 0.0}];
+const PLAYERS = [];
 
-const GAMES = {"ashokaryavir13": [{"game": "Crazy Balls", "bets": 40, "to": 144.517, "ggr": 0}], "prernajain30": [{"game": "7 Up 7 Down", "bets": 166, "to": 1154.5809, "ggr": -124.0255}, {"game": "10CRIC Aviator", "bets": 1, "to": 0.9979, "ggr": -0.5978}, {"game": "Aviator", "bets": 10, "to": 4.4453, "ggr": 1.251}, {"game": "Chicken X", "bets": 139, "to": 1269.716, "ggr": 86.5164}]};
+const GAMES = {};
 
 // Rows: {dk, dep, nd, tto, cto, cggr, bets} — missing dates are absent from array
-const HISTORY = {"ashokaryavir13": [{"dk": 46185, "dep": 32.7185, "nd": 2, "tto": 201.4809, "cto": 52.2694, "cggr": -6.8163, "bets": 15}, {"dk": 46186, "dep": 136.08, "nd": 5, "tto": 482.95, "cto": 144.517, "cggr": 0, "bets": 40}], "prernajain30": [{"dk": 46183, "dep": 331.703, "nd": 6, "tto": 1071.2985, "cto": 1071.2985, "cggr": 380.6759, "bets": 184}, {"dk": 46184, "dep": 1132.5459, "nd": 5, "tto": 5148.1697, "cto": 5148.1697, "cggr": 736.6038, "bets": 539}, {"dk": 46185, "dep": 344.474, "nd": 4, "tto": 1836.4837, "cto": 1836.4837, "cggr": 348.2217, "bets": 177}, {"dk": 46186, "dep": 1043.02, "nd": 3, "tto": 2429.7401, "cto": 2429.7401, "cggr": -36.8559, "bets": 316}]};
+const HISTORY = {};
 /* @@DATA_END@@ */
 
 /* ── HELPERS ──────────────────────────────────────────────────────────────── */
